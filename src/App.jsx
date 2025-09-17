@@ -19,7 +19,7 @@ export default function App() {
 
     if (!access_token) return;
     try {
-      const response = await fetch('http://localhost:8000/me', {
+      const response = await fetch('https://todoapp-api-hy80.onrender.com//me', {
         method: 'POST',
         body: JSON.stringify({ access_token: access_token }),
         headers: { 'Content-Type': 'application/json' }
@@ -39,7 +39,7 @@ export default function App() {
 
   async function refreshUser() {
     try {
-        const response = await fetch('http://localhost:8000/refresh', {
+        const response = await fetch('https://todoapp-api-hy80.onrender.com//refresh', {
             method: 'POST',
             credentials: 'include'
         });

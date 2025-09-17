@@ -19,7 +19,7 @@ export default function NotesContainer({
         try {
             const access_token = window.localStorage.getItem("access_token");
 
-            const response = await fetch("http://localhost:8000/get_notes", {
+            const response = await fetch("https://todoapp-api-hy80.onrender.com/get_notes", {
                 method: "POST",
                 body: JSON.stringify({ access_token: access_token }),
                 headers: { "Content-Type": "application/json" },

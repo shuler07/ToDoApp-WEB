@@ -86,7 +86,7 @@ function NoteWindow({ setNoteOpened, openedNoteData, notesCount, notesTab }) {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/create_new_note",
+                "https://todoapp-api-hy80.onrender.com/create_new_note",
                 {
                     method: "POST",
                     body: JSON.stringify({ access_token, title, text }),
@@ -112,7 +112,7 @@ function NoteWindow({ setNoteOpened, openedNoteData, notesCount, notesTab }) {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/change_note_status",
+                "https://todoapp-api-hy80.onrender.com/change_note_status",
                 {
                     method: "POST",
                     body: JSON.stringify({
