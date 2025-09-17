@@ -56,7 +56,7 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/ToDoApp-WEB/'>
       <AppContext.Provider value={{
         isLoggedIn: isLoggedIn,
       }}>
