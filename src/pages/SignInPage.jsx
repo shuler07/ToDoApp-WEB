@@ -13,7 +13,7 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("http://localhost:8000/register", {
+            const response = await fetch("https://todoapp-api-hy80.onrender.com/register", {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify({ email: _email, password: _password }),
@@ -37,7 +37,7 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("http://localhost:8000/login", {
+            const response = await fetch("https://todoapp-api-hy80.onrender.com/login", {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",
