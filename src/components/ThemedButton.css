@@ -1,0 +1,17 @@
+.themedButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    width: fit-content;
+    background: #eeeeee;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+}
+
+.themedButton > p {
+    font-size: 1em;
+    font-weight: bold;
+    color: #0886ff;
+}

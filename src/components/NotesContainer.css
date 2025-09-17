@@ -1,0 +1,46 @@
+.notesBox {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notesContainer {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-rows: repeat(auto-fit, 16rem);
+}
+
+.noteElement {
+    padding: 1rem;
+    min-width: 6rem;
+    height: 14rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    background: #4a99da;
+    border: solid 2px #ffffff80;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+.noteElement:hover {
+    translate: 0px -5px;
+    border: solid 2px #ffffffff;
+}
+
+.noteElementIndicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+.not_completed {background: #cc4444;}
+.completed {background: #44cc44;}
+
+.noteElement h1 {
+    min-height: fit-content;
+}
