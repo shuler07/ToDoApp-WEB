@@ -15,8 +15,8 @@ export default function SignInPage() {
         try {
             const response = await fetch("https://todoapp-api-hy80.onrender.com/register", {
                 method: "POST",
-                credentials: "include",
                 body: JSON.stringify({ email: _email, password: _password }),
+                credentials: 'include',
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -24,8 +24,7 @@ export default function SignInPage() {
             console.log("Registering user, data:", data);
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
-                window.location.pathname = "";
-                // setIsLoggedIn(true);
+                window.location.pathname = "/ToDoApp-WEB/";
             }
         } catch (error) {
             console.error("Error:", error);
@@ -48,8 +47,7 @@ export default function SignInPage() {
             console.log("Logining user, data:", data);
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
-                window.location.pathname = "";
-                // setIsLoggedIn(true);
+                window.location.pathname = "/ToDoApp-WEB/";
             }
         } catch (error) {
             console.error("Error:", error);
