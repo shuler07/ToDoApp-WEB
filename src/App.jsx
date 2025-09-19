@@ -20,15 +20,15 @@ export default function App() {
         try {
             const response = await fetch("http://localhost:8000/me", {
                 method: "PUT",
-                body: JSON.stringify({ access_token: access_token }),
+                body: JSON.stringify({ access_token }),
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
             console.log("Checking login:", data);
 
-            if (data.isLoggedIn) refreshUser();
-            else setIsLoggedIn(data.isLoggedIn);
+            if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
+            else refreshUser();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -54,7 +54,7 @@ export default function App() {
     }
 
     return (
-        <BrowserRouter basename="/ToDoApp-WEB">
+        <BrowserRouter basename="/ToDoApp-WEB/">
             <AppContext.Provider
                 value={{
                     isLoggedIn: isLoggedIn,
