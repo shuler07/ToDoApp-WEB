@@ -21,7 +21,7 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Registering user", data);
+            console.log("Registering user:", data);
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
@@ -45,7 +45,7 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Logining user", data);
+            console.log("Logining user:", data);
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
