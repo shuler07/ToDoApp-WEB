@@ -15,8 +15,8 @@ export default function SignInPage() {
         try {
             const response = await fetch("http://localhost:8000/register", {
                 method: "POST",
-                credentials: "include",
                 body: JSON.stringify({ email: _email, password: _password }),
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
