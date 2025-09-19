@@ -20,13 +20,14 @@ export default function NotesContainer({
             const access_token = window.localStorage.getItem("access_token");
 
             const response = await fetch("http://localhost:8000/get_notes", {
-                method: "POST",
-                body: JSON.stringify({ access_token: access_token }),
+                method: "PUT",
+                body: JSON.stringify({ access_token }),
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
             const filtered_data = data.filter(value => value.status == notesTab);
+            console.log('Getting notes:', filtered_data);
 
             notesCount.current = filtered_data.length;
             setNotes(filtered_data);

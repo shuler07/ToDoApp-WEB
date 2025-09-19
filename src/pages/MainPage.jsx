@@ -95,6 +95,7 @@ function NoteWindow({ setNoteOpened, openedNoteData, notesCount, notesTab }) {
             );
 
             const data = await response.json();
+            console.log('Creating note:', data);
 
             if (data.success) {
                 if (notesTab == 'not_completed') notesCount.current += 1;
@@ -114,7 +115,7 @@ function NoteWindow({ setNoteOpened, openedNoteData, notesCount, notesTab }) {
             const response = await fetch(
                 "http://localhost:8000/change_note_status",
                 {
-                    method: "POST",
+                    method: "PUT",
                     body: JSON.stringify({
                         access_token,
                         id,
@@ -125,6 +126,7 @@ function NoteWindow({ setNoteOpened, openedNoteData, notesCount, notesTab }) {
             );
 
             const data = await response.json();
+            console.log('Changing note status:', data);
 
             if (data.success) {
                 notesCount.current--;

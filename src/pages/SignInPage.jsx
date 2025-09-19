@@ -21,11 +21,11 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Registering user, data:", data);
+            console.log("Registering user:", data);
+
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
                 window.location.pathname = "";
-                // setIsLoggedIn(true);
             }
         } catch (error) {
             console.error("Error:", error);
@@ -45,19 +45,15 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Logining user, data:", data);
+            console.log("Logining user:", data);
+
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
                 window.location.pathname = "";
-                // setIsLoggedIn(true);
             }
         } catch (error) {
             console.error("Error:", error);
         }
-    };
-
-    const handleClickSwitch = () => {
-        setIsRegister((prev) => !prev);
     };
 
     const confirmButtonTexts = ["Login", "Register"];
@@ -94,7 +90,7 @@ export default function SignInPage() {
                     />
                     <ThemedButton
                         text={switchButtonTexts[isRegister ? 1 : 0]}
-                        event={handleClickSwitch}
+                        event={() => setIsRegister((prev) => !prev)}
                     />
                 </div>
             </div>
