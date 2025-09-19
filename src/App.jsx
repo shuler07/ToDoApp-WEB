@@ -22,7 +22,7 @@ export default function App() {
                 "https://todoapp-api-hy80.onrender.com/me",
                 {
                     method: "PUT",
-                    body: JSON.stringify({ access_token: access_token }),
+                    body: JSON.stringify({ access_token }),
                     headers: { "Content-Type": "application/json" },
                 }
             );
