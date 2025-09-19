@@ -21,7 +21,8 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Registering user, data:", data);
+            console.log("Registering user", data);
+
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
                 window.location.pathname = "/ToDoApp-WEB/";
@@ -44,7 +45,8 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Logining user, data:", data);
+            console.log("Logining user", data);
+
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
                 window.location.pathname = "/ToDoApp-WEB/";
