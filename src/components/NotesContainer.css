@@ -33,13 +33,14 @@
 
 .noteElementIndicator {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.5rem;
 }
-.not_completed {background: #cc4444;}
-.completed {background: #44cc44;}
+.not_completed {background: #dd3333;}
+.completed {background: #33dd33;}
 
 .noteElement h1 {
     min-height: fit-content;

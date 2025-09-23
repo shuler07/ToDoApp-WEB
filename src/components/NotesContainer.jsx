@@ -1,19 +1,17 @@
 import "./NotesContainer.css";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import { STATUS_MESSAGES } from "../data";
+import { MainContext } from "../pages/MainPage";
 
-export default function NotesContainer({
-    notesCount,
-    setNoteOpened,
-    openedNoteData,
-    notesTab,
-}) {
+export default function NotesContainer() {
+    const { notesCount, setNoteOpened, openedNoteData, notesSection } = useContext(MainContext);
+
     const [notes, setNotes] = useState([]);
     useEffect(() => {
         GetNotes();
-    }, [notesCount.current, notesTab]);
+        document.body.style.overflowY = 'scroll';
+    }, [notesCount.current, notesSection]);
 
     async function GetNotes() {
         try {
@@ -26,8 +24,10 @@ export default function NotesContainer({
             });
 
             const data = await response.json();
-            const filtered_data = data.filter(value => value.status == notesTab);
-            console.log('Getting notes:', filtered_data);
+            const filtered_data = data.filter(
+                (value) => value.status == notesSection
+            );
+            console.log("Getting notes:", filtered_data);
 
             notesCount.current = filtered_data.length;
             setNotes(filtered_data);
@@ -49,16 +49,9 @@ export default function NotesContainer({
     };
 
     return (
-        <>
-            <div className="notesBox">
-                <h1 className="themedText white">
-                    {STATUS_MESSAGES[notesTab]}
-                </h1>
-                <div className="notesContainer">
-                    {notesCount.current != 0 && ShowNotes()}
-                </div>
-            </div>
-        </>
+        <div className="notesContainer">
+            {notesCount.current != 0 && ShowNotes()}
+        </div>
     );
 }
 
@@ -73,9 +66,7 @@ function NoteElement({ notesCount, setNoteOpened, openedNoteData, value }) {
 
     return (
         <div className="noteElement" onClick={handleClickNote}>
-            <div className={`noteElementIndicator ${status}`}>
-                <p className="themedText white">{STATUS_MESSAGES[status]}</p>
-            </div>
+            <div className={`noteElementIndicator ${status}`} />
             <h1 className="themedText white bold">{title}</h1>
             <p className="themedText white">{text}</p>
         </div>

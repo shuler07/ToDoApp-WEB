@@ -1,28 +1,37 @@
 import './Header.css'
 
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../App';
 import ThemedButton from './ThemedButton';
 
-export default function Header() {
-
-    const context = useContext(AppContext);
+export default function Header({ isLoggedIn }) {
 
     return (
         <div id='headerContainer'>
             <div id='headerBar'>
                 <HeaderLogo />
-                <HeaderAccount isLoggedIn={context.isLoggedIn} />
+                <HeaderAccount isLoggedIn={isLoggedIn} />
             </div>
         </div>
     );
 };
 
 function HeaderLogo() {
-    return (
-        <div>
 
+    const logoStyle = {
+        padding: '1rem',
+        width: '4rem',
+        height: '1rem',
+        background: '#4d81d4',
+        borderRadius: '2rem'
+    };
+
+    const handleClickLogo = () => {
+        window.location.pathname = '/ToDoApp-WEB/';
+    };
+
+    return (
+        <div style={logoStyle} onClick={handleClickLogo}>
+            
         </div>
     );
 };

@@ -1,11 +1,9 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import PageBackground from "./PageBackground";
+import PageBackground from "./components/PageBackground";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
-
-export const AppContext = createContext();
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,17 +53,11 @@ export default function App() {
 
     return (
         <BrowserRouter basename="/ToDoApp-WEB/">
-            <AppContext.Provider
-                value={{
-                    isLoggedIn: isLoggedIn,
-                }}
-            >
-                <PageBackground />
-                <Routes>
-                    <Route index element={<MainPage />} />
-                    <Route path="/sign_in" element={<SignInPage />} />
-                </Routes>
-            </AppContext.Provider>
+            <PageBackground />
+            <Routes>
+                <Route index element={<MainPage isLoggedIn={isLoggedIn} />} />
+                <Route path="/sign_in" element={<SignInPage />} />
+            </Routes>
         </BrowserRouter>
     );
 }

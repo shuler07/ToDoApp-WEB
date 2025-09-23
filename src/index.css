@@ -38,6 +38,7 @@ body {
 .bold {font-weight: bold;}
 .blue {color: #0886ff;}
 .white {color: #f0f0f0;}
+.black {color: black}
 
 
 
@@ -95,3 +96,11 @@ body {
   background: none;
 }
 .transparentInput:focus-visible {outline: none;}
+
+.divider {
+  margin: 0.5rem 1rem;
+  width: calc(100% - 2rem);
+  height: 2px;
+  background: #ffffff80;
+  border-radius: 1px;
+}

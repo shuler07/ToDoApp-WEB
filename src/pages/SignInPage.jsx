@@ -25,7 +25,7 @@ export default function SignInPage() {
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
-                window.location.pathname = "";
+                window.location.pathname = "/ToDoApp-WEB/";
             }
         } catch (error) {
             console.error("Error:", error);
@@ -49,7 +49,7 @@ export default function SignInPage() {
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
-                window.location.pathname = "";
+                window.location.pathname = "/ToDoApp-WEB/";
             }
         } catch (error) {
             console.error("Error:", error);
