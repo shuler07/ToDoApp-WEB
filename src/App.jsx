@@ -5,6 +5,8 @@ import PageBackground from "./components/PageBackground";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 
+import { API_ROUTES } from "./data";
+
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
@@ -16,7 +18,7 @@ export default function App() {
 
         if (!access_token) return;
         try {
-            const response = await fetch("http://localhost:8000/me", {
+            const response = await fetch(API_ROUTES['authenticate'], {
                 method: "PUT",
                 body: JSON.stringify({ access_token }),
                 headers: { "Content-Type": "application/json" },
@@ -34,7 +36,7 @@ export default function App() {
 
     async function refreshUser() {
         try {
-            const response = await fetch("http://localhost:8000/refresh", {
+            const response = await fetch(API_ROUTES['refresh'], {
                 method: "PUT",
                 credentials: "include",
             });

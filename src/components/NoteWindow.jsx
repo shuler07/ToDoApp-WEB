@@ -3,6 +3,8 @@ import "./NoteWindow.css";
 import { useState, useContext } from "react";
 import { MainContext } from "../pages/MainPage";
 
+import { API_ROUTES } from "../data";
+
 export default function NoteWindow() {
     const { setNoteOpened, openedNoteData, notesCount, notesSection } =
         useContext(MainContext);
@@ -21,7 +23,7 @@ export default function NoteWindow() {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/create_new_note",
+                API_ROUTES['create_note'],
                 {
                     method: "POST",
                     body: JSON.stringify({ access_token, title, text }),
@@ -48,7 +50,7 @@ export default function NoteWindow() {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/change_note_status",
+                API_ROUTES['change_note_status'],
                 {
                     method: "PUT",
                     body: JSON.stringify({

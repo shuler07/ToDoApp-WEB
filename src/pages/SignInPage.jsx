@@ -5,6 +5,8 @@ import { useState, useRef } from "react";
 import ThemedButton from "../components/ThemedButton";
 import ThemedInput from "../components/ThemedInput";
 
+import { API_ROUTES } from "../data";
+
 export default function SignInPage() {
     const [isRegister, setIsRegister] = useState(true);
 
@@ -13,7 +15,7 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("http://localhost:8000/register", {
+            const response = await fetch(API_ROUTES['register'], {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",
@@ -37,7 +39,7 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("http://localhost:8000/login", {
+            const response = await fetch(API_ROUTES['login'], {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",

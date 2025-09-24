@@ -1,8 +1,9 @@
 import "./NotesContainer.css";
 
 import { useContext, useEffect, useState } from "react";
-
 import { MainContext } from "../pages/MainPage";
+
+import { API_ROUTES } from "../data";
 
 export default function NotesContainer() {
     const { notesCount, setNoteOpened, openedNoteData, notesSection } = useContext(MainContext);
@@ -17,7 +18,7 @@ export default function NotesContainer() {
         try {
             const access_token = window.localStorage.getItem("access_token");
 
-            const response = await fetch("http://localhost:8000/get_notes", {
+            const response = await fetch(API_ROUTES['get_notes'], {
                 method: "PUT",
                 body: JSON.stringify({ access_token }),
                 headers: { "Content-Type": "application/json" },
