@@ -9,20 +9,20 @@ export const MainContext = createContext();
 export default function MainPage({ isLoggedIn }) {
     const [noteOpened, setNoteOpened] = useState(false);
     const openedNoteData = useRef();
-    const notesCount = useRef(0);
 
     const [notesSection, setNotesSection] = useState("not_completed");
+    const getNotesRef = useRef();
 
     return (
         <MainContext.Provider
             value={{
+                isLoggedIn,
                 noteOpened,
                 setNoteOpened,
-                openedNoteData,
-                notesCount,
                 notesSection,
                 setNotesSection,
-                isLoggedIn,
+                openedNoteData,
+                getNotesRef,
             }}
         >
             <Header isLoggedIn={isLoggedIn} />

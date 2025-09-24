@@ -10,13 +10,17 @@ import { API_ROUTES } from "./data";
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        checkLogin();
+        authenticateUser();
     }, []);
 
-    async function checkLogin() {
+    async function authenticateUser() {
         const access_token = window.localStorage.getItem("access_token");
 
-        if (!access_token) return;
+        if (!access_token) {
+            refreshUser();
+            return;
+        };
+
         try {
             const response = await fetch(API_ROUTES['authenticate'], {
                 method: "PUT",
@@ -28,7 +32,7 @@ export default function App() {
             console.log("Checking login:", data);
 
             if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
-            else refreshUser();
+            else if (!Object.hasOwn(data, 'error')) refreshUser();
         } catch (error) {
             console.error("Error:", error);
         }

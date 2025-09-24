@@ -9,8 +9,8 @@ body {
 }
 
 @media (max-width: 800px) {
-  #root {
-    font-size: 62.5%;
+  html {
+    font-size: 75%;
   }
 }
 
@@ -48,16 +48,19 @@ body {
   align-items: center;
   padding: 0.75rem 1.5rem;
   width: fit-content;
-  background: #eeeeee;
+  background: #0886ff;
   border: none;
   border-radius: 2rem;
   cursor: pointer;
 }
 
 .themedButton > p {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui;
   font-size: 1em;
   font-weight: bold;
-  color: #0886ff;
+  color: white;
 }
 
 
@@ -67,6 +70,8 @@ body {
   width: calc(100% - 1rem);
   background: none;
   border: none;
+  color: black;
+  font-weight: bold;
   font-size: 1em;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -78,24 +83,36 @@ body {
 
 
 .closeButton {
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   font-weight: bold;
-  border-radius: 0.5rem;
+  font-size: 1.5em;
+  border-radius: 1rem;
   background: #bb4444;
   cursor: pointer;
 }
 
 .transparentInput {
   padding: 0.5rem;
+  font-size: 1.5em;
   border: none;
   background: none;
 }
 .transparentInput:focus-visible {outline: none;}
+
+.themedInput {
+  padding: 1rem 2rem;
+  border: solid 1px white;
+  border-radius: 0.75rem;
+  background: #000000aa;
+  color: white;
+  font-size: 1em;
+  width: fit-content;
+}
 
 .divider {
   margin: 0.5rem 1rem;

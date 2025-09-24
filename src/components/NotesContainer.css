@@ -20,14 +20,14 @@
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    background: #4a99da;
-    border: solid 2px #ffffff80;
+    background: #1b1b1b;
+    border: solid 2px #ffffff00;
     border-radius: 1rem;
     cursor: pointer;
     transition: all 0.5s ease;
 }
 .noteElement:hover {
-    translate: 0px -5px;
+    translate: 0px -4px;
     border: solid 2px #ffffffff;
 }
 

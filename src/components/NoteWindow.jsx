@@ -6,15 +6,15 @@ import { MainContext } from "../pages/MainPage";
 import { API_ROUTES } from "../data";
 
 export default function NoteWindow() {
-    const { setNoteOpened, openedNoteData, notesCount, notesSection } =
+    const { setNoteOpened, openedNoteData, notesSection, getNotesRef } =
         useContext(MainContext);
     const { id, status } = openedNoteData.current;
 
     const [title, setTitle] = useState(openedNoteData.current.title);
     const [text, setText] = useState(openedNoteData.current.text);
 
-    const handleClickCloseNote = () => {
-        document.body.style.overflowY = "scroll";
+    const closeNoteWindow = () => {
+        document.body.style.overflowY = "auto";
         setNoteOpened(false);
     };
 
@@ -22,21 +22,18 @@ export default function NoteWindow() {
         const access_token = window.localStorage.getItem("access_token");
 
         try {
-            const response = await fetch(
-                API_ROUTES['create_note'],
-                {
-                    method: "POST",
-                    body: JSON.stringify({ access_token, title, text }),
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
+            const response = await fetch(API_ROUTES["create_note"], {
+                method: "POST",
+                body: JSON.stringify({ access_token, title, text }),
+                headers: { "Content-Type": "application/json" },
+            });
 
             const data = await response.json();
             console.log("Creating note:", data);
 
             if (data.success) {
-                if (notesSection == "not_completed") notesCount.current += 1;
-                setNoteOpened(false);
+                if (notesSection == "not_completed") getNotesRef.current();
+                closeNoteWindow();
             }
         } catch (error) {
             console.error("Error:", error);
@@ -49,25 +46,22 @@ export default function NoteWindow() {
             status == "completed" ? "not_completed" : "completed";
 
         try {
-            const response = await fetch(
-                API_ROUTES['change_note_status'],
-                {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        access_token,
-                        id,
-                        status: new_status,
-                    }),
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
+            const response = await fetch(API_ROUTES["change_note_status"], {
+                method: "PUT",
+                body: JSON.stringify({
+                    access_token,
+                    id,
+                    status: new_status,
+                }),
+                headers: { "Content-Type": "application/json" },
+            });
 
             const data = await response.json();
             console.log("Changing note status:", data);
 
             if (data.success) {
-                notesCount.current--;
-                setNoteOpened(false);
+                getNotesRef.current();
+                closeNoteWindow();
             }
         } catch (error) {
             console.error("Error:", error);
@@ -77,18 +71,18 @@ export default function NoteWindow() {
     return (
         <div
             className="fixedElementFullScreen"
-            style={{ background: "#00000044", zIndex: 5 }}
+            style={{ background: "#00000080", zIndex: 5 }}
         >
             <div id="noteWindow">
                 <div id="noteWindowHeader">
                     <input
                         name="Note title"
-                        className="transparentInput"
+                        className="transparentInput themedText bold black"
                         value={title}
                         placeholder="Enter note title"
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
-                    <div className="closeButton" onClick={handleClickCloseNote}>
+                    <div className="closeButton" onClick={closeNoteWindow}>
                         X
                     </div>
                 </div>
@@ -115,7 +109,7 @@ export default function NoteWindow() {
                                 : handleClickCreateNote
                         }
                     >
-                        <p className="themedText">
+                        <p>
                             {id
                                 ? status == "completed"
                                     ? "Uncomplete"

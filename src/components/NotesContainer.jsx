@@ -6,31 +6,34 @@ import { MainContext } from "../pages/MainPage";
 import { API_ROUTES } from "../data";
 
 export default function NotesContainer() {
-    const { notesCount, setNoteOpened, openedNoteData, notesSection } = useContext(MainContext);
+    const { setNoteOpened, openedNoteData, notesSection, getNotesRef } =
+        useContext(MainContext);
 
     const [notes, setNotes] = useState([]);
     useEffect(() => {
         GetNotes();
-        document.body.style.overflowY = 'scroll';
-    }, [notesCount.current, notesSection]);
+    }, [notesSection]);
+
+    getNotesRef.current = GetNotes;
 
     async function GetNotes() {
         try {
             const access_token = window.localStorage.getItem("access_token");
 
-            const response = await fetch(API_ROUTES['get_notes'], {
+            const response = await fetch(API_ROUTES["get_notes"], {
                 method: "PUT",
                 body: JSON.stringify({ access_token }),
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
+            if (Object.hasOwn(data, 'error')) return;
+
             const filtered_data = data.filter(
                 (value) => value.status == notesSection
             );
             console.log("Getting notes:", filtered_data);
 
-            notesCount.current = filtered_data.length;
             setNotes(filtered_data);
         } catch (error) {
             console.error("Error:", error);
@@ -41,7 +44,6 @@ export default function NotesContainer() {
         return notes.map((value) => (
             <NoteElement
                 key={`keyNote${value.id}`}
-                notesCount={notesCount}
                 setNoteOpened={setNoteOpened}
                 openedNoteData={openedNoteData}
                 value={value}
@@ -49,18 +51,14 @@ export default function NotesContainer() {
         ));
     };
 
-    return (
-        <div className="notesContainer">
-            {notesCount.current != 0 && ShowNotes()}
-        </div>
-    );
+    return <div className="notesContainer">{ShowNotes()}</div>;
 }
 
-function NoteElement({ notesCount, setNoteOpened, openedNoteData, value }) {
+function NoteElement({ setNoteOpened, openedNoteData, value }) {
     const { id, title, text, status } = value;
 
     const handleClickNote = () => {
-        openedNoteData.current = { id, title, text, status, notesCount };
+        openedNoteData.current = { id, title, text, status };
         document.body.style.overflow = "hidden";
         setNoteOpened(true);
     };

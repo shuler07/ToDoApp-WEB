@@ -9,9 +9,9 @@ export default function NotesMain() {
     const { noteOpened, isLoggedIn } = useContext(MainContext);
 
     const notesMainStyle = {
-        padding: "1rem 1rem 0rem 1rem",
+        padding: "1rem",
         width: "calc(100% - 2rem)",
-        height: "calc(100% - 1rem)",
+        height: "calc(100% - 2rem)",
         background: "#343d6c",
         borderTopLeftRadius: "1rem",
     };
