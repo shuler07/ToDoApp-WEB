@@ -5,9 +5,8 @@ import { MainContext } from "../pages/MainPage";
 
 import { API_ROUTES } from "../data";
 
-export default function NoteWindow() {
-    const { setNoteOpened, openedNoteData, notesSection, getNotesRef } =
-        useContext(MainContext);
+export default function NoteWindow({ setNotes, getNotes }) {
+    const { setNoteOpened, openedNoteData } = useContext(MainContext);
     const { id, status } = openedNoteData.current;
 
     const [title, setTitle] = useState(openedNoteData.current.title);
@@ -32,7 +31,7 @@ export default function NoteWindow() {
             console.log("Creating note:", data);
 
             if (data.success) {
-                if (notesSection == "not_completed") getNotesRef.current();
+                getNotes();
                 closeNoteWindow();
             }
         } catch (error) {
@@ -60,7 +59,10 @@ export default function NoteWindow() {
             console.log("Changing note status:", data);
 
             if (data.success) {
-                getNotesRef.current();
+                setNotes((prev) => {
+                    prev.find((value) => value.id == id).status = new_status;
+                    return prev;
+                });
                 closeNoteWindow();
             }
         } catch (error) {
