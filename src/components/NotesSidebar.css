@@ -1,0 +1,16 @@
+#notesSidebar {
+    position: sticky;
+    left: 0;
+    top: 0;
+    padding: 1rem;
+    width: 14rem;
+    flex-shrink: 0;
+    min-height: calc(100dvh - 8rem);
+    height: inherit;
+    max-height: calc(100dvh - 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: #121b37;
+    border-top-right-radius: 1rem;
+}

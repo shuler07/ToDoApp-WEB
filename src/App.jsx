@@ -1,37 +1,38 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import PageBackground from "./PageBackground";
+import PageBackground from "./components/PageBackground";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 
-export const AppContext = createContext();
+import { API_ROUTES } from "./data";
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-        checkLogin();
+        authenticateUser();
     }, []);
 
-    async function checkLogin() {
+    async function authenticateUser() {
         const access_token = window.localStorage.getItem("access_token");
-        if (!access_token) return;
+
+        if (!access_token) {
+            refreshUser();
+            return;
+        };
 
         try {
-            const response = await fetch(
-                "https://todoapp-api-hy80.onrender.com/me",
-                {
-                    method: "PUT",
-                    body: JSON.stringify({ access_token }),
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
+            const response = await fetch(API_ROUTES['authenticate'], {
+                method: "PUT",
+                body: JSON.stringify({ access_token }),
+                headers: { "Content-Type": "application/json" },
+            });
 
             const data = await response.json();
-            console.log("Checking access token:", data);
+            console.log("Checking login:", data);
 
-            if (data.isLoggedIn) setIsLoggedIn(true);
-            else refreshUser();
+            if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
+            else if (!Object.hasOwn(data, 'error')) refreshUser();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -39,16 +40,13 @@ export default function App() {
 
     async function refreshUser() {
         try {
-            const response = await fetch(
-                "https://todoapp-api-hy80.onrender.com/refresh",
-                {
-                    method: "PUT",
-                    credentials: "include",
-                }
-            );
+            const response = await fetch(API_ROUTES['refresh'], {
+                method: "PUT",
+                credentials: "include",
+            });
 
             const data = await response.json();
-            console.log("Checking refresh token:", data);
+            console.log("Refreshing user:", data);
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("access_token", data.access_token);
@@ -61,17 +59,11 @@ export default function App() {
 
     return (
         <BrowserRouter basename="/ToDoApp-WEB/">
-            <AppContext.Provider
-                value={{
-                    isLoggedIn: isLoggedIn,
-                }}
-            >
-                <PageBackground />
-                <Routes>
-                    <Route index element={<MainPage />} />
-                    <Route path="/sign_in" element={<SignInPage />} />
-                </Routes>
-            </AppContext.Provider>
+            <PageBackground />
+            <Routes>
+                <Route index element={<MainPage isLoggedIn={isLoggedIn} />} />
+                <Route path="/sign_in" element={<SignInPage />} />
+            </Routes>
         </BrowserRouter>
     );
 }

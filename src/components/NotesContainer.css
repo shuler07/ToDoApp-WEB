@@ -20,26 +20,27 @@
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    background: #4a99da;
-    border: solid 2px #ffffff80;
+    background: #1b1b1b;
+    border: solid 2px #ffffff00;
     border-radius: 1rem;
     cursor: pointer;
     transition: all 0.5s ease;
 }
 .noteElement:hover {
-    translate: 0px -5px;
+    translate: 0px -4px;
     border: solid 2px #ffffffff;
 }
 
 .noteElementIndicator {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.5rem;
 }
-.not_completed {background: #cc4444;}
-.completed {background: #44cc44;}
+.not_completed {background: #dd3333;}
+.completed {background: #33dd33;}
 
 .noteElement h1 {
     min-height: fit-content;

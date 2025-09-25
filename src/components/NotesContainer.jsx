@@ -1,81 +1,41 @@
 import "./NotesContainer.css";
 
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { MainContext } from "../pages/MainPage";
 
-import { STATUS_MESSAGES } from "../data";
-
-export default function NotesContainer({
-    notesCount,
-    setNoteOpened,
-    openedNoteData,
-    notesTab,
-}) {
-    const [notes, setNotes] = useState([]);
-    useEffect(() => {
-        GetNotes();
-    }, [notesCount.current, notesTab]);
-
-    async function GetNotes() {
-        try {
-            const access_token = window.localStorage.getItem("access_token");
-
-            const response = await fetch("https://todoapp-api-hy80.onrender.com/get_notes", {
-                method: "PUT",
-                body: JSON.stringify({ access_token }),
-                headers: { "Content-Type": "application/json" },
-            });
-
-            const data = await response.json();
-            const filtered_data = data.filter(value => value.status == notesTab);
-            console.log('Getting notes:', filtered_data);
-
-            notesCount.current = filtered_data.length;
-            setNotes(filtered_data);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    }
+export default function NotesContainer({ notes }) {
+    const { setNoteOpened, openedNoteData, notesSection } =
+        useContext(MainContext);
 
     const ShowNotes = () => {
-        return notes.map((value) => (
-            <NoteElement
-                key={`keyNote${value.id}`}
-                notesCount={notesCount}
-                setNoteOpened={setNoteOpened}
-                openedNoteData={openedNoteData}
-                value={value}
-            />
-        ));
+        return notes.map((value) => {
+            if (value.status == notesSection)
+                return (
+                    <NoteElement
+                        key={`keyNote${value.id}`}
+                        setNoteOpened={setNoteOpened}
+                        openedNoteData={openedNoteData}
+                        value={value}
+                    />
+                );
+        });
     };
 
-    return (
-        <>
-            <div className="notesBox">
-                <h1 className="themedText white">
-                    {STATUS_MESSAGES[notesTab]}
-                </h1>
-                <div className="notesContainer">
-                    {notesCount.current != 0 && ShowNotes()}
-                </div>
-            </div>
-        </>
-    );
+    return <div className="notesContainer">{ShowNotes()}</div>;
 }
 
-function NoteElement({ notesCount, setNoteOpened, openedNoteData, value }) {
+function NoteElement({ setNoteOpened, openedNoteData, value }) {
     const { id, title, text, status } = value;
 
     const handleClickNote = () => {
-        openedNoteData.current = { id, title, text, status, notesCount };
+        openedNoteData.current = { id, title, text, status };
         document.body.style.overflow = "hidden";
         setNoteOpened(true);
     };
 
     return (
         <div className="noteElement" onClick={handleClickNote}>
-            <div className={`noteElementIndicator ${status}`}>
-                <p className="themedText white">{STATUS_MESSAGES[status]}</p>
-            </div>
+            <div className={`noteElementIndicator ${status}`} />
             <h1 className="themedText white bold">{title}</h1>
             <p className="themedText white">{text}</p>
         </div>

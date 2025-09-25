@@ -2,8 +2,7 @@ import "./SignInPage.css";
 
 import { useState, useRef } from "react";
 
-import ThemedButton from "../components/ThemedButton";
-import ThemedInput from "../components/ThemedInput";
+import { API_ROUTES } from "../data";
 
 export default function SignInPage() {
     const [isRegister, setIsRegister] = useState(true);
@@ -13,10 +12,10 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("https://todoapp-api-hy80.onrender.com/register", {
+            const response = await fetch(API_ROUTES["register"], {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
-                credentials: 'include',
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -37,7 +36,7 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         try {
-            const response = await fetch("https://todoapp-api-hy80.onrender.com/login", {
+            const response = await fetch(API_ROUTES["login"], {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",
@@ -56,12 +55,6 @@ export default function SignInPage() {
         }
     };
 
-    const handleClickSwitch = () => {
-        setIsRegister((prev) => !prev);
-    };
-
-    const confirmButtonTexts = ["Login", "Register"];
-    const confirmButtonEvents = [handleClickLogin, handleClickRegister];
     const switchButtonTexts = [
         "Don't have an account? Register",
         "Already have an account? Login",
@@ -82,20 +75,36 @@ export default function SignInPage() {
                 }}
             >
                 <div id="signInContainer">
-                    <ThemedInput hint="Email" type="email" ref={emailRef} />
-                    <ThemedInput
-                        hint="Password"
+                    <input
+                        className="themedInput"
+                        placeholder="Email"
+                        type="email"
+                        ref={emailRef}
+                    ></input>
+                    <input
+                        className="themedInput"
+                        placeholder="Password"
                         type="password"
                         ref={passwordRef}
-                    />
-                    <ThemedButton
-                        text={confirmButtonTexts[isRegister ? 1 : 0]}
-                        event={confirmButtonEvents[isRegister ? 1 : 0]}
-                    />
-                    <ThemedButton
-                        text={switchButtonTexts[isRegister ? 1 : 0]}
-                        event={handleClickSwitch}
-                    />
+                    ></input>
+                    <div
+                        className="themedButton"
+                        onClick={
+                            isRegister ? handleClickRegister : handleClickLogin
+                        }
+                    >
+                        <p className="themedText">
+                            {isRegister ? "Register" : "Login"}
+                        </p>
+                    </div>
+                    <div
+                        className="themedButton"
+                        onClick={() => setIsRegister((prev) => !prev)}
+                    >
+                        <p className="themedText">
+                            {switchButtonTexts[Number(isRegister)]}
+                        </p>
+                    </div>
                 </div>
             </div>
         </>

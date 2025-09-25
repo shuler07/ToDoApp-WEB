@@ -1,43 +1,46 @@
-import './Header.css'
+import "./Header.css";
 
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../App';
-import ThemedButton from './ThemedButton';
+import { useNavigate } from "react-router-dom";
 
-export default function Header() {
-
-    const context = useContext(AppContext);
-
+export default function Header({ isLoggedIn }) {
     return (
-        <div id='headerContainer'>
-            <div id='headerBar'>
+        <div id="headerContainer">
+            <div id="headerBar">
                 <HeaderLogo />
-                <HeaderAccount isLoggedIn={context.isLoggedIn} />
+                <HeaderAccount isLoggedIn={isLoggedIn} />
             </div>
         </div>
     );
-};
+}
 
 function HeaderLogo() {
-    return (
-        <div>
+    const logoStyle = {
+        padding: "1rem",
+        width: "4rem",
+        height: "1rem",
+        background: "#4d81d4",
+        borderRadius: "2rem",
+    };
 
-        </div>
-    );
-};
+    const handleClickLogo = () => {
+        window.location.pathname = "/ToDoApp-WEB/";
+    };
+
+    return <div style={logoStyle} onClick={handleClickLogo}></div>;
+}
 
 function HeaderAccount({ isLoggedIn }) {
     const navigate = useNavigate();
 
     function HeaderAccountAvatar() {
+        return <div id="headerAccountAvatar"></div>;
+    }
+
+    if (isLoggedIn) return <HeaderAccountAvatar />;
+    else
         return (
-            <div id='headerAccountAvatar'></div>
+            <div className="themedButton" onClick={() => navigate("/sign_in")}>
+                <p>Sign in</p>
+            </div>
         );
-    };
-
-    const handleClickSignIn = () => navigate('/sign_in');
-
-    if (isLoggedIn) return <HeaderAccountAvatar />
-    else return <ThemedButton text='Sign in' event={handleClickSignIn} />
-};
+}
