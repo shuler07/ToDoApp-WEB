@@ -12,24 +12,22 @@ export default function NotesMain() {
 
     const [notes, setNotes] = useState([]);
     useEffect(() => {
-        GetNotes();
-    }, []);
+        if (isLoggedIn) GetNotes();
+    }, [isLoggedIn]);
 
     async function GetNotes() {
         try {
-            const access_token = window.localStorage.getItem("access_token");
-
             const response = await fetch(API_ROUTES["get_notes"], {
-                method: "PUT",
-                body: JSON.stringify({ access_token }),
+                method: "GET",
+                credentials: 'include',
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
             console.log("Getting notes:", data);
-            if (Object.hasOwn(data, "error")) return;
-
-            setNotes(data);
+            
+            if (!Array.isArray(data)) return;
+            else setNotes(data);
         } catch (error) {
             console.error("Error:", error);
         }

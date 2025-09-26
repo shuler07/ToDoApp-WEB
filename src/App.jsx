@@ -14,22 +14,15 @@ export default function App() {
     }, []);
 
     async function authenticateUser() {
-        const access_token = window.localStorage.getItem("access_token");
-
-        if (!access_token) {
-            refreshUser();
-            return;
-        };
-
         try {
             const response = await fetch(API_ROUTES['authenticate'], {
-                method: "PUT",
-                body: JSON.stringify({ access_token }),
+                method: "GET",
+                credentials: 'include',
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
-            console.log("Checking login:", data);
+            console.log("Checking access token:", data);
 
             if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
             else if (!Object.hasOwn(data, 'error')) refreshUser();
@@ -41,17 +34,15 @@ export default function App() {
     async function refreshUser() {
         try {
             const response = await fetch(API_ROUTES['refresh'], {
-                method: "PUT",
+                method: "GET",
                 credentials: "include",
+                headers: { 'Content-Type': 'application/json' }
             });
 
             const data = await response.json();
-            console.log("Refreshing user:", data);
+            console.log("Checking refresh token:", data);
 
-            if (data.isLoggedIn) {
-                window.localStorage.setItem("access_token", data.access_token);
-                setIsLoggedIn(true);
-            }
+            if (data.isLoggedIn) setIsLoggedIn(true);
         } catch (error) {
             console.error("Error:", error);
         }

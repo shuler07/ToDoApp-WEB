@@ -18,12 +18,11 @@ export default function NoteWindow({ setNotes, getNotes }) {
     };
 
     const handleClickCreateNote = async () => {
-        const access_token = window.localStorage.getItem("access_token");
-
         try {
             const response = await fetch(API_ROUTES["create_note"], {
                 method: "POST",
-                body: JSON.stringify({ access_token, title, text }),
+                body: JSON.stringify({ title, text }),
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -40,7 +39,6 @@ export default function NoteWindow({ setNotes, getNotes }) {
     };
 
     const handleClickChangeNoteStatus = async () => {
-        const access_token = window.localStorage.getItem("access_token");
         const new_status =
             status == "completed" ? "not_completed" : "completed";
 
@@ -48,10 +46,10 @@ export default function NoteWindow({ setNotes, getNotes }) {
             const response = await fetch(API_ROUTES["change_note_status"], {
                 method: "PUT",
                 body: JSON.stringify({
-                    access_token,
                     id,
                     status: new_status,
                 }),
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
