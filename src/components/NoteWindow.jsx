@@ -17,6 +17,14 @@ export default function NoteWindow({ setNotes, getNotes }) {
         setNoteOpened(false);
     };
 
+    const handleClickDeleteNote = async () => {
+        try {
+            const response = await fetch();
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     const handleClickCreateNote = async () => {
         try {
             const response = await fetch(API_ROUTES["create_note"], {
@@ -38,16 +46,13 @@ export default function NoteWindow({ setNotes, getNotes }) {
         }
     };
 
-    const handleClickChangeNoteStatus = async () => {
-        const new_status =
-            status == "completed" ? "not_completed" : "completed";
-
+    const handleClickChangeNoteStatus = async (_status) => {
         try {
             const response = await fetch(API_ROUTES["change_note_status"], {
                 method: "PUT",
                 body: JSON.stringify({
                     id,
-                    status: new_status,
+                    status: _status,
                 }),
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -58,7 +63,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
 
             if (data.success) {
                 setNotes((prev) => {
-                    prev.find((value) => value.id == id).status = new_status;
+                    prev.find((value) => value.id == id).status = _status;
                     return prev;
                 });
                 closeNoteWindow();
@@ -68,10 +73,70 @@ export default function NoteWindow({ setNotes, getNotes }) {
         }
     };
 
+    const button_secondary = {
+        not_completed: (
+            <div
+                className="themedButton delete accent"
+                onClick={() => handleClickChangeNoteStatus("trash")}
+            >
+                <p>Delete</p>
+            </div>
+        ),
+        completed: (
+            <div
+                className="themedButton delete accent"
+                onClick={() => handleClickChangeNoteStatus("trash")}
+            >
+                <p>Delete</p>
+            </div>
+        ),
+        trash: (
+            <div
+                className="themedButton base accent"
+                onClick={() => handleClickChangeNoteStatus("not_completed")}
+            >
+                <p>Restore</p>
+            </div>
+        ),
+        creating: null,
+    };
+
+    const button_primary = {
+        not_completed: (
+            <div
+                className="themedButton base primary"
+                onClick={() => handleClickChangeNoteStatus("completed")}
+            >
+                <p>Complete</p>
+            </div>
+        ),
+        completed: (
+            <div
+                className="themedButton base primary"
+                onClick={() => handleClickChangeNoteStatus("not_completed")}
+            >
+                <p>Uncomplete</p>
+            </div>
+        ),
+        trash: (
+            <div
+                className="themedButton delete primary"
+                onClick={() => handleClickDeleteNote()}
+            >
+                <p>Delete forever</p>
+            </div>
+        ),
+        creating: (
+            <div className="themedButton base primary" onClick={handleClickCreateNote}>
+                <p>Create</p>
+            </div>
+        ),
+    };
+
     return (
         <div
             className="fixedElementFullScreen"
-            style={{ background: "#00000080", zIndex: 5 }}
+            style={{ background: "#00000080", zIndex: 1 }}
         >
             <div id="noteWindow">
                 <div id="noteWindowHeader">
@@ -82,9 +147,11 @@ export default function NoteWindow({ setNotes, getNotes }) {
                         placeholder="Enter note title"
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
-                    <div className="closeButton" onClick={closeNoteWindow}>
-                        X
-                    </div>
+                    <img
+                        className="closeButton"
+                        onClick={closeNoteWindow}
+                        src="./icons/closeButton.svg"
+                    />
                 </div>
                 <div id="noteWindowMain">
                     <textarea
@@ -101,22 +168,8 @@ export default function NoteWindow({ setNotes, getNotes }) {
                     ></textarea>
                 </div>
                 <div id="noteWindowFooter">
-                    <div
-                        className="themedButton"
-                        onClick={
-                            id
-                                ? handleClickChangeNoteStatus
-                                : handleClickCreateNote
-                        }
-                    >
-                        <p>
-                            {id
-                                ? status == "completed"
-                                    ? "Uncomplete"
-                                    : "Complete"
-                                : "Create"}
-                        </p>
-                    </div>
+                    {button_secondary[status]}
+                    {button_primary[status]}
                 </div>
             </div>
         </div>

@@ -46,27 +46,34 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.75rem 1.5rem;
+  padding: .75rem 1.5rem;
   width: fit-content;
-  background: #0886ff;
   border: none;
   border-radius: 2rem;
   cursor: pointer;
 }
-
 .themedButton > p {
   margin: 0;
   padding: 0;
   font-family: system-ui;
   font-size: 1em;
   font-weight: bold;
-  color: white;
 }
 
+.themedButton.base.primary {background: #0886ff;}
+.themedButton.base.primary > p {color: white;}
 
+.themedButton.base.accent {background: #91caff;}
+.themedButton.base.accent > p {color: #0886ff;}
+
+.themedButton.delete.primary {background: #ff0808;}
+.themedButton.delete.primary > p {color: white;}
+
+.themedButton.delete.accent {background: #ff9f9f;}
+.themedButton.delete.accent > p {color: #ff0808;}
 
 .themedTextArea {
-  padding: 0.5rem;
+  padding: .5rem;
   width: calc(100% - 1rem);
   background: none;
   border: none;
@@ -83,21 +90,14 @@ body {
 
 
 .closeButton {
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5em;
-  border-radius: 1rem;
-  background: #bb4444;
+  margin: .5rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 }
 
 .transparentInput {
-  padding: 0.5rem;
+  padding: .5rem;
   font-size: 1.5em;
   border: none;
   background: none;
@@ -107,7 +107,7 @@ body {
 .themedInput {
   padding: 1rem 2rem;
   border: solid 1px white;
-  border-radius: 0.75rem;
+  border-radius: .75rem;
   background: #000000aa;
   color: white;
   font-size: 1em;
@@ -115,7 +115,7 @@ body {
 }
 
 .divider {
-  margin: 0.5rem 1rem;
+  margin: .5rem 1rem;
   width: calc(100% - 2rem);
   height: 2px;
   background: #ffffff80;

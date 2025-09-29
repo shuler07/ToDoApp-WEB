@@ -39,7 +39,8 @@
     height: 1rem;
     border-radius: 0.5rem;
 }
-.not_completed {background: #dd3333;}
+.trash {background: #dd3333;}
+.not_completed {background: #ede32d;}
 .completed {background: #33dd33;}
 
 .noteElement h1 {

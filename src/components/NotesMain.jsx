@@ -19,13 +19,13 @@ export default function NotesMain() {
         try {
             const response = await fetch(API_ROUTES["get_notes"], {
                 method: "GET",
-                credentials: 'include',
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
             console.log("Getting notes:", data);
-            
+
             if (!Array.isArray(data)) return;
             else setNotes(data);
         } catch (error) {
