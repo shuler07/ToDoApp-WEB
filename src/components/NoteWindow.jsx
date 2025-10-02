@@ -19,7 +19,24 @@ export default function NoteWindow({ setNotes, getNotes }) {
 
     const handleClickDeleteNote = async () => {
         try {
-            const response = await fetch();
+            const response = await fetch(API_ROUTES["delete_note"], {
+                method: "DELETE",
+                body: JSON.stringify({ id }),
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+            });
+            
+            const data = await response.json();
+            console.log("Deleting note:", data);
+
+            if (data.success) {
+                setNotes((prev) => {
+                    const _notes = structuredClone(prev);
+                    _notes['trash'] = _notes['trash'].filter((value) => value.id != id);
+                    return _notes;
+                });
+                closeNoteWindow();
+            }
         } catch (error) {
             console.error("Error:", error);
         }
@@ -38,7 +55,11 @@ export default function NoteWindow({ setNotes, getNotes }) {
             console.log("Creating note:", data);
 
             if (data.success) {
-                getNotes();
+                setNotes((prev) => {
+                    const _notes = structuredClone(prev);
+                    _notes['not_completed'].push(data.note);
+                    return _notes;
+                });
                 closeNoteWindow();
             }
         } catch (error) {
@@ -63,8 +84,12 @@ export default function NoteWindow({ setNotes, getNotes }) {
 
             if (data.success) {
                 setNotes((prev) => {
-                    prev.find((value) => value.id == id).status = _status;
-                    return prev;
+                    const _notes = structuredClone(prev);
+                    const _note = _notes[status].find((value) => value.id == id)
+                    _notes[status] = _notes[status].filter((value) => value != _note);
+                    _note.status = _status;
+                    _notes[_status].push(_note);
+                    return _notes;
                 });
                 closeNoteWindow();
             }

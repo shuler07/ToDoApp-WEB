@@ -4,21 +4,17 @@ import { useContext } from "react";
 import { MainContext } from "../pages/MainPage";
 
 export default function NotesContainer({ notes }) {
-    const { setNoteOpened, openedNoteData, notesSection } =
-        useContext(MainContext);
+    const { setNoteOpened, openedNoteData } = useContext(MainContext);
 
     const ShowNotes = () => {
-        return notes.map((value) => {
-            if (value.status == notesSection)
-                return (
-                    <NoteElement
-                        key={`keyNote${value.id}`}
-                        setNoteOpened={setNoteOpened}
-                        openedNoteData={openedNoteData}
-                        value={value}
-                    />
-                );
-        });
+        return notes.map((value) => (
+            <NoteElement
+                key={`keyNote${value.id}`}
+                setNoteOpened={setNoteOpened}
+                openedNoteData={openedNoteData}
+                value={value}
+            />
+        ));
     };
 
     return <div className="notesContainer">{ShowNotes()}</div>;
