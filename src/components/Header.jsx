@@ -39,7 +39,7 @@ function HeaderAccount({ isLoggedIn }) {
     if (isLoggedIn) return <HeaderAccountAvatar />;
     else
         return (
-            <div className="themedButton" onClick={() => navigate("/sign_in")}>
+            <div className="themedButton base primary" onClick={() => navigate("/sign_in")}>
                 <p>Sign in</p>
             </div>
         );
