@@ -11,6 +11,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    background: #121b37;
+    background: black;
     border-top-right-radius: 1rem;
 }

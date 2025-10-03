@@ -20,7 +20,7 @@
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    background: #1b1b1b;
+    background: #474747;
     border: solid 2px #ffffff00;
     border-radius: 1rem;
     cursor: pointer;
@@ -28,7 +28,7 @@
 }
 .noteElement:hover {
     translate: 0px -4px;
-    border: solid 2px #ffffffff;
+    border: solid 2px #ffffffc0;
 }
 
 .noteElementIndicator {

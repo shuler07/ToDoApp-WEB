@@ -3,7 +3,19 @@
     width: calc(100% - 2rem);
     background: #ffffff00;
     border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
 }
 .notesSection.active {
     background: #ffffffc0;
+}
+.notesSection:hover:not(.active) {
+    background: #ffffff40;
+}
+
+.notesSection > h4 {
+    transition: all 0.4s ease;
+}
+.notesSection:hover:not(.active) > h4 {
+    translate: 4px 0;
 }

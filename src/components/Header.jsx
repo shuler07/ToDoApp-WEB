@@ -18,7 +18,7 @@ function HeaderLogo() {
         padding: "1rem",
         width: "4rem",
         height: "1rem",
-        background: "#4d81d4",
+        background: "white",
         borderRadius: "2rem",
     };
 

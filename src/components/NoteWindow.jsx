@@ -166,14 +166,15 @@ export default function NoteWindow({ setNotes }) {
 
     return (
         <div
+            id='noteWindowBg'
             className="fixedElementFullScreen"
-            style={{ background: "#00000080", zIndex: 1 }}
+            style={{ zIndex: 1 }}
         >
             <div id="noteWindow">
                 <div id="noteWindowHeader">
                     <input
                         name="Note title"
-                        className="transparentInput themedText bold black"
+                        className="transparentInput themedText bold white"
                         value={title}
                         placeholder="Enter note title"
                         onChange={(e) => setTitle(e.target.value)}

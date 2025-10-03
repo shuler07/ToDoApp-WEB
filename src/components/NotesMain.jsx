@@ -52,7 +52,7 @@ export default function NotesMain() {
         padding: "1rem",
         width: "calc(100% - 2rem)",
         height: "calc(100% - 2rem)",
-        background: "#343d6c",
+        background: "#232323",
         borderTopLeftRadius: "1rem",
     };
 
