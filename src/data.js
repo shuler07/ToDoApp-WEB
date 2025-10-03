@@ -6,7 +6,7 @@ export const API_ROUTES = {
     'signout': 'http://localhost:8000/signout',
     'create_note': 'http://localhost:8000/create_new_note',
     'get_notes': 'http://localhost:8000/get_notes',
-    'change_note_status': 'http://localhost:8000/change_note_status',
+    'update_note': 'http://localhost:8000/update_note',
     'delete_note': 'http://localhost:8000/delete_note'
 };
 

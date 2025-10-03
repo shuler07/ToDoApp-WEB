@@ -7,9 +7,11 @@ export default function CreateNoteButton() {
     const handleClickCreateNote = () => {
         openedNoteData.current = {
             id: null,
+            uid: null,
             title: '',
             text: '',
             status: 'creating',
+            tags: []
         };
         setNoteOpened(true);
         document.body.style.overflowY = 'hidden';

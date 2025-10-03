@@ -5,23 +5,24 @@ import { MainContext } from "../pages/MainPage";
 
 import { API_ROUTES } from "../data";
 
-export default function NoteWindow({ setNotes, getNotes }) {
+export default function NoteWindow({ setNotes }) {
     const { setNoteOpened, openedNoteData } = useContext(MainContext);
-    const { id, status } = openedNoteData.current;
+    let note = openedNoteData.current;
 
-    const [title, setTitle] = useState(openedNoteData.current.title);
-    const [text, setText] = useState(openedNoteData.current.text);
+    const [title, setTitle] = useState(note.title);
+    const [text, setText] = useState(note.text);
 
     const closeNoteWindow = () => {
         document.body.style.overflowY = "auto";
+        if (note.title !== title || note.text !== text) UpdateNote({title, text});
         setNoteOpened(false);
     };
 
-    const handleClickDeleteNote = async () => {
+    const DeleteNote = async () => {
         try {
             const response = await fetch(API_ROUTES["delete_note"], {
                 method: "DELETE",
-                body: JSON.stringify({ id }),
+                body: JSON.stringify({ id: note.id }),
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
@@ -32,7 +33,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
             if (data.success) {
                 setNotes((prev) => {
                     const _notes = structuredClone(prev);
-                    _notes['trash'] = _notes['trash'].filter((value) => value.id != id);
+                    _notes['trash'] = _notes['trash'].filter((value) => value.id != note.id);
                     return _notes;
                 });
                 closeNoteWindow();
@@ -42,7 +43,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         }
     };
 
-    const handleClickCreateNote = async () => {
+    const CreateNote = async () => {
         try {
             const response = await fetch(API_ROUTES["create_note"], {
                 method: "POST",
@@ -67,28 +68,33 @@ export default function NoteWindow({ setNotes, getNotes }) {
         }
     };
 
-    const handleClickChangeNoteStatus = async (_status) => {
+    const UpdateNote = async (updates) => {
         try {
-            const response = await fetch(API_ROUTES["change_note_status"], {
+            const response = await fetch(API_ROUTES["update_note"], {
                 method: "PUT",
                 body: JSON.stringify({
-                    id,
-                    status: _status,
+                    ...note,
+                    ...updates
                 }),
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
-            console.log("Changing note status:", data);
+            console.log("Updating note:", data);
 
             if (data.success) {
                 setNotes((prev) => {
                     const _notes = structuredClone(prev);
-                    const _note = _notes[status].find((value) => value.id == id)
-                    _notes[status] = _notes[status].filter((value) => value != _note);
-                    _note.status = _status;
-                    _notes[_status].push(_note);
+                    const _note = _notes[note.status].find((value) => value.id == note.id)
+                    if (Object.hasOwn(updates, 'status')) {
+                        _notes[note.status] = _notes[note.status].filter((value) => value != _note);
+                        _note.status = updates.status;
+                        _notes[updates.status].push(_note);
+                    }
+                    _note.title = updates.title;
+                    _note.text = updates.text;
+                    note = _note;
                     return _notes;
                 });
                 closeNoteWindow();
@@ -102,7 +108,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         not_completed: (
             <div
                 className="themedButton delete accent"
-                onClick={() => handleClickChangeNoteStatus("trash")}
+                onClick={() => UpdateNote({title, text, status: "trash"})}
             >
                 <p>Delete</p>
             </div>
@@ -110,7 +116,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         completed: (
             <div
                 className="themedButton delete accent"
-                onClick={() => handleClickChangeNoteStatus("trash")}
+                onClick={() => UpdateNote({title, text, status: "trash"})}
             >
                 <p>Delete</p>
             </div>
@@ -118,7 +124,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         trash: (
             <div
                 className="themedButton base accent"
-                onClick={() => handleClickChangeNoteStatus("not_completed")}
+                onClick={() => UpdateNote({title, text, status: "not_completed"})}
             >
                 <p>Restore</p>
             </div>
@@ -130,7 +136,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         not_completed: (
             <div
                 className="themedButton base primary"
-                onClick={() => handleClickChangeNoteStatus("completed")}
+                onClick={() => UpdateNote({title, text, status: "completed"})}
             >
                 <p>Complete</p>
             </div>
@@ -138,7 +144,7 @@ export default function NoteWindow({ setNotes, getNotes }) {
         completed: (
             <div
                 className="themedButton base primary"
-                onClick={() => handleClickChangeNoteStatus("not_completed")}
+                onClick={() => UpdateNote({title, text, status: "not_completed"})}
             >
                 <p>Uncomplete</p>
             </div>
@@ -146,13 +152,13 @@ export default function NoteWindow({ setNotes, getNotes }) {
         trash: (
             <div
                 className="themedButton delete primary"
-                onClick={() => handleClickDeleteNote()}
+                onClick={() => DeleteNote()}
             >
                 <p>Delete forever</p>
             </div>
         ),
         creating: (
-            <div className="themedButton base primary" onClick={handleClickCreateNote}>
+            <div className="themedButton base primary" onClick={() => CreateNote()}>
                 <p>Create</p>
             </div>
         ),
@@ -193,8 +199,8 @@ export default function NoteWindow({ setNotes, getNotes }) {
                     ></textarea>
                 </div>
                 <div id="noteWindowFooter">
-                    {button_secondary[status]}
-                    {button_primary[status]}
+                    {button_secondary[note.status]}
+                    {button_primary[note.status]}
                 </div>
             </div>
         </div>

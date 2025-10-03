@@ -12,7 +12,7 @@ export default function NotesContainer({ notes }) {
                 key={`keyNote${value.id}`}
                 setNoteOpened={setNoteOpened}
                 openedNoteData={openedNoteData}
-                value={value}
+                note={value}
             />
         ));
     };
@@ -20,20 +20,18 @@ export default function NotesContainer({ notes }) {
     return <div className="notesContainer">{ShowNotes()}</div>;
 }
 
-function NoteElement({ setNoteOpened, openedNoteData, value }) {
-    const { id, title, text, status } = value;
-
+function NoteElement({ setNoteOpened, openedNoteData, note }) {
     const handleClickNote = () => {
-        openedNoteData.current = { id, title, text, status };
+        openedNoteData.current = note;
         document.body.style.overflow = "hidden";
         setNoteOpened(true);
     };
 
     return (
         <div className="noteElement" onClick={handleClickNote}>
-            <div className={`noteElementIndicator ${status}`} />
-            <h1 className="themedText white bold">{title}</h1>
-            <p className="themedText white">{text}</p>
+            <div className={`noteElementIndicator ${note.status}`} />
+            <h1 className="themedText white bold">{note.title}</h1>
+            <p className="themedText white">{note.text}</p>
         </div>
     );
 }
