@@ -30,5 +30,6 @@ export const SECTION_NAME_BY_KEY = {
 
 export const COLORS_BY_TAGS = {
     favorite: 'green',
-    important: 'red'
+    important: 'red',
+    colornotfound: '#202020'
 };

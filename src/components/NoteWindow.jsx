@@ -53,7 +53,7 @@ export default function NoteWindow({ setNotes }) {
         try {
             const response = await fetch(API_ROUTES["create_note"], {
                 method: "POST",
-                body: JSON.stringify({ title, text }),
+                body: JSON.stringify({ title, text, tags }),
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
@@ -305,7 +305,7 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
 }
 
 function TagElement({ name }) {
-    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : 'black';
+    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : COLORS_BY_TAGS['colornotfound'];
 
     return (
         <div

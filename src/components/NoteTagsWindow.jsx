@@ -49,7 +49,7 @@ export default function NoteTagsWindow({ tags, setTags, setTagsOpened, setAddTag
 }
 
 function TagEditElement({ name, setTags }) {
-    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : 'black';
+    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : COLORS_BY_TAGS['colornotfound'];
 
     const handleClickRemoveTag = () => {
         setTags((prev) => prev.filter((value) => value != name));
