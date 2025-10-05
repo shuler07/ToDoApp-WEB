@@ -24,19 +24,19 @@ export default function CreateNoteButton() {
         width: "4rem",
         height: "4rem",
         borderRadius: "2rem",
-        background: "white",
+        background: "var(--uiColor)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         fontSize: "2em",
-        color: "black",
+        color: "var(--primaryColor)",
         fontWeight: "bold",
         cursor: "pointer",
         zIndex: 1,
     };
 
     return (
-        <div style={createNoteButtonStyle} onClick={handleClickCreateNote}>
+        <div className="clickable" style={createNoteButtonStyle} onClick={handleClickCreateNote}>
             +
         </div>
     );

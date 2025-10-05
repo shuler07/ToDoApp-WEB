@@ -20,7 +20,7 @@
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    background: #474747;
+    background: var(--accentColor);
     border: solid 2px #ffffff00;
     border-radius: 1rem;
     cursor: pointer;

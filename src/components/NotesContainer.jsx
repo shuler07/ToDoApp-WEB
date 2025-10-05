@@ -30,8 +30,15 @@ function NoteElement({ setNoteOpened, openedNoteData, note }) {
     return (
         <div className="noteElement" onClick={handleClickNote}>
             <div className={`noteElementIndicator ${note.status}`} />
-            <h1 className="themedText white bold">{note.title}</h1>
-            <p className="themedText white">{note.text}</p>
+            <h1
+                className="themedText bold"
+                style={{ color: "var(--inverseColor)" }}
+            >
+                {note.title}
+            </h1>
+            <p className="themedText" style={{ color: "var(--inverseColor)" }}>
+                {note.text}
+            </p>
         </div>
     );
 }

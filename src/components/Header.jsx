@@ -18,7 +18,7 @@ function HeaderLogo() {
         padding: "1rem",
         width: "4rem",
         height: "1rem",
-        background: "white",
+        background: "var(--uiColor)",
         borderRadius: "2rem",
     };
 
@@ -39,7 +39,11 @@ function HeaderAccount({ isLoggedIn }) {
     if (isLoggedIn) return <HeaderAccountAvatar />;
     else
         return (
-            <div className="themedButton base primary" onClick={() => navigate("/sign_in")}>
+            <div
+                className="themedButton base primary"
+                style={{ margin: '.5rem' }}
+                onClick={() => navigate("/sign_in")}
+            >
                 <p>Sign in</p>
             </div>
         );

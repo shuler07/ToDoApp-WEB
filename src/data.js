@@ -15,3 +15,8 @@ export const SECTION_NAME_BY_KEY = {
     completed: "Completed",
     trash: 'Trash'
 };
+
+export const COLORS_BY_TAGS = {
+    favorite: 'green',
+    important: 'red'
+};

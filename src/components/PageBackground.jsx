@@ -2,7 +2,7 @@ export default function PageBackground() {
     return (
         <div
             className="fixedElementFullScreen"
-            style={{ background: "black", zIndex: -5 }}
+            style={{ background: "var(--primaryColor)", zIndex: -5 }}
         ></div>
     );
 }

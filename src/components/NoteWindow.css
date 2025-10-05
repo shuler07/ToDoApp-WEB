@@ -1,6 +1,7 @@
 #noteWindowBg {
     justify-content: end;
-    backdrop-filter: blur(4px);
+    align-items: start;
+    z-index: 1;
     animation: noteWindowBgAppear 0.25s ease forwards;
 }
 @keyframes noteWindowBgAppear {
@@ -25,14 +26,14 @@
     justify-content: space-between;
     position: relative;
     gap: 1rem;
-    background: #303030;
-    z-index: 2;
+    background: var(--extraSecondaryColor);
+    z-index: 3;
     animation: noteWindowAppear 0.25s ease forwards;
 }
 @keyframes noteWindowAppear {
     0% {
         scale: 0.9;
-        translate: 31.5rem 0;
+        translate: 32.5rem 0;
     }
     100% {
         scale: 1;
@@ -44,6 +45,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#noteWindowTags {
+    display: flex;
+    gap: 0.5rem;
+    cursor: grab;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    margin-bottom: -0.5rem;
+}
+#noteWindowTags:active {
+    cursor: grabbing;
+}
+
+#noteWindowTagsEdit {
+    padding: .5rem 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 1rem;
+    background: black;
+    cursor: pointer !important;
+}
+
+.tagElement {
+    padding: 0 1rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
 }
 
 #noteWindowMain {
