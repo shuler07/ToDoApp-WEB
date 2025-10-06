@@ -7,7 +7,7 @@ import { API_ROUTES, COLORS_BY_TAGS } from "../data";
 import NoteTagsWindow from "./NoteTagsWindow";
 import NoteAddTagWindow from "./NoteAddTagWindow";
 
-export default function NoteWindow({ setNotes }) {
+export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
     const { setNoteOpened, openedNoteData } = useContext(MainContext);
     let note = openedNoteData.current;
 
@@ -17,8 +17,10 @@ export default function NoteWindow({ setNotes }) {
 
     const closeNoteWindow = () => {
         document.body.style.overflowY = "auto";
-        if (note.title !== title || note.text !== text || note.tags !== tags)
-            UpdateNote({ title, text, tags });
+        if (note.id) {
+            if (note.title !== title || note.text !== text || note.tags !== tags)
+                UpdateNote({ title, text, tags });
+        }
         setNoteOpened(false);
     };
 
@@ -36,10 +38,23 @@ export default function NoteWindow({ setNotes }) {
 
             if (data.success) {
                 setNotes((prev) => {
-                    const _notes = structuredClone(prev);
-                    _notes["trash"] = _notes["trash"].filter(
-                        (value) => value.id != note.id
-                    );
+                    const _notes = JSON.parse(JSON.stringify(prev));
+                    const _note = _notes.trash.All.filter(
+                        (value) => value.id == note.id
+                    )[0];
+
+                    let dir = _notes.trash.All;
+                    dir = dir.filter((value) => value.id != note.id);
+                    if (dir.length == 0) delete _notes.trash.All;
+                    else _notes.trash.All = dir;
+
+                    _note.tags.forEach((tag) => {
+                        dir = _notes.trash[tag];
+                        dir = dir.filter((value) => value.id != note.id);
+                        if (dir.length == 0) delete _notes.trash[tag];
+                        else _notes.trash[tag] = dir;
+                    });
+
                     return _notes;
                 });
                 closeNoteWindow();
@@ -63,8 +78,18 @@ export default function NoteWindow({ setNotes }) {
 
             if (data.success) {
                 setNotes((prev) => {
-                    const _notes = structuredClone(prev);
-                    _notes["not_completed"].push(data.note);
+                    const _notes = JSON.parse(JSON.stringify(prev));
+
+                    if (!Object.hasOwn(_notes.not_completed, "All"))
+                        _notes.not_completed.All = [];
+                    _notes.not_completed.All.push(data.note);
+
+                    tags.forEach((tag) => {
+                        if (!Object.hasOwn(_notes.not_completed, tag))
+                            _notes.not_completed[tag] = [];
+                        _notes.not_completed[tag].push(data.note);
+                    });
+
                     return _notes;
                 });
                 closeNoteWindow();
@@ -91,21 +116,51 @@ export default function NoteWindow({ setNotes }) {
 
             if (data.success) {
                 setNotes((prev) => {
-                    const _notes = structuredClone(prev);
-                    const _note = _notes[note.status].find(
+                    const _notes = JSON.parse(JSON.stringify(prev));
+                    const _note = _notes[note.status].All.filter(
                         (value) => value.id == note.id
-                    );
-                    if (Object.hasOwn(updates, "status")) {
-                        _notes[note.status] = _notes[note.status].filter(
-                            (value) => value != _note
-                        );
-                        _note.status = updates.status;
-                        _notes[updates.status].push(_note);
-                    }
+                    )[0];
+
+                    // Updating its values
                     _note.title = updates.title;
                     _note.text = updates.text;
                     _note.tags = updates.tags;
+
+                    // Delete note from old dirs
+                    let dir = _notes[note.status].All;
+                    dir = dir.filter((value) => value.id != note.id);
+                    if (dir.length == 0) delete _notes[note.status].All;
+                    else _notes[note.status].All = dir;
+
+                    note.tags.forEach((tag) => {
+                        dir = _notes[note.status][tag];
+                        dir = dir.filter((value) => value.id != note.id);
+                        if (dir.length == 0) delete _notes[note.status][tag];
+                        else _notes[note.status][tag] = dir;
+                    });
+
+                    // Update status if its changed
+                    if (Object.hasOwn(updates, "status"))
+                        _note.status = updates.status;
+
+                    // Add note to new dirs
+                    if (!Object.hasOwn(_notes[_note.status], "All"))
+                        _notes[_note.status].All = [];
+                    _notes[_note.status].All.push(_note);
+
+                    tags.forEach((tag) => {
+                        if (!Object.hasOwn(_notes[_note.status], tag))
+                            _notes[_note.status][tag] = [];
+                        _notes[_note.status][tag].push(_note);
+                    });
+
+                    // Update note in memory
                     note = _note;
+
+                    // Check is current dir exists
+                    if (!Object.hasOwn(_notes[note.status], selectedTag))
+                        setSelectedTag("All");
+
                     return _notes;
                 });
                 closeNoteWindow();
@@ -119,7 +174,9 @@ export default function NoteWindow({ setNotes }) {
         not_completed: (
             <div
                 className="themedButton delete accent clickable"
-                onClick={() => UpdateNote({ title, text, tags, status: "trash" })}
+                onClick={() =>
+                    UpdateNote({ title, text, tags, status: "trash" })
+                }
             >
                 <p>Delete</p>
             </div>
@@ -127,7 +184,9 @@ export default function NoteWindow({ setNotes }) {
         completed: (
             <div
                 className="themedButton delete accent clickable"
-                onClick={() => UpdateNote({ title, text, tags, status: "trash" })}
+                onClick={() =>
+                    UpdateNote({ title, text, tags, status: "trash" })
+                }
             >
                 <p>Delete</p>
             </div>
@@ -149,7 +208,9 @@ export default function NoteWindow({ setNotes }) {
         not_completed: (
             <div
                 className="themedButton base primary clickable"
-                onClick={() => UpdateNote({ title, text, tags, status: "completed" })}
+                onClick={() =>
+                    UpdateNote({ title, text, tags, status: "completed" })
+                }
             >
                 <p>Complete</p>
             </div>
@@ -202,13 +263,13 @@ export default function NoteWindow({ setNotes }) {
 
     const handleTagsMouseMove = (e) => {
         if (!isDragging) return;
-        const newOffsetX = e.screenX;
-        const delta = newOffsetX - offsetX;
-        noteWindowTags.current.scrollLeft -= delta;
-        offsetX = newOffsetX;
+        const _offsetX = e.screenX;
+        const delta = offsetX - _offsetX;
+        noteWindowTags.current.scrollLeft += delta;
+        offsetX = _offsetX;
     };
 
-    const handleTagsMouseUp = (e) => {
+    const handleTagsMouseUp = () => {
         isDragging = false;
     };
 
@@ -219,7 +280,7 @@ export default function NoteWindow({ setNotes }) {
 
     return (
         <div id="noteWindowBg" className="fixedElementFullScreen">
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
                 {tagsOpened && (
                     <NoteTagsWindow
                         tags={tags}
@@ -229,7 +290,10 @@ export default function NoteWindow({ setNotes }) {
                     />
                 )}
                 {addTagOpened && (
-                    <NoteAddTagWindow setTags={setTags} setAddTagOpened={setAddTagOpened} />
+                    <NoteAddTagWindow
+                        setTags={setTags}
+                        setAddTagOpened={setAddTagOpened}
+                    />
                 )}
             </div>
             <div id="noteWindow">
@@ -237,7 +301,7 @@ export default function NoteWindow({ setNotes }) {
                     <input
                         name="Note title"
                         className="transparentInput themedText bold"
-                        style={{ color: 'var(--inverseColor)' }}
+                        style={{ color: "var(--inverseColor)" }}
                         value={title}
                         placeholder="Enter note title"
                         onChange={(e) => setTitle(e.target.value)}
@@ -268,7 +332,7 @@ export default function NoteWindow({ setNotes }) {
                     <textarea
                         name="Note text"
                         className="themedTextArea"
-                        style={{ color: 'var(--inverseColor)' }}
+                        style={{ color: "var(--inverseColor)" }}
                         value={text}
                         placeholder="Enter text"
                         onChange={(e) => {
@@ -305,13 +369,12 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
 }
 
 function TagElement({ name }) {
-    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : COLORS_BY_TAGS['colornotfound'];
+    const color = COLORS_BY_TAGS[name]
+        ? COLORS_BY_TAGS[name]
+        : COLORS_BY_TAGS["colornotfound"];
 
     return (
-        <div
-            className="tagElement"
-            style={{ background: color }}
-        >
+        <div className="tagElement" style={{ background: color }}>
             <h6
                 className="themedText bold white"
                 style={{ userSelect: "none" }}

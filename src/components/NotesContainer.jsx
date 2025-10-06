@@ -3,13 +3,13 @@ import "./NotesContainer.css";
 import { useContext } from "react";
 import { MainContext } from "../pages/MainPage";
 
-export default function NotesContainer({ notes }) {
+export default function NotesContainer({ notes, selectedTag }) {
     const { setNoteOpened, openedNoteData } = useContext(MainContext);
 
     const ShowNotes = () => {
-        return notes.map((value) => (
+        return notes.map((value, index) => (
             <NoteElement
-                key={`keyNote${value.id}`}
+                key={`keyNote${selectedTag}${index}`}
                 setNoteOpened={setNoteOpened}
                 openedNoteData={openedNoteData}
                 note={value}
@@ -17,7 +17,7 @@ export default function NotesContainer({ notes }) {
         ));
     };
 
-    return <div className="notesContainer">{ShowNotes()}</div>;
+    return <div className="notesContainer">{notes && ShowNotes()}</div>;
 }
 
 function NoteElement({ setNoteOpened, openedNoteData, note }) {

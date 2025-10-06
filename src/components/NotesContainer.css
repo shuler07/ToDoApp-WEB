@@ -27,7 +27,8 @@
     transition: all 0.5s ease;
 }
 .noteElement:hover {
-    translate: 0px -4px;
+    scale: 1.02;
+    translate: 0px -2px;
     border: solid 2px #ffffffc0;
 }
 

@@ -29,7 +29,8 @@ export const SECTION_NAME_BY_KEY = {
 };
 
 export const COLORS_BY_TAGS = {
-    favorite: 'green',
-    important: 'red',
-    colornotfound: '#202020'
+    favorite: '#008000',
+    important: '#ff0000',
+    All: '#a9a9a9',
+    colornotfound: '#373737'
 };

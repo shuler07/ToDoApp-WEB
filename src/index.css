@@ -126,7 +126,7 @@ h6 {font-size: 0.8em;}
 
 
 .clickable {transition: scale 0.25s ease;}
-.clickable:hover {scale: 0.95;}
+.clickable:hover:not(.active) {scale: 0.95;}
 
 .closeButton {
   margin: .25rem;
