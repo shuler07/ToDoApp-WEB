@@ -32,6 +32,7 @@
     padding: 0 1rem;
     width: calc(100% - 4.5rem);
     height: 2rem;
+    font-size: 1em;
     border: none;
     border-radius: 1rem;
     background: black;
@@ -43,7 +44,9 @@
     width: 1rem;
     background: black;
     border-radius: 1rem;
-    cursor: pointer;
+}
+.addTagButton:disabled {
+    background: #00000040;
 }
 
 

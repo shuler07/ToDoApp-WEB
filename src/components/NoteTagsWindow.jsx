@@ -2,15 +2,23 @@ import "./NoteTagsWindow.css";
 
 import { COLORS_BY_TAGS } from "../data";
 
-export default function NoteTagsWindow({ tags, setTags, setTagsOpened, setAddTagOpened }) {
+export default function NoteTagsWindow({
+    tags,
+    setTags,
+    setTagsOpened,
+    setAddTagOpened,
+}) {
     const GetTags = () => {
-        return tags.map((value, index) => (
-            <TagEditElement
-                key={`keyEditTag${index}`}
-                name={value}
-                setTags={setTags}
-            />
-        ));
+        return tags.map((value, index) => {
+            if (value != "All")
+                return (
+                    <TagEditElement
+                        key={`keyEditTag${index}`}
+                        name={value}
+                        setTags={setTags}
+                    />
+                );
+        });
     };
 
     const handleClickClose = () => {
@@ -49,7 +57,9 @@ export default function NoteTagsWindow({ tags, setTags, setTagsOpened, setAddTag
 }
 
 function TagEditElement({ name, setTags }) {
-    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : COLORS_BY_TAGS['colornotfound'];
+    const color = COLORS_BY_TAGS[name]
+        ? COLORS_BY_TAGS[name]
+        : COLORS_BY_TAGS["colornotfound"];
 
     const handleClickRemoveTag = () => {
         setTags((prev) => prev.filter((value) => value != name));
@@ -57,10 +67,7 @@ function TagEditElement({ name, setTags }) {
 
     return (
         <div style={{ display: "flex", gap: ".5rem" }}>
-            <div
-                className="tagEditElement"
-                style={{ background: color }}
-            >
+            <div className="tagEditElement" style={{ background: color }}>
                 <h6 className="themedText bold white">{name}</h6>
             </div>
             <div

@@ -61,14 +61,17 @@ export default function NotesMain() {
     };
 
     const GetTags = () => {
-        return Object.keys(notes[selectedSection]).map((value, index) => (
-            <TagSelectElement
-                key={`keyTagSelect${index}`}
-                name={value}
-                active={value == selectedTag ? "active" : ""}
-                setSelectedTag={setSelectedTag}
-            />
-        ));
+        return Object.keys(notes[selectedSection]).map((value, index) => {
+            if (value != "All")
+                return (
+                    <TagSelectElement
+                        key={`keyTagSelect${index}`}
+                        name={value}
+                        active={value == selectedTag ? "active" : ""}
+                        setSelectedTag={setSelectedTag}
+                    />
+                );
+        });
     };
 
     let offsetX = 0;

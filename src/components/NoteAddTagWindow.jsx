@@ -1,9 +1,17 @@
-import { useRef, useState } from "react";
 import "./NoteAddTagWindow.css";
 
-export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
+import { useRef, useState } from "react";
+
+import { MAX_TAG_LENGTH } from "../data";
+
+export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
     const [tagText, setTagText] = useState("");
     const tagInput = useRef();
+
+    const handleChangeTag = (e) => {
+
+        setTagText(e.target.value);
+    }
 
     const handleClickAdd = () => {
         if (tagText === "") return;
@@ -15,6 +23,8 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
         });
         setAddTagOpened(false);
     };
+
+    const addButtonDisabled = tags.includes(tagText) || tagText == 'All';
 
     return (
         <div id="noteWindowTagsAdd">
@@ -44,23 +54,24 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
                     className="themedText bold white"
                     placeholder="Enter tag"
                     value={tagText}
-                    maxLength={12}
-                    onChange={(e) => setTagText(e.target.value)}
+                    maxLength={MAX_TAG_LENGTH}
+                    onChange={handleChangeTag}
                     ref={tagInput}
                 />
-                <div
+                <button
                     className="addTagButton clickable"
                     onClick={handleClickAdd}
+                    disabled={addButtonDisabled}
                 >
                     <img
-                        src="./icons/addPlus.svg"
+                        src={addButtonDisabled ? "./icons/close.svg" : "./icons/addPlus.svg"}
                         style={{
                             userSelect: "none",
                             width: "1rem",
                             height: "1rem",
                         }}
                     />
-                </div>
+                </button>
             </div>
         </div>
     );

@@ -248,9 +248,10 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
     };
 
     const GetTags = () => {
-        return tags.map((value, index) => (
-            <TagElement key={`keyTag${index}`} name={value} />
-        ));
+        return tags.map((value, index) => {
+            if (value != "All")
+                return <TagElement key={`keyTag${index}`} name={value} />;
+        });
     };
 
     // Dragging tags container
@@ -285,7 +286,12 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
     return (
         <div id="noteWindowBg" className="fixedElementFullScreen">
             <div id="noteWindowTagsContainer">
-                {tagsOpened && <div id='noteWindowTagsEditBg' className="fixedElementFullScreen"></div>}
+                {tagsOpened && (
+                    <div
+                        id="noteWindowTagsEditBg"
+                        className="fixedElementFullScreen"
+                    ></div>
+                )}
                 {tagsOpened && (
                     <NoteTagsWindow
                         tags={tags}
@@ -296,6 +302,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                 )}
                 {addTagOpened && (
                     <NoteAddTagWindow
+                        tags={tags}
                         setTags={setTags}
                         setAddTagOpened={setAddTagOpened}
                     />

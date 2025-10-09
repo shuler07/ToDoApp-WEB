@@ -10,6 +10,12 @@ body {
   margin: 0;
 }
 
+button {
+  padding: 0;
+  border: none;
+  box-sizing: content-box;
+}
+
 h1 {font-size: 2em;}
 h2 {font-size: 1.75em;}
 h3 {font-size: 1.5em;}
@@ -113,11 +119,11 @@ h6 {font-size: 0.8em;}
 
 
 
-.clickable {
+.clickable:not(:disabled) {
   cursor: pointer;
   transition: scale 0.25s ease;
 }
-.clickable:hover:not(.active) {scale: 0.95;}
+.clickable:hover:not(.active):not(:disabled) {scale: 0.95;}
 
 .closeButton {
   margin: .25rem;
