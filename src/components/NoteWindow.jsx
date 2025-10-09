@@ -18,7 +18,11 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
     const closeNoteWindow = () => {
         document.body.style.overflowY = "auto";
         if (note.id) {
-            if (note.title !== title || note.text !== text || note.tags !== tags)
+            if (
+                note.title !== title ||
+                note.text !== text ||
+                note.tags !== tags
+            )
                 UpdateNote({ title, text, tags });
         }
         setNoteOpened(false);
@@ -280,7 +284,8 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
 
     return (
         <div id="noteWindowBg" className="fixedElementFullScreen">
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div id="noteWindowTagsContainer">
+                {tagsOpened && <div id='noteWindowTagsEditBg' className="fixedElementFullScreen"></div>}
                 {tagsOpened && (
                     <NoteTagsWindow
                         tags={tags}
@@ -307,7 +312,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
                     <img
-                        className="closeButton"
+                        className="closeButton clickable"
                         onClick={closeNoteWindow}
                         src="./icons/close.svg"
                     />

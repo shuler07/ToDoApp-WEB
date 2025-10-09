@@ -1,17 +1,121 @@
-import { useState, useRef, createContext } from "react";
+import { useState, useRef, createContext, useEffect } from "react";
 
 import Header from "../components/Header";
 import NotesSidebar from "../components/NotesSidebar";
 import NotesMain from "../components/NotesMain";
+import { WIDTH_WHEN_SIDEBAR_HIDES } from "../data";
 
 export const MainContext = createContext();
 
 export default function MainPage({ isLoggedIn }) {
+    
+    // Note opened
+
     const [noteOpened, setNoteOpened] = useState(false);
     const openedNoteData = useRef();
 
-    const [notesSection, setNotesSection] = useState("not_completed");
-    const getNotesRef = useRef();
+    // Notes and showing notes
+
+    const [notes, setNotes] = useState({
+        not_completed: {
+            All: [
+                {
+                    id: 1,
+                    uid: 1,
+                    title: "1st",
+                    text: "desc1",
+                    status: "not_completed",
+                    tags: ["All", "tag1"],
+                },
+                {
+                    id: 2,
+                    uid: 1,
+                    title: "2nd",
+                    text: "desc2",
+                    status: "not_completed",
+                    tags: ["All", "tag2"],
+                },
+            ],
+            tag1: [
+                {
+                    id: 1,
+                    uid: 1,
+                    title: "1st",
+                    text: "desc1",
+                    status: "not_completed",
+                    tags: ["All", "tag1"],
+                },
+            ],
+            tag2: [
+                {
+                    id: 2,
+                    uid: 1,
+                    title: "2nd",
+                    text: "desc2",
+                    status: "not_completed",
+                    tags: ["All", "tag2"],
+                },
+            ]
+        },
+        completed: {
+            All: [
+                {
+                    id: 3,
+                    uid: 1,
+                    title: "3rd",
+                    text: "desc3",
+                    status: "completed",
+                    tags: ["All", "tag3"],
+                },
+            ],
+            tag3: [
+                {
+                    id: 3,
+                    uid: 1,
+                    title: "3rd",
+                    text: "desc3",
+                    status: "completed",
+                    tags: ["All", "tag3"],
+                },
+            ],
+        },
+        trash: {},
+    });
+    const [showingNotes, setShowingNotes] = useState([]);
+
+    // Sections and tags
+
+    const [selectedSection, setSelectedSection] = useState("not_completed");
+    const [selectedTag, setSelectedTag] = useState("All");
+
+    useEffect(() => {
+        setShowingNotes(notes[selectedSection][selectedTag]);
+        setSearchText("");
+    }, [notes, selectedSection, selectedTag]);
+
+    // Search
+
+    const [searchText, setSearchText] = useState("");
+
+    function SearchNotes(target) {
+        setShowingNotes(() => {
+            const _showingNotes = [];
+            notes[selectedSection][selectedTag].forEach((value) => {
+                if (value.title.includes(target) || value.text.includes(target))
+                    _showingNotes.push(value);
+            });
+            return _showingNotes;
+        });
+    }
+
+    // Sidebar
+
+    const [sidebarOpened, setSidebarOpened] = useState(innerWidth > WIDTH_WHEN_SIDEBAR_HIDES);
+
+    window.addEventListener('resize', () => {
+        if (innerWidth <= WIDTH_WHEN_SIDEBAR_HIDES) setSidebarOpened(false);
+        else if (!sidebarOpened) setSidebarOpened(true);
+    });
 
     return (
         <MainContext.Provider
@@ -19,18 +123,32 @@ export default function MainPage({ isLoggedIn }) {
                 isLoggedIn,
                 noteOpened,
                 setNoteOpened,
-                notesSection,
-                setNotesSection,
                 openedNoteData,
-                getNotesRef,
+                notes,
+                setNotes,
+                showingNotes,
+                setShowingNotes,
+                selectedSection,
+                setSelectedSection,
+                selectedTag,
+                setSelectedTag,
+                sidebarOpened,
+                setSidebarOpened
             }}
         >
-            <Header isLoggedIn={isLoggedIn} />
-            <div style={{
-                position: 'relative',
-                display: 'flex',
-                gap: '1rem'
-             }}>
+            <Header
+                searchNotes={SearchNotes}
+                searchText={searchText}
+                setSearchText={setSearchText}
+            />
+            <div
+                style={{
+                    height: 'calc(100dvh - 6rem)',
+                    position: "relative",
+                    display: "flex",
+                    gap: "1rem",
+                }}
+            >
                 <NotesSidebar />
                 <NotesMain />
             </div>

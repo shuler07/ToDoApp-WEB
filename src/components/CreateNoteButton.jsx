@@ -31,7 +31,6 @@ export default function CreateNoteButton() {
         fontSize: "2em",
         color: "var(--primaryColor)",
         fontWeight: "bold",
-        cursor: "pointer",
         zIndex: 1,
     };
 

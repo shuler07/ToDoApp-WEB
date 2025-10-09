@@ -6,7 +6,7 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
     const tagInput = useRef();
 
     const handleClickAdd = () => {
-        if (tagText === '') return;
+        if (tagText === "") return;
 
         setTags((prev) => {
             const _prev = structuredClone(prev);
@@ -17,7 +17,7 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
     };
 
     return (
-        <div id="noteAddTagWindow">
+        <div id="noteWindowTagsAdd">
             <div
                 style={{
                     height: "2rem",
@@ -26,14 +26,14 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
                     alignItems: "center",
                 }}
             >
-                <h3
+                <h4
                     className="themedText bold"
                     style={{ color: "var(--inverseColor)" }}
                 >
                     Add tag
-                </h3>
+                </h4>
                 <img
-                    className="closeButton"
+                    className="closeButton clickable"
                     onClick={() => setAddTagOpened(false)}
                     src="./icons/close.svg"
                 />
@@ -48,7 +48,10 @@ export default function NoteAddTagWindow({ setTags, setAddTagOpened }) {
                     onChange={(e) => setTagText(e.target.value)}
                     ref={tagInput}
                 />
-                <div className="addTagButton" onClick={handleClickAdd}>
+                <div
+                    className="addTagButton clickable"
+                    onClick={handleClickAdd}
+                >
                     <img
                         src="./icons/addPlus.svg"
                         style={{

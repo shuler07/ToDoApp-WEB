@@ -17,14 +17,6 @@ h4 {font-size: 1.25em;}
 h5 {font-size: 1em;}
 h6 {font-size: 0.8em;}
 
-@media (max-width: 800px) {
-  html {
-    font-size: 75%;
-  }
-}
-
-
-
 /* Theme settings */
 
 .lightTheme {
@@ -55,9 +47,6 @@ h6 {font-size: 0.8em;}
   left: 0;
   width: 100dvw;
   height: 100dvh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 
@@ -85,7 +74,6 @@ h6 {font-size: 0.8em;}
   width: fit-content;
   border: none;
   border-radius: 1rem;
-  cursor: pointer;
 }
 .themedButton > p {
   margin: 0;
@@ -125,14 +113,16 @@ h6 {font-size: 0.8em;}
 
 
 
-.clickable {transition: scale 0.25s ease;}
+.clickable {
+  cursor: pointer;
+  transition: scale 0.25s ease;
+}
 .clickable:hover:not(.active) {scale: 0.95;}
 
 .closeButton {
   margin: .25rem;
   width: 1.5rem;
   height: 1.5rem;
-  cursor: pointer;
 }
 
 .transparentInput {
@@ -159,4 +149,12 @@ h6 {font-size: 0.8em;}
   height: 2px;
   background: #ffffff80;
   border-radius: 1px;
+}
+
+
+
+@media (max-width: 800px) {
+  html {
+    font-size: 75%;
+  }
 }

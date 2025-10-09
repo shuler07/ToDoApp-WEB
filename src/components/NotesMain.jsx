@@ -1,6 +1,6 @@
 import "./NotesMain.css";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { memo, useContext, useRef } from "react";
 import { MainContext } from "../pages/MainPage";
 
 import NotesContainer from "./NotesContainer";
@@ -10,20 +10,21 @@ import NoteWindow from "./NoteWindow";
 import { API_ROUTES, COLORS_BY_TAGS } from "../data";
 
 export default function NotesMain() {
-    const { noteOpened, isLoggedIn, notesSection } = useContext(MainContext);
+    const {
+        isLoggedIn,
+        noteOpened,
+        notes,
+        setNotes,
+        showingNotes,
+        selectedSection,
+        selectedTag,
+        setSelectedTag,
+    } = useContext(MainContext);
+    // useEffect(() => {
+    //     if (isLoggedIn) GetNotes();
+    // }, [isLoggedIn]);
 
-    const [selectedTag, setSelectedTag] = useState("All");
-
-    const [notes, setNotes] = useState({
-        not_completed: {},
-        completed: {},
-        trash: {},
-    });
-    useEffect(() => {
-        if (isLoggedIn) GetNotes();
-    }, [isLoggedIn]);
-
-    async function GetNotes() {
+    const GetNotes = async () => {
         try {
             const response = await fetch(API_ROUTES["get_notes"], {
                 method: "GET",
@@ -57,10 +58,10 @@ export default function NotesMain() {
         } catch (error) {
             console.error("Error:", error);
         }
-    }
+    };
 
     const GetTags = () => {
-        return Object.keys(notes[notesSection]).map((value, index) => (
+        return Object.keys(notes[selectedSection]).map((value, index) => (
             <TagSelectElement
                 key={`keyTagSelect${index}`}
                 name={value}
@@ -91,6 +92,8 @@ export default function NotesMain() {
         isDragging = false;
     };
 
+    const MemoizedCreateNoteButton = memo(() => <CreateNoteButton />);
+
     return (
         <div id="notesMainWindow">
             {isLoggedIn && (
@@ -109,13 +112,13 @@ export default function NotesMain() {
                     </div>
                     <div id="notesMainNotesContainer">
                         <NotesContainer
-                            notes={notes[notesSection][selectedTag]}
+                            notes={showingNotes}
                             tag={selectedTag}
                         />
                     </div>
                 </>
             )}
-            {isLoggedIn && <CreateNoteButton />}
+            {isLoggedIn && <MemoizedCreateNoteButton />}
             {noteOpened && (
                 <NoteWindow
                     setNotes={setNotes}

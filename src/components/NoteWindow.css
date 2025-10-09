@@ -1,10 +1,11 @@
 #noteWindowBg {
+    display: flex;
     justify-content: end;
     align-items: start;
     z-index: 1;
-    animation: noteWindowBgAppear 0.25s ease forwards;
+    animation: blurBgAppear 0.25s ease forwards;
 }
-@keyframes noteWindowBgAppear {
+@keyframes blurBgAppear {
     0% {
         background: #00000000;
         backdrop-filter: blur(0px);
@@ -27,7 +28,7 @@
     position: relative;
     gap: 1rem;
     background: var(--extraSecondaryColor);
-    z-index: 3;
+    z-index: 1;
     animation: noteWindowAppear 0.25s ease forwards;
 }
 @keyframes noteWindowAppear {
@@ -61,6 +62,13 @@
     cursor: grabbing;
 }
 
+#noteWindowTagsContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
 #noteWindowTagsEdit {
     padding: .5rem 1rem;
     height: 1rem;
@@ -91,4 +99,26 @@
     justify-content: end;
     align-items: center;
     gap: 0.5rem;
+}
+
+
+
+@media (max-width: 600px) {
+    #noteWindow {
+        margin-top: 10.5rem;
+        height: calc(100% - 13rem);
+        width: calc(100% - 3rem);
+    }
+
+    #noteWindowTagsContainer {
+        flex-direction: row-reverse;
+        position: fixed;
+        bottom: 0;
+        width: 100dvw;
+        z-index: 2; 
+    }
+
+    #noteWindowTagsEditBg {
+        animation: blurBgAppear 0.25s ease forwards;
+    }
 }

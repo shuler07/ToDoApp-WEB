@@ -35,7 +35,7 @@ export default function NoteTagsWindow({ tags, setTags, setTagsOpened, setAddTag
                     Tags
                 </h4>
                 <img
-                    className="closeButton"
+                    className="closeButton clickable"
                     onClick={handleClickClose}
                     src="./icons/close.svg"
                 />

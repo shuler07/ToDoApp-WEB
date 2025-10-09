@@ -1,5 +1,7 @@
 const DEBUG = true;
 
+export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
+
 export const API_ROUTES = DEBUG ? {
     authenticate: 'http://localhost:8000/authenticate_user',
     refresh: 'http://localhost:8000/refresh_user',

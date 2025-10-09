@@ -3,10 +3,15 @@ import "./NotesSidebar.css";
 import { useContext } from "react";
 import { MainContext } from "../pages/MainPage";
 
-import NotesSection from "./NotesSection";
+import { SECTION_NAME_BY_KEY, WIDTH_WHEN_SIDEBAR_HIDES } from "../data";
 
 export default function NotesSidebar() {
-    const { notesSection, setNotesSection } = useContext(MainContext);
+    const {
+        selectedSection,
+        setSelectedSection,
+        sidebarOpened,
+        setSidebarOpened,
+    } = useContext(MainContext);
     const sections = ["not_completed", "completed", "trash"];
 
     const GetSections = () => {
@@ -14,11 +19,47 @@ export default function NotesSidebar() {
             <NotesSection
                 key={`keySection${index}`}
                 section={value}
-                active={value == notesSection}
-                setNotesSection={setNotesSection}
+                active={value == selectedSection}
+                setSelectedSection={setSelectedSection}
+                setSidebarOpened={setSidebarOpened}
             />
         ));
     };
 
-    return <div id="notesSidebar">{GetSections()}</div>;
+    return (
+        <div id="notesSidebar" className={`${sidebarOpened ? "opened" : "closed"}`}>
+            {GetSections()}
+        </div>
+    );
+}
+
+function NotesSection({
+    section,
+    active,
+    setSelectedSection,
+    setSidebarOpened,
+}) {
+    const handleClickSection = () => {
+        if (window.innerWidth <= WIDTH_WHEN_SIDEBAR_HIDES)
+            setSidebarOpened(false);
+        setSelectedSection(section);
+    };
+
+    return (
+        <div
+            className={`notesSection ${active ? "active" : ""}`}
+            onClick={handleClickSection}
+        >
+            <h5
+                className={`themedText bold`}
+                style={
+                    active
+                        ? { color: "var(--primaryColor)" }
+                        : { color: "var(--inverseColor)" }
+                }
+            >
+                {SECTION_NAME_BY_KEY[section]}
+            </h5>
+        </div>
+    );
 }
