@@ -22,7 +22,9 @@ export default function SignInPage() {
             const data = await response.json();
             console.log("Registering user:", data);
 
-            if (data.isLoggedIn) window.location.pathname = "/ToDoApp-WEB/";
+            if (data.isRegistered) {
+                console.log('Verification was sent to email');
+            };
         } catch (error) {
             console.error("Error:", error);
         }

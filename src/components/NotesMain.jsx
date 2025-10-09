@@ -1,6 +1,6 @@
 import "./NotesMain.css";
 
-import { memo, useContext, useRef } from "react";
+import { memo, useContext, useRef, useEffect } from "react";
 import { MainContext } from "../pages/MainPage";
 
 import NotesContainer from "./NotesContainer";
@@ -20,9 +20,9 @@ export default function NotesMain() {
         selectedTag,
         setSelectedTag,
     } = useContext(MainContext);
-    // useEffect(() => {
-    //     if (isLoggedIn) GetNotes();
-    // }, [isLoggedIn]);
+    useEffect(() => {
+        if (isLoggedIn) GetNotes();
+    }, [isLoggedIn]);
 
     const GetNotes = async () => {
         try {
@@ -61,17 +61,14 @@ export default function NotesMain() {
     };
 
     const GetTags = () => {
-        return Object.keys(notes[selectedSection]).map((value, index) => {
-            if (value != "All")
-                return (
-                    <TagSelectElement
-                        key={`keyTagSelect${index}`}
-                        name={value}
-                        active={value == selectedTag ? "active" : ""}
-                        setSelectedTag={setSelectedTag}
-                    />
-                );
-        });
+        return Object.keys(notes[selectedSection]).map((value, index) => (
+            <TagSelectElement
+                key={`keyTagSelect${index}`}
+                name={value}
+                active={value == selectedTag ? "active" : ""}
+                setSelectedTag={setSelectedTag}
+            />
+        ));
     };
 
     let offsetX = 0;

@@ -17,69 +17,9 @@ export default function MainPage({ isLoggedIn }) {
     // Notes and showing notes
 
     const [notes, setNotes] = useState({
-        not_completed: {
-            All: [
-                {
-                    id: 1,
-                    uid: 1,
-                    title: "1st",
-                    text: "desc1",
-                    status: "not_completed",
-                    tags: ["All", "tag1"],
-                },
-                {
-                    id: 2,
-                    uid: 1,
-                    title: "2nd",
-                    text: "desc2",
-                    status: "not_completed",
-                    tags: ["All", "tag2"],
-                },
-            ],
-            tag1: [
-                {
-                    id: 1,
-                    uid: 1,
-                    title: "1st",
-                    text: "desc1",
-                    status: "not_completed",
-                    tags: ["All", "tag1"],
-                },
-            ],
-            tag2: [
-                {
-                    id: 2,
-                    uid: 1,
-                    title: "2nd",
-                    text: "desc2",
-                    status: "not_completed",
-                    tags: ["All", "tag2"],
-                },
-            ]
-        },
-        completed: {
-            All: [
-                {
-                    id: 3,
-                    uid: 1,
-                    title: "3rd",
-                    text: "desc3",
-                    status: "completed",
-                    tags: ["All", "tag3"],
-                },
-            ],
-            tag3: [
-                {
-                    id: 3,
-                    uid: 1,
-                    title: "3rd",
-                    text: "desc3",
-                    status: "completed",
-                    tags: ["All", "tag3"],
-                },
-            ],
-        },
-        trash: {},
+        not_completed: {},
+        completed: {},
+        trash: {}
     });
     const [showingNotes, setShowingNotes] = useState([]);
 
