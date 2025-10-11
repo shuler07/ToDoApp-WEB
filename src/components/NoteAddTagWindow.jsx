@@ -9,13 +9,10 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
     const tagInput = useRef();
 
     const handleChangeTag = (e) => {
-
         setTagText(e.target.value);
     }
 
     const handleClickAdd = () => {
-        if (tagText === "") return;
-
         setTags((prev) => {
             const _prev = structuredClone(prev);
             _prev.push(tagText);
@@ -24,7 +21,7 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
         setAddTagOpened(false);
     };
 
-    const addButtonDisabled = tags.includes(tagText) || tagText == 'All';
+    const addButtonDisabled = tags.includes(tagText) || tagText == 'All' || tagText == '';
 
     return (
         <div id="noteWindowTagsAdd">
@@ -46,12 +43,13 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
                     className="closeButton clickable"
                     onClick={() => setAddTagOpened(false)}
                     src="./icons/close.svg"
+                    style={{ filter: 'var(--imageTint)' }}
                 />
             </div>
             <div id="addTagContainer">
                 <input
                     id="addTagInput"
-                    className="themedText bold white"
+                    className="themedText bold"
                     placeholder="Enter tag"
                     value={tagText}
                     maxLength={MAX_TAG_LENGTH}
@@ -69,6 +67,7 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
                             userSelect: "none",
                             width: "1rem",
                             height: "1rem",
+                            filter: 'var(--imageTint)'
                         }}
                     />
                 </button>

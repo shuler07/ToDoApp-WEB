@@ -27,20 +27,30 @@ h6 {font-size: 0.8em;}
 
 .lightTheme {
   --primaryColor: #e3e3e3;
-  --secondaryColor: #c2c2c2;
-  --extraSecondaryColor: #a8a8a8;
-  --accentColor: #969696;
+  --secondaryColor: #d0d0d0;
+
+  --containerHighColor: #3c3c3c;
+  --containerColor: #b9b9b9;
+  --containerLowColor: #c0c0c0;
+
+  --accentColor: #8ada88;
+
   --inverseColor: black;
-  --uiColor: #4c4c4c;
+  --imageTint: invert(1);
 }
 
 .darkTheme {
   --primaryColor: black;
-  --secondaryColor: #232323;
-  --extraSecondaryColor: #303030;
-  --accentColor: #414141;
-  --inverseColor: white;
-  --uiColor: #ececec;
+  --secondaryColor: #161616;
+
+  --containerHighColor: #dcdcdc;
+  --containerColor: #242424;
+  --containerLowColor: #353535;
+
+  --accentColor: #4b6d4a;
+
+  --inverseColor: #e3e3e3;
+  --imageTint: invert(0);
 }
 
 
@@ -98,8 +108,8 @@ h6 {font-size: 0.8em;}
 .themedButton.delete.primary {background: #ff0808;}
 .themedButton.delete.primary > p {color: white;}
 
-.themedButton.delete.accent {background: #ff9f9f;}
-.themedButton.delete.accent > p {color: #ff0808;}
+.themedButton.delete.accent {background: #ffbfbf;}
+.themedButton.delete.accent > p {color: #ff0000;}
 
 
 

@@ -24,7 +24,7 @@ export default function CreateNoteButton() {
         width: "4rem",
         height: "4rem",
         borderRadius: "2rem",
-        background: "var(--uiColor)",
+        background: "var(--containerHighColor)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

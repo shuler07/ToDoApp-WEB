@@ -31,9 +31,15 @@ export const SECTION_NAME_BY_KEY = {
     trash: 'Trash'
 };
 
+export const INDICATOR_NAME_BY_STATUS = {
+    not_completed: "In progress",
+    completed: "Completed",
+    trash: 'Deleted'
+}
+
 export const COLORS_BY_TAGS = {
     favorite: '#008000',
     important: '#ff0000',
-    All: '#a9a9a9',
+    All: '#5b5b5b',
     colornotfound: '#373737'
 };

@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    background: var(--extraSecondaryColor);
+    background: var(--containerColor);
     z-index: 2;
     animation: noteWindowTagsAddAppear 0.25s ease forwards;
 }
@@ -32,21 +32,22 @@
     padding: 0 1rem;
     width: calc(100% - 4.5rem);
     height: 2rem;
-    font-size: 1em;
+    font-size: 0.8em;
     border: none;
     border-radius: 1rem;
-    background: black;
+    background: var(--primaryColor);
+    color: var(--inverseColor);
 }
 
 .addTagButton {
     padding: .5rem;
     height: 1rem;
     width: 1rem;
-    background: black;
+    background: var(--primaryColor);
     border-radius: 1rem;
 }
 .addTagButton:disabled {
-    background: #00000040;
+    background: color-mix(in srgb, var(--primaryColor) 50%, transparent);
 }
 
 

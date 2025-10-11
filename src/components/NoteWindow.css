@@ -27,7 +27,7 @@
     justify-content: space-between;
     position: relative;
     gap: 1rem;
-    background: var(--extraSecondaryColor);
+    background: var(--containerColor);
     z-index: 1;
     animation: noteWindowAppear 0.25s ease forwards;
 }
@@ -76,7 +76,7 @@
     align-items: center;
     gap: 0.5rem;
     border-radius: 1rem;
-    background: black;
+    background: var(--primaryColor);
     cursor: pointer !important;
 }
 

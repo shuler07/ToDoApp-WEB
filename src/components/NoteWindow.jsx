@@ -315,13 +315,14 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                         className="transparentInput themedText bold"
                         style={{ color: "var(--inverseColor)" }}
                         value={title}
-                        placeholder="Enter note title"
+                        placeholder="Enter title"
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
                     <img
                         className="closeButton clickable"
                         onClick={closeNoteWindow}
                         src="./icons/close.svg"
+                        style={{ filter: 'var(--imageTint)' }}
                     />
                 </div>
                 <div
@@ -344,14 +345,16 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                     <textarea
                         name="Note text"
                         className="themedTextArea"
-                        style={{ color: "var(--inverseColor)" }}
+                        style={{ color: "var(--inverseColor)", background: 'var(--secondaryColor)', borderRadius: '1rem' }}
                         value={text}
                         placeholder="Enter text"
-                        onChange={(e) => {
-                            setText(e.target.value);
-                            e.target.style.height = "auto";
-                            e.target.style.height =
-                                "calc(" + e.target.scrollHeight + "px - 1rem)";
+                        onChange={(e) => setText(e.target.value)}
+                        ref={(el) => {
+                            if (el) {
+                                el.style.height = "auto";
+                                el.style.height =
+                                    "calc(" + el.scrollHeight + "px - 1rem)";
+                            }
                         }}
                     ></textarea>
                 </div>
@@ -371,10 +374,10 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
             className="clickable"
             onClick={() => setTagsOpened(true)}
         >
-            {withText && <h6 className="themedText white">Edit tags</h6>}
+            {withText && <h6 className="themedText" style={{ color: 'var(--inverseColor)' }}>Edit tags</h6>}
             <img
                 src="./icons/editPencil.svg"
-                style={{ userSelect: "none", width: "1rem", height: "1rem" }}
+                style={{ userSelect: "none", width: "1rem", height: "1rem", filter: 'var(--imageTint)' }}
             />
         </div>
     );

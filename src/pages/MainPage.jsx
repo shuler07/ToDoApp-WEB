@@ -29,6 +29,7 @@ export default function MainPage({ isLoggedIn }) {
     const [selectedTag, setSelectedTag] = useState("All");
 
     useEffect(() => {
+        if (!notes[selectedSection][selectedTag]) setSelectedTag('All');
         setShowingNotes(notes[selectedSection][selectedTag]);
         setSearchText("");
     }, [notes, selectedSection, selectedTag]);
@@ -40,10 +41,14 @@ export default function MainPage({ isLoggedIn }) {
     function SearchNotes(target) {
         setShowingNotes(() => {
             const _showingNotes = [];
-            notes[selectedSection][selectedTag].forEach((value) => {
-                if (value.title.includes(target) || value.text.includes(target))
-                    _showingNotes.push(value);
-            });
+
+            if (notes[selectedSection][selectedTag]) {
+                notes[selectedSection][selectedTag].forEach((value) => {
+                    if (value.title.includes(target) || value.text.includes(target))
+                        _showingNotes.push(value);
+                });
+            };
+
             return _showingNotes;
         });
     }

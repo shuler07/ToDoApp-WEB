@@ -24,10 +24,10 @@
     transition: all 0.4s ease;
 }
 .notesSection.active {
-    background: color-mix(in srgb, var(--uiColor) 80%, transparent);
+    background: color-mix(in srgb, var(--containerHighColor) 80%, transparent);
 }
 .notesSection:hover:not(.active) {
-    background: color-mix(in srgb, var(--uiColor) 20%, transparent);
+    background: color-mix(in srgb, var(--containerHighColor) 20%, transparent);
 }
 
 .notesSection > h5 {

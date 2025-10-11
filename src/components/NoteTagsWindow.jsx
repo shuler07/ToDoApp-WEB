@@ -46,6 +46,7 @@ export default function NoteTagsWindow({
                     className="closeButton clickable"
                     onClick={handleClickClose}
                     src="./icons/close.svg"
+                    style={{ filter: 'var(--imageTint)' }}
                 />
             </div>
             <div id="noteTagsContainer">
@@ -80,6 +81,7 @@ function TagEditElement({ name, setTags }) {
                         userSelect: "none",
                         width: "1rem",
                         height: "1rem",
+                        filter: 'var(--imageTint)'
                     }}
                 />
             </div>
@@ -95,13 +97,14 @@ function TagEditAddNewButton({ setAddTagOpened }) {
                 className="tagEditElement clickable"
                 onClick={() => setAddTagOpened(true)}
             >
-                <h6 className="themedText white">Add new tag</h6>
+                <h6 className="themedText" style={{ color: 'var(--inverseColor)' }}>Add new tag</h6>
                 <img
                     src="./icons/addPlus.svg"
                     style={{
                         userSelect: "none",
                         width: "1rem",
                         height: "1rem",
+                        filter: 'var(--imageTint)'
                     }}
                 />
             </div>

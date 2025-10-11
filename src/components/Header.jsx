@@ -15,11 +15,7 @@ export default function Header({
     return (
         <div id="headerContainer">
             <div id="headerBar">
-                <div
-                    id="notesSidebarButton"
-                    className="clickable"
-                    onClick={() => setSidebarOpened((prev) => !prev)}
-                ></div>
+                <HeaderSidebarButton setSidebarOpened={setSidebarOpened} />
                 <HeaderSearch
                     searchNotes={searchNotes}
                     searchText={searchText}
@@ -29,6 +25,16 @@ export default function Header({
             </div>
         </div>
     );
+}
+
+function HeaderSidebarButton({ setSidebarOpened }) {
+    return (
+        <div
+            id="notesSidebarButton"
+            className="clickable"
+            onClick={() => setSidebarOpened((prev) => !prev)}
+        ></div>
+    )
 }
 
 function HeaderSearch({ searchNotes, searchText, setSearchText }) {
@@ -59,8 +65,8 @@ function HeaderAccount({ isLoggedIn }) {
     else
         return (
             <div
-                className="themedButton base primary"
-                style={{ margin: ".5rem" }}
+                className="themedButton base primary clickable"
+                style={{ margin: ".5rem", flexShrink: 0 }}
                 onClick={() => navigate("/sign_in")}
             >
                 <p>Sign in</p>
