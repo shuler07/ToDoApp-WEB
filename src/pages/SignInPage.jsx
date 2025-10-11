@@ -23,8 +23,8 @@ export default function SignInPage() {
             console.log("Registering user:", data);
 
             if (data.isRegistered) {
-                console.log('Verification was sent to email');
-            };
+                console.log("Verification was sent to email");
+            }
         } catch (error) {
             console.error("Error:", error);
         }
@@ -60,49 +60,39 @@ export default function SignInPage() {
     const passwordRef = useRef();
 
     return (
-        <>
-            <div
-                style={{
-                    width: "100dvw",
-                    height: "100dvh",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <div id="signInContainer">
-                    <input
-                        className="themedInput"
-                        placeholder="Email"
-                        type="email"
-                        ref={emailRef}
-                    ></input>
-                    <input
-                        className="themedInput"
-                        placeholder="Password"
-                        type="password"
-                        ref={passwordRef}
-                    ></input>
-                    <div
-                        className="themedButton"
-                        onClick={
-                            isRegister ? handleClickRegister : handleClickLogin
-                        }
-                    >
-                        <p className="themedText">
-                            {isRegister ? "Register" : "Login"}
-                        </p>
-                    </div>
-                    <div
-                        className="themedButton"
-                        onClick={() => setIsRegister((prev) => !prev)}
-                    >
-                        <p className="themedText">
-                            {switchButtonTexts[Number(isRegister)]}
-                        </p>
-                    </div>
+        <div id="signinPageBg" className="fixedElementFullScreen">
+            <div id="signinContainer">
+                <input
+                    className="themedInput"
+                    placeholder="Email"
+                    type="email"
+                    ref={emailRef}
+                ></input>
+                <input
+                    className="themedInput"
+                    placeholder="Password"
+                    type="password"
+                    ref={passwordRef}
+                ></input>
+                <div
+                    className="themedButton"
+                    onClick={
+                        isRegister ? handleClickRegister : handleClickLogin
+                    }
+                >
+                    <p className="themedText">
+                        {isRegister ? "Register" : "Login"}
+                    </p>
+                </div>
+                <div
+                    className="themedButton"
+                    onClick={() => setIsRegister((prev) => !prev)}
+                >
+                    <p className="themedText">
+                        {switchButtonTexts[Number(isRegister)]}
+                    </p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

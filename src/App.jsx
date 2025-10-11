@@ -9,9 +9,9 @@ import { API_ROUTES } from "./data";
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    useEffect(() => {
-        authenticateUser();
-    }, []);
+    // useEffect(() => {
+    //     authenticateUser();
+    // }, []);
 
     async function authenticateUser() {
         try {
