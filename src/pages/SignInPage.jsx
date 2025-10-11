@@ -78,10 +78,11 @@ export default function SignInPage() {
     return (
         <div id='signinPageBg' className='fixedElementFullScreen'>
             <div id='signinContainer'>
-                <div id='buttonBackToMain' className='clickable' onClick={() => (window.location.pathname = '/ToDoApp-WEB/')}>
+                <div id='buttonBackToMain' onClick={() => (window.location.pathname = '/ToDoApp-WEB/')}>
                     <img src='./icons/backArrowLeft.svg' style={{ width: '2rem', height: '2rem', userSelect: 'none' }} />
                     <h5 className='themedText bold'>Back</h5>
                 </div>
+                <img src='./images/logo-700w.png' style={{ width: '60%', userSelect: 'none', filter: 'var(--imageTint)' }} />
                 <InputLabel
                     label='Email'
                     inputId='emailInput'

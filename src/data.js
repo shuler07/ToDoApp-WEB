@@ -41,5 +41,5 @@ export const COLORS_BY_TAGS = {
     favorite: '#008000',
     important: '#ff0000',
     All: '#5b5b5b',
-    colornotfound: '#373737'
+    colornotfound: '#505050'
 };

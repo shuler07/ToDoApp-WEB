@@ -31,7 +31,7 @@ function NoteElement({ setNoteOpened, openedNoteData, note }) {
     return (
         <div className="noteElement" onClick={handleClickNote}>
             <div className={`noteElementIndicator ${note.status}`}>
-                <h5 className="themedText bold black">{INDICATOR_NAME_BY_STATUS[note.status]}</h5>
+                <h5 className="themedText bold" style={{ color: 'var(--inverseColor)' }}>{INDICATOR_NAME_BY_STATUS[note.status]}</h5>
             </div>
             <h1
                 className="themedText bold"

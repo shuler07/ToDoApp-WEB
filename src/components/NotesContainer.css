@@ -49,15 +49,15 @@
     justify-content: center;
     align-items: center;
     border-radius: 0.5rem;
-    transition: all 0.5s ease;
+    transition: all 0.25s ease;
 }
 .noteElementIndicator > h5 {
     font-size: 0;
-    transition: all 0.5s ease;
+    transition: all 0.25s ease;
 }
-.trash {background: #dd3333;}
-.not_completed {background: #ede32d;}
-.completed {background: #33dd33;}
+.trash {background: #e76f6f;}
+.not_completed {background: #aba53a;}
+.completed {background: #50ad50;}
 
 .noteElement h1 {
     min-height: fit-content;

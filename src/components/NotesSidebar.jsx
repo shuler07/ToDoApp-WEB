@@ -28,6 +28,7 @@ export default function NotesSidebar() {
 
     return (
         <div id="notesSidebar" className={`${sidebarOpened ? "opened" : "closed"}`}>
+            <img src='./images/logo-700w.png' style={{ width: '60%', marginBottom: '1rem', userSelect: 'none' }} />
             {GetSections()}
         </div>
     );

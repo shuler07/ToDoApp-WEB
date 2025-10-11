@@ -11,6 +11,7 @@
     height: 30rem;
     background: var(--containerColor);
     border-radius: 2rem;
+    box-shadow: 0px 0px 50px var(--containerColor);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -26,15 +27,15 @@
     padding: .5rem 1rem;
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: .25rem;
+    cursor: pointer;
 }
 
-#buttonBackToMain > img {
-    transition: all 0.25s ease;
-}
-#buttonBackToMain:hover > img {
-    translate: -4px 0;
-}
+#buttonBackToMain > img {transition: all 0.25s ease;}
+#buttonBackToMain:hover > img {translate: -2px 0;}
+
+#buttonBackToMain h5 {transition: all 0.25s ease;}
+#buttonBackToMain:hover h5 {font-size: 1.1em;}
 
 #errorMessage {
     margin-top: -.5rem;

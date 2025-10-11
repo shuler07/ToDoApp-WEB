@@ -12,7 +12,7 @@ export default function InputLabel({ label, inputId, autoComplete, placeholder, 
             <label className='themedText bold' htmlFor={inputId}>
                 {label}
             </label>
-            <input id={inputId} className='themedInput' autoComplete={autoComplete} placeholder={placeholder} type={type} ref={ref}></input>
+            <input id={inputId} className='themedInput bold' autoComplete={autoComplete} placeholder={placeholder} type={type} ref={ref}></input>
         </div>
     );
 }

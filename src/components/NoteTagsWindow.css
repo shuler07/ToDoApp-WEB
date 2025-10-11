@@ -59,7 +59,8 @@
 @media (max-width: 600px) {
     #noteTagsWindow {
         margin: .5rem;
-        width: 50%;
+        min-width: fit-content;
+        width: 40%;
         animation: noteTagsWindowAppearMobile 0.25s ease forwards;;
     }
     @keyframes noteTagsWindowAppearMobile {
