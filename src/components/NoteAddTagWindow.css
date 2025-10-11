@@ -36,7 +36,6 @@
     border: none;
     border-radius: 1rem;
     background: var(--primaryColor);
-    color: var(--inverseColor);
 }
 
 .addTagButton {

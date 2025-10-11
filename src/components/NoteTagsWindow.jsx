@@ -38,7 +38,6 @@ export default function NoteTagsWindow({
             >
                 <h4
                     className="themedText bold"
-                    style={{ color: "var(--inverseColor)" }}
                 >
                     Tags
                 </h4>
@@ -97,7 +96,7 @@ function TagEditAddNewButton({ setAddTagOpened }) {
                 className="tagEditElement clickable"
                 onClick={() => setAddTagOpened(true)}
             >
-                <h6 className="themedText" style={{ color: 'var(--inverseColor)' }}>Add new tag</h6>
+                <h6 className="themedText">Add new tag</h6>
                 <img
                     src="./icons/addPlus.svg"
                     style={{

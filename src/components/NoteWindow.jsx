@@ -313,7 +313,6 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                     <input
                         name="Note title"
                         className="transparentInput themedText bold"
-                        style={{ color: "var(--inverseColor)" }}
                         value={title}
                         placeholder="Enter title"
                         onChange={(e) => setTitle(e.target.value)}
@@ -374,7 +373,7 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
             className="clickable"
             onClick={() => setTagsOpened(true)}
         >
-            {withText && <h6 className="themedText" style={{ color: 'var(--inverseColor)' }}>Edit tags</h6>}
+            {withText && <h6 className="themedText">Edit tags</h6>}
             <img
                 src="./icons/editPencil.svg"
                 style={{ userSelect: "none", width: "1rem", height: "1rem", filter: 'var(--imageTint)' }}

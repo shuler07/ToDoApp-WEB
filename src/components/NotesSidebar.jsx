@@ -52,11 +52,7 @@ function NotesSection({
         >
             <h5
                 className={`themedText bold`}
-                style={
-                    active
-                        ? { color: "var(--primaryColor)" }
-                        : { color: "var(--inverseColor)" }
-                }
+                style={active ? { color: "var(--primaryColor)" } : {}}
             >
                 {SECTION_NAME_BY_KEY[section]}
             </h5>

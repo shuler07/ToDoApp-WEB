@@ -35,7 +35,6 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
             >
                 <h4
                     className="themedText bold"
-                    style={{ color: "var(--inverseColor)" }}
                 >
                     Add tag
                 </h4>

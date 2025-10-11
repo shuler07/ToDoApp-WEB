@@ -25,6 +25,17 @@ h6 {font-size: 0.8em;}
 
 /* Theme settings */
 
+@property --accentColor {
+  syntax: '<color>';
+  initial-value: #0886ff;
+  inherits: false;
+}
+@property --accentBlendColor {
+  syntax: '<color>';
+  initial-value: #bfe0ff;
+  inherits: false;
+}
+
 .lightTheme {
   --primaryColor: #e3e3e3;
   --secondaryColor: #d0d0d0;
@@ -32,8 +43,6 @@ h6 {font-size: 0.8em;}
   --containerHighColor: #3c3c3c;
   --containerColor: #b9b9b9;
   --containerLowColor: #c0c0c0;
-
-  --accentColor: #8ada88;
 
   --inverseColor: black;
   --imageTint: invert(1);
@@ -46,8 +55,6 @@ h6 {font-size: 0.8em;}
   --containerHighColor: #dcdcdc;
   --containerColor: #242424;
   --containerLowColor: #353535;
-
-  --accentColor: #4b6d4a;
 
   --inverseColor: #e3e3e3;
   --imageTint: invert(0);
@@ -74,9 +81,9 @@ h6 {font-size: 0.8em;}
   padding: 0;
   overflow-wrap: break-word;
   overflow: hidden;
+  color: var(--inverseColor);
 }
 .bold {font-weight: bold;}
-.blue {color: #0886ff;}
 .white {color: #f0f0f0;}
 .black {color: black}
 
@@ -99,11 +106,11 @@ h6 {font-size: 0.8em;}
   font-weight: bold;
 }
 
-.themedButton.base.primary {background: #0886ff;}
+.themedButton.base.primary {background: var(--accentColor);}
 .themedButton.base.primary > p {color: white;}
 
-.themedButton.base.accent {background: #91caff;}
-.themedButton.base.accent > p {color: #0886ff;}
+.themedButton.base.accent {background: var(--accentBlendColor);}
+.themedButton.base.accent > p {color: var(--accentColor);}
 
 .themedButton.delete.primary {background: #ff0808;}
 .themedButton.delete.primary > p {color: white;}
@@ -150,13 +157,18 @@ h6 {font-size: 0.8em;}
 .transparentInput:focus-visible {outline: none;}
 
 .themedInput {
-  padding: 1rem 2rem;
-  border: solid 1px white;
-  border-radius: .75rem;
-  background: #000000aa;
-  color: white;
+  padding: .75rem 1.5rem;
+  width: calc(100% - 3rem);
+  border: none;
+  border-radius: 1rem;
+  background: var(--containerHighColor);
+  color: var(--primaryColor);
   font-size: 1em;
-  width: fit-content;
+  transition: all 0.25s ease;
+}
+.themedInput:focus-visible {
+  padding: 1rem 1.5rem;
+  outline: none;
 }
 
 .divider {

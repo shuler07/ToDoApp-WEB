@@ -35,11 +35,10 @@ function NoteElement({ setNoteOpened, openedNoteData, note }) {
             </div>
             <h1
                 className="themedText bold"
-                style={{ color: "var(--inverseColor)" }}
             >
                 {note.title}
             </h1>
-            <p className="themedText" style={{ color: "var(--inverseColor)" }}>
+            <p className="themedText">
                 {note.text}
             </p>
         </div>

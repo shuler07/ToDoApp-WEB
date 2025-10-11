@@ -1,7 +1,8 @@
 import './SignInPage.css';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
+import InputLabel from '../components/InputLabel';
 import { API_ROUTES } from '../data';
 
 export default function SignInPage() {
@@ -10,6 +11,14 @@ export default function SignInPage() {
     const handleClickRegister = async () => {
         const _email = emailRef.current.value;
         const _password = passwordRef.current.value;
+        const _confirmPassword = confirmPasswordRef.current.value;
+
+        if (_email == '' || _password == '' || _password != _confirmPassword) {
+            if (_email == '') setErrorMessage('Email field is empty');
+            else if (_password == '') setErrorMessage('Password field is empty');
+            else if (_password != _confirmPassword) setErrorMessage("Passwords doesn't match");
+            return;
+        } else setErrorMessage('');
 
         try {
             const response = await fetch(API_ROUTES['register'], {
@@ -34,6 +43,13 @@ export default function SignInPage() {
         const _email = emailRef.current.value;
         const _password = passwordRef.current.value;
 
+        if (_email == '' || _password == '') {
+            if (_email == '') setErrorMessage('Email field is empty');
+            else if (_password == '') setErrorMessage('Password field is empty');
+            return;
+        } else setErrorMessage('');
+        s;
+
         try {
             const response = await fetch(API_ROUTES['login'], {
                 method: 'POST',
@@ -55,17 +71,62 @@ export default function SignInPage() {
 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const confirmPasswordRef = useRef();
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     return (
         <div id='signinPageBg' className='fixedElementFullScreen'>
             <div id='signinContainer'>
-                <input name='Email' autoComplete='email' className='themedInput' placeholder='Email' type='email' ref={emailRef}></input>
-                <input name='Password' autoComplete={isRegister ? 'new-password' : 'current-password'} className='themedInput' placeholder='Password' type='password' ref={passwordRef}></input>
-                <div className='themedButton' onClick={isRegister ? handleClickRegister : handleClickLogin}>
+                <div id='buttonBackToMain' className='clickable' onClick={() => (window.location.pathname = '/ToDoApp-WEB/')}>
+                    <img src='./icons/backArrowLeft.svg' style={{ width: '2rem', height: '2rem', userSelect: 'none' }} />
+                    <h5 className='themedText bold'>Back</h5>
+                </div>
+                <InputLabel
+                    label='Email'
+                    inputId='emailInput'
+                    autoComplete='email'
+                    placeholder='mail@example.com'
+                    type='email'
+                    ref={emailRef}
+                />
+                <InputLabel
+                    label='Password'
+                    inputId='passwordInput'
+                    autoComplete={isRegister ? 'new-password' : 'current-password'}
+                    placeholder='strongpassword123'
+                    type='password'
+                    ref={passwordRef}
+                />
+                {isRegister && (
+                    <InputLabel
+                        label='Confirm password'
+                        inputId='confirmPasswordInput'
+                        autoComplete='new-password'
+                        placeholder='strongpassword123'
+                        type='password'
+                        ref={confirmPasswordRef}
+                    />
+                )}
+                {errorMessage != '' && (
+                    <div id='errorMessage'>
+                        <h5 className='themedText bold' style={{ color: '#ff2222' }}>
+                            {errorMessage}
+                        </h5>
+                    </div>
+                )}
+                <div
+                    id='authButton'
+                    className='themedButton base primary clickable'
+                    onClick={isRegister ? handleClickRegister : handleClickLogin}
+                >
                     <p className='themedText'>{isRegister ? 'Register' : 'Login'}</p>
                 </div>
-                <div className='themedButton' onClick={() => setIsRegister((prev) => !prev)}>
-                    <p className='themedText'>{switchButtonTexts[Number(isRegister)]}</p>
+                <div id='switchAuthButton' onClick={() => {
+                    setIsRegister((prev) => !prev);
+                    setErrorMessage('');
+                }}>
+                    <h6 className='themedText bold'>{switchButtonTexts[Number(isRegister)]}</h6>
                 </div>
             </div>
         </div>
