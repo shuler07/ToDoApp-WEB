@@ -1,10 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const DEBUG = false;
 =======
 import { useState } from "react";
 
 const DEBUG = true;
 >>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)
+=======
+const DEBUG = false;
+>>>>>>> 12128d5 (Changed debug to false for release v0.5)
 
 export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
@@ -74,4 +78,7 @@ export function UpdateConfig(_config) {
     Object.assign(config, _config);
     window.localStorage.setItem('config', JSON.stringify(config));
 };
+<<<<<<< HEAD
 >>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)
+=======
+>>>>>>> 12128d5 (Changed debug to false for release v0.5)
