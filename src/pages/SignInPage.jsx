@@ -48,7 +48,6 @@ export default function SignInPage() {
             else if (_password == '') setErrorMessage('Password field is empty');
             return;
         } else setErrorMessage('');
-        s;
 
         try {
             const response = await fetch(API_ROUTES['login'], {
