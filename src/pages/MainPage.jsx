@@ -3,6 +3,7 @@ import { useState, useRef, createContext, useEffect } from "react";
 import Header from "../components/Header";
 import NotesSidebar from "../components/NotesSidebar";
 import NotesMain from "../components/NotesMain";
+
 import { WIDTH_WHEN_SIDEBAR_HIDES } from "../data";
 
 export const MainContext = createContext();

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageBackground from "./components/PageBackground";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
+import SettingsPage from "./pages/SettingsPage";
 
 import { API_ROUTES } from "./data";
 
@@ -54,6 +55,7 @@ export default function App() {
             <Routes>
                 <Route index element={<MainPage isLoggedIn={isLoggedIn} />} />
                 <Route path="/sign_in" element={<SignInPage />} />
+                <Route path='/settings' element={<SettingsPage />} />
             </Routes>
         </BrowserRouter>
     );

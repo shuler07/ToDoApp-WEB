@@ -1,0 +1,3 @@
+#settingsPageBg {
+    background: radial-gradient(var(--primaryColor), var(--secondaryColor));
+}

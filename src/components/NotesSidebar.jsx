@@ -3,7 +3,7 @@ import "./NotesSidebar.css";
 import { useContext } from "react";
 import { MainContext } from "../pages/MainPage";
 
-import { SECTION_NAME_BY_KEY, WIDTH_WHEN_SIDEBAR_HIDES } from "../data";
+import { SECTION_NAME_BY_KEY, SETTINGS_PATHNAME, WIDTH_WHEN_SIDEBAR_HIDES } from "../data";
 
 export default function NotesSidebar() {
     const {
@@ -27,9 +27,24 @@ export default function NotesSidebar() {
     };
 
     return (
-        <div id="notesSidebar" className={`${sidebarOpened ? "opened" : "closed"}`}>
-            <img src='./images/logo-700w.png' style={{ width: '60%', marginBottom: '1rem', userSelect: 'none' }} />
-            {GetSections()}
+        <div
+            id="notesSidebar"
+            className={`${sidebarOpened ? "opened" : "closed"}`}
+        >
+            <div id='notesUpperSidebar'>
+                <img
+                    src="./images/logo-700w.png"
+                    style={{
+                        width: "60%",
+                        marginBottom: "1rem",
+                        userSelect: "none",
+                    }}
+                />
+                {GetSections()}
+            </div>
+            <div id='notesLowerSidebar'>
+                <SettingsSection />
+            </div>
         </div>
     );
 }
@@ -52,11 +67,28 @@ function NotesSection({
             onClick={handleClickSection}
         >
             <h5
-                className={`themedText bold`}
+                className='themedText bold'
                 style={active ? { color: "var(--primaryColor)" } : {}}
             >
                 {SECTION_NAME_BY_KEY[section]}
             </h5>
         </div>
     );
+}
+
+function SettingsSection({  }) {
+    return (
+        <div
+            id='settingsSection'
+            onClick={() => window.location.pathname = SETTINGS_PATHNAME}
+        >
+            <img src='./icons/settings.svg' style={{ width: '1rem', height: '1rem' }} />
+            <h5
+                className='themedText bold'
+                style={{ color: "var(--inverseColor)" }}
+            >
+                Settings
+            </h5>
+        </div>
+    )
 }

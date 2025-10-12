@@ -3,6 +3,9 @@ const DEBUG = false;
 export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
 
+export const ROOT_PATHNAME = '/ToDoApp-WEB/';
+export const SETTINGS_PATHNAME = ROOT_PATHNAME + 'settings';
+
 export const API_ROUTES = DEBUG ? {
     authenticate: 'http://localhost:8000/authentication/validation/access_token',
     refresh: 'http://localhost:8000/authentication/validation/refresh_token',
