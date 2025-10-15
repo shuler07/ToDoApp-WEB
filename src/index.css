@@ -74,6 +74,15 @@ h6 {font-size: 0.8em;}
 
 
 
+.themedImg {
+  user-select: none;
+  filter: var(--imageTint);
+  width: 2rem;
+  height: 2rem;
+}
+
+
+
 .themedText {
   font-family: system-ui;
   font-weight: normal;
@@ -136,7 +145,7 @@ h6 {font-size: 0.8em;}
 
 
 
-.clickable:not(:disabled) {
+.clickable:not(:disabled):not(.active) {
   cursor: pointer;
   transition: scale 0.25s ease;
 }

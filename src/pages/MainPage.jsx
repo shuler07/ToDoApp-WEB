@@ -18,9 +18,24 @@ export default function MainPage({ isLoggedIn }) {
     // Notes and showing notes
 
     const [notes, setNotes] = useState({
-        not_completed: {},
+        not_completed: {
+            All:[
+                {id:1,uid:1,title:'1st',text:'desc1',status:'not_completed',tags:['All','important']},
+                {id:2,uid:1,title:'2nd',text:'desc2',status:'not_completed',tags:['All']}
+            ],
+            important:[
+                {id:1,uid:1,title:'1st',text:'desc1',status:'not_completed',tags:['All','important']}
+            ]
+        },
         completed: {},
-        trash: {}
+        trash: {
+            All:[
+                {id:3,uid:1,title:'deleted',text:'desc!',status:'trash',tags:['All','todo']}
+            ],
+            todo:[
+                {id:3,uid:1,title:'deleted',text:'desc!',status:'trash',tags:['All','todo']}
+            ]
+        }
     });
     const [showingNotes, setShowingNotes] = useState([]);
 

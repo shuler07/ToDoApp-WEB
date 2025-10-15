@@ -88,21 +88,17 @@ export default function SignInPage() {
                     onClick={() => (window.location.pathname = ROOT_PATHNAME)}
                 >
                     <img
+                        className="themedImg"
                         src="./icons/backArrowLeft.svg"
-                        style={{
-                            width: "2rem",
-                            height: "2rem",
-                            userSelect: "none",
-                        }}
                     />
                     <h5 className="themedText bold">Back</h5>
                 </div>
                 <img
+                    className="themedImg"
                     src="./images/logo-700w.png"
                     style={{
                         width: "60%",
-                        userSelect: "none",
-                        filter: "var(--imageTint)",
+                        height: 'auto'
                     }}
                 />
                 <InputLabel

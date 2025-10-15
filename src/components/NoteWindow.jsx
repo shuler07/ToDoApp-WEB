@@ -3,7 +3,7 @@ import "./NoteWindow.css";
 import { useState, useContext, useRef } from "react";
 import { MainContext } from "../pages/MainPage";
 
-import { API_ROUTES, COLORS_BY_TAGS } from "../data";
+import { API_ROUTES, colors_by_tags, UpdateColorsByTags } from "../data";
 import NoteTagsWindow from "./NoteTagsWindow";
 import NoteAddTagWindow from "./NoteAddTagWindow";
 
@@ -14,6 +14,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
     const [title, setTitle] = useState(note.title);
     const [text, setText] = useState(note.text);
     const [tags, setTags] = useState(note.tags);
+    const [tagsColors, setTagsColors] = useState(colors_by_tags);
 
     const closeNoteWindow = () => {
         document.body.style.overflowY = "auto";
@@ -25,6 +26,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
             )
                 UpdateNote({ title, text, tags });
         }
+        UpdateColorsByTags(tagsColors);
         setNoteOpened(false);
     };
 
@@ -247,13 +249,6 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
         ),
     };
 
-    const GetTags = () => {
-        return tags.map((value, index) => {
-            if (value != "All")
-                return <TagElement key={`keyTag${index}`} name={value} />;
-        });
-    };
-
     // Dragging tags container
 
     const noteWindowTags = useRef();
@@ -278,10 +273,18 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
         isDragging = false;
     };
 
-    //
+    // Tags
 
     const [tagsOpened, setTagsOpened] = useState(false);
     const [addTagOpened, setAddTagOpened] = useState(false);
+
+    const GetTags = () => {
+        return tags.map((value, index) => {
+            const color = tagsColors[value] ? tagsColors[value] : tagsColors['colornotfound'];
+            if (value != "All")
+                return <TagElement key={`keyTag${index}`} name={value} color={color} />;
+        });
+    };
 
     return (
         <div id="noteWindowBg" className="fixedElementFullScreen">
@@ -295,6 +298,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                 {tagsOpened && (
                     <NoteTagsWindow
                         tags={tags}
+                        tagsColors={tagsColors}
                         setTags={setTags}
                         setTagsOpened={setTagsOpened}
                         setAddTagOpened={setAddTagOpened}
@@ -303,7 +307,9 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                 {addTagOpened && (
                     <NoteAddTagWindow
                         tags={tags}
+                        tagsColors={tagsColors}
                         setTags={setTags}
+                        setTagsColors={setTagsColors}
                         setAddTagOpened={setAddTagOpened}
                     />
                 )}
@@ -318,10 +324,9 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
                     <img
-                        className="closeButton clickable"
+                        className="themedImg closeButton clickable"
                         onClick={closeNoteWindow}
                         src="./icons/close.svg"
-                        style={{ filter: 'var(--imageTint)' }}
                     />
                 </div>
                 <div
@@ -375,18 +380,15 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
         >
             {withText && <h6 className="themedText">Edit tags</h6>}
             <img
+                className="themedImg"
                 src="./icons/editPencil.svg"
-                style={{ userSelect: "none", width: "1rem", height: "1rem", filter: 'var(--imageTint)' }}
+                style={{ width: '1rem', height: '1rem' }}
             />
         </div>
     );
 }
 
-function TagElement({ name }) {
-    const color = COLORS_BY_TAGS[name]
-        ? COLORS_BY_TAGS[name]
-        : COLORS_BY_TAGS["colornotfound"];
-
+function TagElement({ name, color }) {
     return (
         <div className="tagElement" style={{ background: color }}>
             <h6

@@ -33,11 +33,12 @@ export default function NotesSidebar() {
         >
             <div id='notesUpperSidebar'>
                 <img
+                    className="themedImg"
                     src="./images/logo-700w.png"
                     style={{
                         width: "60%",
+                        height: 'auto',
                         marginBottom: "1rem",
-                        userSelect: "none",
                     }}
                 />
                 {GetSections()}
@@ -82,7 +83,7 @@ function SettingsSection({  }) {
             id='settingsSection'
             onClick={() => window.location.pathname = SETTINGS_PATHNAME}
         >
-            <img src='./icons/settings.svg' style={{ width: '1rem', height: '1rem' }} />
+            <img className="themedImg" src='./icons/settings.svg' style={{ width: '1rem', height: '1rem' }} />
             <h5
                 className='themedText bold'
                 style={{ color: "var(--inverseColor)" }}

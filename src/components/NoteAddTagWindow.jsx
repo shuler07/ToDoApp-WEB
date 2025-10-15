@@ -4,13 +4,20 @@ import { useRef, useState } from "react";
 
 import { MAX_TAG_LENGTH } from "../data";
 
-export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
+export default function NoteAddTagWindow({ tags, tagsColors, setTags, setTagsColors, setAddTagOpened }) {
     const [tagText, setTagText] = useState("");
     const tagInput = useRef();
 
+    const [tagColor, setTagColor] = useState("#505050");
+
     const handleChangeTag = (e) => {
         setTagText(e.target.value);
-    }
+        if (Object.keys(tagsColors).includes(e.target.value)) {
+            setTagColor(tagsColors[e.target.value]);
+        } else {
+            setTagColor(tagsColors["colornotfound"]);
+        }
+    };
 
     const handleClickAdd = () => {
         setTags((prev) => {
@@ -18,10 +25,56 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
             _prev.push(tagText);
             return _prev;
         });
+        setTagsColors((prev) => ({
+            ...prev,
+            [tagText]: tagColor
+        }));
         setAddTagOpened(false);
     };
 
-    const addButtonDisabled = tags.includes(tagText) || tagText == 'All' || tagText == '';
+    const handleClickChangeColor = (color) => {
+        setTagColor(color);
+        if (tags.includes(tagText) && tagsColors[tagText] != color) {
+            setTagsColors((prev) => ({
+                ...prev,
+                [tagText]: color
+            }));
+        }
+    };
+
+    const addButtonDisabled =
+        tags.includes(tagText) || tagText == "All" || tagText == "";
+
+    const GetTagColors = () => {
+        const tagColors = [
+            "#505050",
+            "red",
+            "green",
+            "darkturquoise",
+            "blue",
+            "blueviolet",
+            "brown",
+            "cadetblue",
+            "burlywood",
+            "chocolate",
+            "coral",
+            "cornflowerblue",
+            "gray",
+            "goldenrod",
+            "darkorange",
+            "darkred",
+            "darkslateblue",
+        ];
+
+        return tagColors.map((value, index) => (
+            <TagColorElement
+                key={`keyTagColor${index}`}
+                color={value}
+                active={value == tagColor ? "active" : ""}
+                event={handleClickChangeColor}
+            />
+        ));
+    };
 
     return (
         <div id="noteWindowTagsAdd">
@@ -33,22 +86,18 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
                     alignItems: "center",
                 }}
             >
-                <h4
-                    className="themedText bold"
-                >
-                    Add tag
-                </h4>
+                <h4 className="themedText bold">Name</h4>
                 <img
-                    className="closeButton clickable"
+                    className="themedImg closeButton clickable"
                     onClick={() => setAddTagOpened(false)}
                     src="./icons/close.svg"
-                    style={{ filter: 'var(--imageTint)' }}
                 />
             </div>
             <div id="addTagContainer">
                 <input
                     id="addTagInput"
                     className="themedText bold"
+                    style={{ background: tagColor }}
                     placeholder="Enter tag"
                     value={tagText}
                     maxLength={MAX_TAG_LENGTH}
@@ -61,16 +110,36 @@ export default function NoteAddTagWindow({ tags, setTags, setAddTagOpened }) {
                     disabled={addButtonDisabled}
                 >
                     <img
-                        src={addButtonDisabled ? "./icons/close.svg" : "./icons/addPlus.svg"}
+                        className="themedImg"
+                        src={
+                            addButtonDisabled
+                                ? "./icons/close.svg"
+                                : "./icons/addPlus.svg"
+                        }
                         style={{
-                            userSelect: "none",
                             width: "1rem",
                             height: "1rem",
-                            filter: 'var(--imageTint)'
                         }}
                     />
                 </button>
             </div>
+            <h4
+                className="themedText bold"
+                style={{ color: "var(--inverseColor)" }}
+            >
+                Color
+            </h4>
+            <div id="addTagColorContainer">{GetTagColors()}</div>
         </div>
+    );
+}
+
+function TagColorElement({ color, active, event }) {
+    return (
+        <div
+            className={`tagColorElement clickable ${active}`}
+            style={{ background: color }}
+            onClick={() => event(color)}
+        ></div>
     );
 }

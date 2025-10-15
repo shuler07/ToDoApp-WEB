@@ -1,30 +1,39 @@
-import './NotesMain.css';
+import "./NotesMain.css";
 
-import { memo, useContext, useRef, useEffect } from 'react';
-import { MainContext } from '../pages/MainPage';
+import { memo, useContext, useRef, useEffect } from "react";
+import { MainContext } from "../pages/MainPage";
 
-import NotesContainer from './NotesContainer';
-import CreateNoteButton from './CreateNoteButton';
-import NoteWindow from './NoteWindow';
+import NotesContainer from "./NotesContainer";
+import CreateNoteButton from "./CreateNoteButton";
+import NoteWindow from "./NoteWindow";
 
-import { API_ROUTES, COLORS_BY_TAGS } from '../data';
+import { API_ROUTES, colors_by_tags } from "../data";
 
 export default function NotesMain() {
-    const { isLoggedIn, noteOpened, notes, setNotes, showingNotes, selectedSection, selectedTag, setSelectedTag } = useContext(MainContext);
-    useEffect(() => {
-        if (isLoggedIn) GetNotes();
-    }, [isLoggedIn]);
+    const {
+        isLoggedIn,
+        noteOpened,
+        notes,
+        setNotes,
+        showingNotes,
+        selectedSection,
+        selectedTag,
+        setSelectedTag,
+    } = useContext(MainContext);
+    // useEffect(() => {
+    //     if (isLoggedIn) GetNotes();
+    // }, [isLoggedIn]);
 
     const GetNotes = async () => {
         try {
-            const response = await fetch(API_ROUTES['get_notes'], {
-                method: 'GET',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
+            const response = await fetch(API_ROUTES["get_notes"], {
+                method: "GET",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
-            console.log('Getting notes:', data);
+            console.log("Getting notes:", data);
 
             if (!Array.isArray(data)) return;
             else {
@@ -34,18 +43,20 @@ export default function NotesMain() {
                     trash: {},
                 };
                 data.forEach((value) => {
-                    if (!Object.hasOwn(_notes[value.status], 'All')) _notes[value.status]['All'] = [];
-                    _notes[value.status]['All'].push(value);
+                    if (!Object.hasOwn(_notes[value.status], "All"))
+                        _notes[value.status]["All"] = [];
+                    _notes[value.status]["All"].push(value);
 
                     value.tags.forEach((tag) => {
-                        if (!Object.hasOwn(_notes[value.status], tag)) _notes[value.status][tag] = [];
+                        if (!Object.hasOwn(_notes[value.status], tag))
+                            _notes[value.status][tag] = [];
                         _notes[value.status][tag].push(value);
                     });
                 });
                 setNotes(_notes);
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
         }
     };
 
@@ -54,7 +65,7 @@ export default function NotesMain() {
             <TagSelectElement
                 key={`keyTagSelect${index}`}
                 name={value}
-                active={value == selectedTag ? 'active' : ''}
+                active={value == selectedTag ? "active" : ""}
                 setSelectedTag={setSelectedTag}
             />
         ));
@@ -84,12 +95,12 @@ export default function NotesMain() {
     const MemoizedCreateNoteButton = memo(() => <CreateNoteButton />);
 
     return (
-        <div id='notesMainWindow'>
+        <div id="notesMainWindow">
             {isLoggedIn && (
                 <>
                     <div
-                        autoFocus='true'
-                        id='notesMainTagsContainer'
+                        autoFocus="true"
+                        id="notesMainTagsContainer"
                         onDragStart={(e) => e.preventDefault()}
                         onMouseDown={handleMouseDown}
                         onMouseMove={handleMouseMove}
@@ -99,25 +110,36 @@ export default function NotesMain() {
                     >
                         {GetTags()}
                     </div>
-                    <div id='notesMainNotesContainer'>
-                        <NotesContainer notes={showingNotes} tag={selectedTag} />
+                    <div id="notesMainNotesContainer">
+                        <NotesContainer
+                            notes={showingNotes}
+                            tag={selectedTag}
+                        />
                     </div>
                 </>
             )}
             {isLoggedIn && <MemoizedCreateNoteButton />}
-            {noteOpened && <NoteWindow setNotes={setNotes} selectedTag={selectedTag} setSelectedTag={setSelectedTag} />}
+            {noteOpened && (
+                <NoteWindow
+                    setNotes={setNotes}
+                    selectedTag={selectedTag}
+                    setSelectedTag={setSelectedTag}
+                />
+            )}
         </div>
     );
 }
 
 function TagSelectElement({ name, active, setSelectedTag }) {
-    const color = COLORS_BY_TAGS[name] ? COLORS_BY_TAGS[name] : COLORS_BY_TAGS['colornotfound'];
+    const color = colors_by_tags[name]
+        ? colors_by_tags[name]
+        : colors_by_tags["colornotfound"];
 
     return (
         <div
             className={`tagSelectElement clickable ${active}`}
             style={
-                active === 'active'
+                active === "active"
                     ? {
                           background: color,
                           border: `solid 2px color-mix(in srgb, ${color}, var(--inverseColor) 60%)`,
@@ -128,7 +150,10 @@ function TagSelectElement({ name, active, setSelectedTag }) {
             }
             onClick={() => setSelectedTag(name)}
         >
-            <h6 className='themedText bold white' style={{ userSelect: 'none' }}>
+            <h6
+                className="themedText bold white"
+                style={{ userSelect: "none" }}
+            >
                 {name}
             </h6>
         </div>

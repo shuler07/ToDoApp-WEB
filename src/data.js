@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 const DEBUG = false;
+=======
+import { useState } from "react";
+
+const DEBUG = true;
+>>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)
 
 export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
@@ -40,9 +46,32 @@ export const INDICATOR_NAME_BY_STATUS = {
     trash: 'Deleted'
 }
 
-export const COLORS_BY_TAGS = {
-    favorite: '#008000',
-    important: '#ff0000',
+
+
+const _colors_by_tags = window.localStorage.getItem('colors_by_tags');
+export const colors_by_tags = _colors_by_tags ? JSON.parse(_colors_by_tags) : {
     All: '#5b5b5b',
     colornotfound: '#505050'
 };
+<<<<<<< HEAD
+=======
+if (!_colors_by_tags) window.localStorage.setItem('colors_by_tags', JSON.stringify(colors_by_tags));
+
+export function UpdateColorsByTags(_colors_by_tags) {
+    Object.assign(colors_by_tags, _colors_by_tags);
+    window.localStorage.setItem('colors_by_tags', JSON.stringify(colors_by_tags));
+};
+
+
+
+const _config = window.localStorage.getItem('config');
+export const config = _config ? JSON.parse(_config) : {
+    theme: 'light'
+};
+if (!_config) window.localStorage.setItem('config', JSON.stringify(config));
+
+export function UpdateConfig(_config) {
+    Object.assign(config, _config);
+    window.localStorage.setItem('config', JSON.stringify(config));
+};
+>>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)

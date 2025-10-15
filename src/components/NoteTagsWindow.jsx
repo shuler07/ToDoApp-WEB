@@ -1,20 +1,21 @@
 import "./NoteTagsWindow.css";
 
-import { COLORS_BY_TAGS } from "../data";
-
 export default function NoteTagsWindow({
     tags,
+    tagsColors,
     setTags,
     setTagsOpened,
     setAddTagOpened,
 }) {
     const GetTags = () => {
         return tags.map((value, index) => {
+            const color = tagsColors[value] ? tagsColors[value] : tagsColors['colornotfound'];
             if (value != "All")
                 return (
                     <TagEditElement
                         key={`keyEditTag${index}`}
                         name={value}
+                        color={color}
                         setTags={setTags}
                     />
                 );
@@ -36,16 +37,11 @@ export default function NoteTagsWindow({
                     alignItems: "center",
                 }}
             >
-                <h4
-                    className="themedText bold"
-                >
-                    Tags
-                </h4>
+                <h4 className="themedText bold">Tags</h4>
                 <img
-                    className="closeButton clickable"
+                    className="themedImg closeButton clickable"
                     onClick={handleClickClose}
                     src="./icons/close.svg"
-                    style={{ filter: 'var(--imageTint)' }}
                 />
             </div>
             <div id="noteTagsContainer">
@@ -56,11 +52,7 @@ export default function NoteTagsWindow({
     );
 }
 
-function TagEditElement({ name, setTags }) {
-    const color = COLORS_BY_TAGS[name]
-        ? COLORS_BY_TAGS[name]
-        : COLORS_BY_TAGS["colornotfound"];
-
+function TagEditElement({ name, color, setTags }) {
     const handleClickRemoveTag = () => {
         setTags((prev) => prev.filter((value) => value != name));
     };
@@ -75,12 +67,11 @@ function TagEditElement({ name, setTags }) {
                 onClick={handleClickRemoveTag}
             >
                 <img
+                    className="themedImg"
                     src="./icons/removeMinus.svg"
                     style={{
-                        userSelect: "none",
                         width: "1rem",
                         height: "1rem",
-                        filter: 'var(--imageTint)'
                     }}
                 />
             </div>
@@ -98,12 +89,11 @@ function TagEditAddNewButton({ setAddTagOpened }) {
             >
                 <h6 className="themedText">Add new tag</h6>
                 <img
+                    className="themedImg"
                     src="./icons/addPlus.svg"
                     style={{
-                        userSelect: "none",
                         width: "1rem",
                         height: "1rem",
-                        filter: 'var(--imageTint)'
                     }}
                 />
             </div>

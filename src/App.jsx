@@ -9,10 +9,10 @@ import SettingsPage from "./pages/SettingsPage";
 import { API_ROUTES } from "./data";
 
 export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    useEffect(() => {
-        authenticateUser();
-    }, []);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    // useEffect(() => {
+    //     authenticateUser();
+    // }, []);
 
     async function authenticateUser() {
         try {
