@@ -1,14 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-const DEBUG = false;
-=======
-import { useState } from "react";
-
 const DEBUG = true;
->>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)
-=======
-const DEBUG = false;
->>>>>>> 12128d5 (Changed debug to false for release v0.5)
 
 export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
@@ -50,15 +40,10 @@ export const INDICATOR_NAME_BY_STATUS = {
     trash: 'Deleted'
 }
 
-
-
-const _colors_by_tags = window.localStorage.getItem('colors_by_tags');
-export const colors_by_tags = _colors_by_tags ? JSON.parse(_colors_by_tags) : {
+export const COLORS_BY_TAGS = {
     All: '#5b5b5b',
     colornotfound: '#505050'
 };
-<<<<<<< HEAD
-=======
 if (!_colors_by_tags) window.localStorage.setItem('colors_by_tags', JSON.stringify(colors_by_tags));
 
 export function UpdateColorsByTags(_colors_by_tags) {
@@ -78,7 +63,3 @@ export function UpdateConfig(_config) {
     Object.assign(config, _config);
     window.localStorage.setItem('config', JSON.stringify(config));
 };
-<<<<<<< HEAD
->>>>>>> adbf599 (Add Settings page with theme switching, Add ability to choose tag colors)
-=======
->>>>>>> 12128d5 (Changed debug to false for release v0.5)
