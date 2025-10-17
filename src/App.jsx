@@ -9,16 +9,16 @@ import SettingsPage from "./pages/SettingsPage";
 import { API_ROUTES } from "./data";
 
 export default function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    // useEffect(() => {
-    //     authenticateUser();
-    // }, []);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+        authenticateUser();
+    }, []);
 
     async function authenticateUser() {
         try {
-            const response = await fetch(API_ROUTES['authenticate'], {
+            const response = await fetch(API_ROUTES.authenticate, {
                 method: "GET",
-                credentials: 'include',
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
             });
 
@@ -26,7 +26,7 @@ export default function App() {
             console.log("Checking access token:", data);
 
             if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
-            else if (!Object.hasOwn(data, 'error')) refreshUser();
+            else if (!Object.hasOwn(data, "error")) refreshUser();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -34,10 +34,10 @@ export default function App() {
 
     async function refreshUser() {
         try {
-            const response = await fetch(API_ROUTES['refresh'], {
+            const response = await fetch(API_ROUTES.refresh, {
                 method: "GET",
                 credentials: "include",
-                headers: { 'Content-Type': 'application/json' }
+                headers: { "Content-Type": "application/json" },
             });
 
             const data = await response.json();
@@ -55,7 +55,15 @@ export default function App() {
             <Routes>
                 <Route index element={<MainPage isLoggedIn={isLoggedIn} />} />
                 <Route path="/sign_in" element={<SignInPage />} />
-                <Route path='/settings' element={<SettingsPage />} />
+                <Route
+                    path="/settings"
+                    element={
+                        <SettingsPage
+                            isLoggedIn={isLoggedIn}
+                            setIsLoggedIn={setIsLoggedIn}
+                        />
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

@@ -20,13 +20,13 @@ export default function NotesMain() {
         selectedTag,
         setSelectedTag,
     } = useContext(MainContext);
-    // useEffect(() => {
-    //     if (isLoggedIn) GetNotes();
-    // }, [isLoggedIn]);
+    useEffect(() => {
+        if (isLoggedIn) GetNotes();
+    }, [isLoggedIn]);
 
     const GetNotes = async () => {
         try {
-            const response = await fetch(API_ROUTES["get_notes"], {
+            const response = await fetch(API_ROUTES.get_notes, {
                 method: "GET",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -44,8 +44,8 @@ export default function NotesMain() {
                 };
                 data.forEach((value) => {
                     if (!Object.hasOwn(_notes[value.status], "All"))
-                        _notes[value.status]["All"] = [];
-                    _notes[value.status]["All"].push(value);
+                        _notes[value.status].All = [];
+                    _notes[value.status].All.push(value);
 
                     value.tags.forEach((tag) => {
                         if (!Object.hasOwn(_notes[value.status], tag))

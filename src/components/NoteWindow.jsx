@@ -32,7 +32,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
 
     const DeleteNote = async () => {
         try {
-            const response = await fetch(API_ROUTES["delete_note"], {
+            const response = await fetch(API_ROUTES.delete_note, {
                 method: "DELETE",
                 body: JSON.stringify({ id: note.id }),
                 credentials: "include",
@@ -72,7 +72,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
 
     const CreateNote = async () => {
         try {
-            const response = await fetch(API_ROUTES["create_note"], {
+            const response = await fetch(API_ROUTES.create_note, {
                 method: "POST",
                 body: JSON.stringify({ title, text, tags }),
                 credentials: "include",
@@ -107,7 +107,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
 
     const UpdateNote = async (updates) => {
         try {
-            const response = await fetch(API_ROUTES["update_note"], {
+            const response = await fetch(API_ROUTES.update_note, {
                 method: "PUT",
                 body: JSON.stringify({
                     ...note,

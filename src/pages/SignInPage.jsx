@@ -23,7 +23,7 @@ export default function SignInPage() {
         } else setErrorMessage("");
 
         try {
-            const response = await fetch(API_ROUTES["register"], {
+            const response = await fetch(API_ROUTES.register, {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",
@@ -53,7 +53,7 @@ export default function SignInPage() {
         } else setErrorMessage("");
 
         try {
-            const response = await fetch(API_ROUTES["login"], {
+            const response = await fetch(API_ROUTES.login, {
                 method: "POST",
                 body: JSON.stringify({ email: _email, password: _password }),
                 credentials: "include",

@@ -4,7 +4,13 @@ import { useRef, useState } from "react";
 
 import { MAX_TAG_LENGTH } from "../data";
 
-export default function NoteAddTagWindow({ tags, tagsColors, setTags, setTagsColors, setAddTagOpened }) {
+export default function NoteAddTagWindow({
+    tags,
+    tagsColors,
+    setTags,
+    setTagsColors,
+    setAddTagOpened,
+}) {
     const [tagText, setTagText] = useState("");
     const tagInput = useRef();
 
@@ -27,7 +33,7 @@ export default function NoteAddTagWindow({ tags, tagsColors, setTags, setTagsCol
         });
         setTagsColors((prev) => ({
             ...prev,
-            [tagText]: tagColor
+            [tagText]: tagColor,
         }));
         setAddTagOpened(false);
     };
@@ -37,7 +43,7 @@ export default function NoteAddTagWindow({ tags, tagsColors, setTags, setTagsCol
         if (tags.includes(tagText) && tagsColors[tagText] != color) {
             setTagsColors((prev) => ({
                 ...prev,
-                [tagText]: color
+                [tagText]: color,
             }));
         }
     };
@@ -47,23 +53,30 @@ export default function NoteAddTagWindow({ tags, tagsColors, setTags, setTagsCol
 
     const GetTagColors = () => {
         const tagColors = [
+            "black",
             "#505050",
-            "red",
-            "green",
-            "darkturquoise",
-            "blue",
-            "blueviolet",
-            "brown",
-            "cadetblue",
-            "burlywood",
-            "chocolate",
-            "coral",
-            "cornflowerblue",
+            "dimgray",
             "gray",
-            "goldenrod",
-            "darkorange",
+            "red",
+            "orangered",
+            "brown",
             "darkred",
+            "blue",
+            "cornflowerblue",
             "darkslateblue",
+            "darkblue",
+            "limegreen",
+            "seagreen",
+            "green",
+            "darkgreen",
+            "darkorange",
+            "goldenrod",
+            "coral",
+            "chocolate",
+            "magenta",
+            "blueviolet",
+            "darkviolet",
+            "purple",
         ];
 
         return tagColors.map((value, index) => (

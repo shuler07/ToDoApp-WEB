@@ -2,7 +2,7 @@ import "./NotesContainer.css";
 
 import { useContext } from "react";
 import { MainContext } from "../pages/MainPage";
-import { INDICATOR_NAME_BY_STATUS } from "../data";
+import { INDICATOR_ICON_PATH_BY_STATUS } from "../data";
 
 export default function NotesContainer({ notes, selectedTag }) {
     const { setNoteOpened, openedNoteData } = useContext(MainContext);
@@ -31,7 +31,7 @@ function NoteElement({ setNoteOpened, openedNoteData, note }) {
     return (
         <div className="noteElement" onClick={handleClickNote}>
             <div className={`noteElementIndicator ${note.status}`}>
-                <h5 className="themedText bold" style={{ color: 'var(--inverseColor)' }}>{INDICATOR_NAME_BY_STATUS[note.status]}</h5>
+                <img src={INDICATOR_ICON_PATH_BY_STATUS[note.status]} />
             </div>
             <h1
                 className="themedText bold"

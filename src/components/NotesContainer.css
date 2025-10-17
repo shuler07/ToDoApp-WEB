@@ -28,16 +28,11 @@
 }
 .noteElement:hover {
     scale: 1.01;
-    box-shadow: 0px 0px 20px color-mix(in srgb, var(--inverseColor) 10%, transparent);
+    box-shadow: 0px 0px 20px color-mix(in srgb, var(--inverseColor) 20%, transparent);
     border: solid 2px color-mix(in srgb, var(--inverseColor) 20%, transparent);
 }
-.noteElement:hover .noteElementIndicator {
-    width: 8rem;
-    height: 1.5rem;
-}
-.noteElement:hover .noteElementIndicator > h5 {
-    font-size: 1em;
-}
+
+.noteElement h1 {min-height: fit-content;}
 
 .noteElementIndicator {
     position: absolute;
@@ -51,14 +46,19 @@
     border-radius: 0.5rem;
     transition: all 0.25s ease;
 }
-.noteElementIndicator > h5 {
-    font-size: 0;
+.noteElement:hover .noteElementIndicator {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+}
+
+.noteElementIndicator > img {
+    scale: 0;
     transition: all 0.25s ease;
 }
-.trash {background: #e76f6f;}
-.not_completed {background: #aba53a;}
-.completed {background: #50ad50;}
-
-.noteElement h1 {
-    min-height: fit-content;
+.noteElement:hover .noteElementIndicator > img {
+    scale: 1;
 }
+.noteElementIndicator.trash {background: #de4646;}
+.noteElementIndicator.not_completed {background: #969021;}
+.noteElementIndicator.completed {background: #34ad34;}
