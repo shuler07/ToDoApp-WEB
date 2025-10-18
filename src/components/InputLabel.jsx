@@ -4,7 +4,7 @@ export default function InputLabel({ label, inputId, autoComplete, placeholder, 
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'start',
-        gap: '.5rem',
+        gap: '.25rem',
     };
 
     return (

@@ -8,7 +8,6 @@
 #signinContainer {
     padding: 2rem;
     width: 20rem;
-    height: 30rem;
     background: var(--containerColor);
     border-radius: 2rem;
     box-shadow: 0px 0px 50px var(--containerColor);
@@ -37,11 +36,11 @@
 #buttonBackToMain h5 {transition: all 0.25s ease;}
 #buttonBackToMain:hover h5 {font-size: 1.1em;}
 
-#errorMessage {
+#alertMessage {
     margin-top: -.5rem;
-    animation: errorMessageAppear 0.5s ease forwards;
+    animation: alertMessageAppear 0.5s ease forwards;
 }
-@keyframes errorMessageAppear {
+@keyframes alertMessageAppear {
     0% {
         translate: 0 -.5rem;
     }
