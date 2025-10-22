@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: .5rem;
+    gap: 1rem;
     background: color-mix(in srgb, var(--containerLowColor) 100%, black 10%);
     border-radius: 2rem;
 }
@@ -26,7 +26,7 @@
 
 #headerSearch {
     padding: .5rem 1rem;
-    width: 70%;
+    width: 100%;
     height: 2rem;
     border: none;
     background: var(--secondaryColor);
@@ -36,19 +36,21 @@
     text-align: center;
     font-family: system-ui;
     font-size: 1em;
-    transition: all 0.4s ease;
+    transition: all .5s ease;
 }
 #headerSearch:focus-visible {
-    width: 100%;
-    font-size: 1.1em;
+    font-size: 1.15em;
 }
 
-#headerAccountAvatar {
-    width: 3rem;
-    height: 3rem;
-    flex-shrink: 0;
-    background: var(--secondaryColor);
-    border-radius: 1.5rem;
+#headerSettings {
+    margin-right: .5rem;
+}
+
+#headerSettings > img {
+    transition: all .5s ease;
+}
+#headerSettings:hover > img {
+    rotate: 45deg;
 }
 
 

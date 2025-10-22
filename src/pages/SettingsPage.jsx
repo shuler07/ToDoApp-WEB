@@ -1,16 +1,25 @@
 import "./SettingsPage.css";
 
-import {
-    ROOT_PATHNAME,
-    config,
-    UpdateConfig,
-    username,
-    API_ROUTES,
-    updateUsername,
-} from "../data";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function SettingsPage({ isLoggedIn, setIsLoggedIn }) {
+import InputLabel from "../components/InputLabel";
+import {
+    DEBUG,
+    API_ROUTES,
+    applyTheme,
+    theme,
+    updateTheme,
+    username,
+    updateUsername,
+    email,
+} from "../data";
+
+export default function SettingsPage({
+    isLoggedIn,
+    setIsLoggedIn,
+    appAlertCall,
+}) {
     const [actionData, setActionData] = useState(null);
 
     return (
@@ -23,6 +32,7 @@ export default function SettingsPage({ isLoggedIn, setIsLoggedIn }) {
                     <SettingsAccountSection
                         setActionData={setActionData}
                         setIsLoggedIn={setIsLoggedIn}
+                        appAlertCall={appAlertCall}
                     />
                 )}
                 <SettingsAppearanceSection />
@@ -35,11 +45,10 @@ export default function SettingsPage({ isLoggedIn, setIsLoggedIn }) {
 }
 
 function SettingsBackButton() {
+    const navigate = useNavigate();
+
     return (
-        <div
-            id="backButtonContainer"
-            onClick={() => (window.location.pathname = ROOT_PATHNAME)}
-        >
+        <div id="backButtonContainer" onClick={() => navigate("/")}>
             <img className="themedImg" src="./icons/backArrowLeft.svg" />
             <h3
                 className="themedText bold"
@@ -54,19 +63,21 @@ function SettingsBackButton() {
 function SettingsWindow({
     title,
     description,
-    input,
+    input1,
+    input2,
     buttonConfirm,
     setActionData,
 }) {
     return (
         <div id="settingsWindowBg" className="fixedElementFullScreen">
             <div id="settingsWindow">
-                <img
-                    className="themedImg closeButton clickable"
-                    src="./icons/close.svg"
-                    style={{ position: "absolute", top: "1rem", right: "1rem" }}
-                    onClick={() => setActionData(null)}
-                />
+                <div className="clickableWithBg" style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+                    <img
+                        className="themedImg clickable"
+                        src="./icons/close.svg"
+                        onClick={() => setActionData(null)}
+                    />
+                </div>
                 <h3
                     className="themedText bold"
                     style={{ color: "var(--inverseColor)" }}
@@ -84,23 +95,25 @@ function SettingsWindow({
                         {description}
                     </h5>
                 )}
-                {input && (
-                    <div>
-                        <h5
-                            className="themedText"
-                            style={{
-                                color: "var(--inverseColor)",
-                                marginBottom: ".25rem",
-                            }}
-                        >
-                            {input.label}
-                        </h5>
-                        <input
-                            className="themedInput"
-                            placeholder={input.placeholder}
-                            ref={input.ref}
-                        />
-                    </div>
+                {input1 && (
+                    <InputLabel
+                        label={input1.label}
+                        inputId="settingsWindowInput1"
+                        autoComplete="none"
+                        placeholder={input1.placeholder}
+                        type={input1.type}
+                        ref={input1.ref}
+                    />
+                )}
+                {input2 && (
+                    <InputLabel
+                        label={input2.label}
+                        inputId="settingsWindowInput2"
+                        autoComplete="none"
+                        placeholder={input2.placeholder}
+                        type={input2.type}
+                        ref={input2.ref}
+                    />
                 )}
                 {buttonConfirm && (
                     <button
@@ -115,23 +128,43 @@ function SettingsWindow({
     );
 }
 
-function SettingsAccountSection({ setActionData, setIsLoggedIn }) {
-    const usernameInputRef = useRef();
+function SettingsAccountSection({
+    setActionData,
+    setIsLoggedIn,
+    appAlertCall,
+}) {
+    const inputField1Ref = useRef();
+    const inputField2Ref = useRef();
+
+    const navigate = useNavigate();
 
     const handleClickChangeUsername = () => {
         setActionData({
             title: "Change username",
-            input: {
+            input1: {
                 label: "New username",
                 placeholder: username,
-                ref: usernameInputRef,
+                ref: inputField1Ref,
+                type: "text",
             },
             buttonConfirm: {
                 text: "Update",
                 classes: "base primary",
                 action: async () => {
-                    const _username = usernameInputRef.current.value;
-                    if (_username == username || _username.length < 4) return;
+                    const _username = inputField1Ref.current.value;
+                    if (_username == username || _username.length < 4) {
+                        if (_username == username)
+                            appAlertCall.current(
+                                "New username equals to current one",
+                                "red"
+                            );
+                        else if (_username.length < 4)
+                            appAlertCall.current(
+                                "Username must be 4 characters at least",
+                                "red"
+                            );
+                        return;
+                    }
 
                     const response = await fetch(API_ROUTES.update_username, {
                         method: "PUT",
@@ -141,11 +174,17 @@ function SettingsAccountSection({ setActionData, setIsLoggedIn }) {
                     });
 
                     const data = await response.json();
-                    console.log("Updating username:", data);
+                    if (DEBUG) console.log("Updating username:", data);
 
                     if (data.success) {
-                        window.localStorage.setItem("username", _username);
+                        appAlertCall.current("Username updated", "green");
                         updateUsername(_username);
+                        setActionData(null);
+                    } else {
+                        appAlertCall.current(
+                            "Something went wrong. Try again later",
+                            "red"
+                        );
                     }
                 },
             },
@@ -153,11 +192,133 @@ function SettingsAccountSection({ setActionData, setIsLoggedIn }) {
     };
 
     const handleClickChangeEmail = () => {
-        console.log("changing email...");
+        setActionData({
+            title: "Change email",
+            description:
+                "You will have to verify new email. Your current session will end up",
+            input1: {
+                label: "New email",
+                placeholder: email,
+                ref: inputField1Ref,
+                type: "email",
+            },
+            buttonConfirm: {
+                text: "Update",
+                classes: "base primary",
+                action: async () => {
+                    const _email = inputField1Ref.current.value;
+                    if (_email == email || _email == "") {
+                        if (_email == email)
+                            appAlertCall.current(
+                                "New email equals to current one",
+                                "red"
+                            );
+                        else if (_email == "")
+                            appAlertCall.current("Email field is empty");
+                        return;
+                    }
+
+                    const response = await fetch(API_ROUTES.update_email, {
+                        method: "PUT",
+                        credentials: "include",
+                        body: JSON.stringify({ email: _email }),
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    const data = await response.json();
+                    if (DEBUG) console.log("Updating email:", data);
+
+                    if (data.success) {
+                        setIsLoggedIn(false);
+                        navigate("/");
+                    } else {
+                        if (data.error == "exists")
+                            appAlertCall.current(
+                                "User with such email already exists",
+                                "red"
+                            );
+                        else
+                            appAlertCall.current(
+                                "Something went wrong. Try again later"
+                            );
+                    }
+                },
+            },
+        });
     };
 
     const handleClickChangePassword = () => {
-        console.log("changing password...");
+        setActionData({
+            title: "Update password",
+            input1: {
+                label: "Current password",
+                placeholder: "********",
+                ref: inputField1Ref,
+                type: "password",
+            },
+            input2: {
+                label: "New password",
+                placeholder: "********",
+                ref: inputField2Ref,
+                type: "password",
+            },
+            buttonConfirm: {
+                text: "Update",
+                classes: "base primary",
+                action: async () => {
+                    const _password = inputField1Ref.current.value;
+                    const _newPassword = inputField2Ref.current.value;
+                    if (
+                        _password.length < 8 ||
+                        _newPassword.length < 8 ||
+                        _password == _newPassword
+                    ) {
+                        if (_password.length < 8)
+                            appAlertCall.current(
+                                "Password must be 8 characters at least",
+                                "red"
+                            );
+                        else if (_newPassword.length < 8)
+                            appAlertCall.current(
+                                "New password must be 8 characters at least",
+                                "red"
+                            );
+                        else if (_password == _newPassword)
+                            appAlertCall.current("Passwords are equal", "red");
+                        return;
+                    }
+
+                    const response = await fetch(API_ROUTES.update_password, {
+                        method: "PUT",
+                        credentials: "include",
+                        body: JSON.stringify({
+                            password: _password,
+                            new_password: _newPassword,
+                        }),
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    const data = await response.json();
+                    if (DEBUG) console.log("Updating password:", data);
+
+                    if (data.success) {
+                        appAlertCall.current("Password updated", "green");
+                        setActionData(null);
+                    } else {
+                        if (data.error == "Wrong password")
+                            appAlertCall.current(
+                                "Wrong current password",
+                                "red"
+                            );
+                        else
+                            appAlertCall.current(
+                                "Something went wrong. Try again later",
+                                "red"
+                            );
+                    }
+                },
+            },
+        });
     };
 
     const handleClickSignout = () => {
@@ -176,11 +337,16 @@ function SettingsAccountSection({ setActionData, setIsLoggedIn }) {
                     });
 
                     const data = await response.json();
-                    console.log("Signing out:", data);
+                    if (DEBUG) console.log("Signing out:", data);
 
                     if (!data.isLoggedIn) {
                         setIsLoggedIn(false);
-                        window.location.pathname = ROOT_PATHNAME;
+                        navigate("/");
+                    } else {
+                        appAlertCall.current(
+                            "Something went wrong. Try again later",
+                            "red"
+                        );
                     }
                 },
             },
@@ -231,25 +397,22 @@ function SettingsAccountSection({ setActionData, setIsLoggedIn }) {
 
 function SettingsAppearanceSection() {
     const handleClickChangeTheme = () => {
-        if (config.theme == "light") {
-            UpdateConfig({ theme: "dark" });
+        if (theme == "light") {
+            updateTheme("dark");
             document.querySelector('img[src="./icons/sun.svg"]').src =
                 "./icons/moon.svg";
         } else {
-            UpdateConfig({ theme: "light" });
+            updateTheme("light");
             document.querySelector('img[src="./icons/moon.svg"]').src =
                 "./icons/sun.svg";
         }
-        ApplyTheme();
+        applyTheme();
     };
 
     const blocks = [
         {
             title: "Theme",
-            iconPath:
-                config.theme == "light"
-                    ? "./icons/sun.svg"
-                    : "./icons/moon.svg",
+            iconPath: theme == "light" ? "./icons/sun.svg" : "./icons/moon.svg",
             action: handleClickChangeTheme,
         },
     ];
@@ -287,18 +450,4 @@ function SettingsSectionBlock({ title, iconPath, action }) {
             </div>
         </div>
     );
-}
-
-export function ApplyTheme() {
-    const htmlElement = document.documentElement;
-    htmlElement.classList.remove("lightTheme", "darkTheme");
-
-    switch (config.theme) {
-        case "light":
-            htmlElement.classList.add("lightTheme");
-            break;
-        case "dark":
-            htmlElement.classList.add("darkTheme");
-            break;
-    }
 }

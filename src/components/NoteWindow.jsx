@@ -3,7 +3,7 @@ import "./NoteWindow.css";
 import { useState, useContext, useRef } from "react";
 import { MainContext } from "../pages/MainPage";
 
-import { API_ROUTES, colors_by_tags, UpdateColorsByTags } from "../data";
+import { API_ROUTES, colors_by_tags, DEBUG, UpdateColorsByTags } from "../data";
 import NoteTagsWindow from "./NoteTagsWindow";
 import NoteAddTagWindow from "./NoteAddTagWindow";
 
@@ -40,7 +40,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
             });
 
             const data = await response.json();
-            console.log("Deleting note:", data);
+            if (DEBUG) console.log("Deleting note:", data);
 
             if (data.success) {
                 setNotes((prev) => {
@@ -80,7 +80,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
             });
 
             const data = await response.json();
-            console.log("Creating note:", data);
+            if (DEBUG) console.log("Creating note:", data);
 
             if (data.success) {
                 setNotes((prev) => {
@@ -118,7 +118,7 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
             });
 
             const data = await response.json();
-            console.log("Updating note:", data);
+            if (DEBUG) console.log("Updating note:", data);
 
             if (data.success) {
                 setNotes((prev) => {
@@ -280,9 +280,17 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
 
     const GetTags = () => {
         return tags.map((value, index) => {
-            const color = tagsColors[value] ? tagsColors[value] : tagsColors['colornotfound'];
+            const color = tagsColors[value]
+                ? tagsColors[value]
+                : tagsColors["colornotfound"];
             if (value != "All")
-                return <TagElement key={`keyTag${index}`} name={value} color={color} />;
+                return (
+                    <TagElement
+                        key={`keyTag${index}`}
+                        name={value}
+                        color={color}
+                    />
+                );
         });
     };
 
@@ -323,11 +331,13 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                         placeholder="Enter title"
                         onChange={(e) => setTitle(e.target.value)}
                     ></input>
-                    <img
-                        className="themedImg closeButton clickable"
-                        onClick={closeNoteWindow}
-                        src="./icons/close.svg"
-                    />
+                    <div className="clickableWithBg">
+                        <img
+                            className="themedImg clickable"
+                            onClick={closeNoteWindow}
+                            src="./icons/close.svg"
+                        />
+                    </div>
                 </div>
                 <div
                     id="noteWindowTags"
@@ -349,7 +359,11 @@ export default function NoteWindow({ setNotes, selectedTag, setSelectedTag }) {
                     <textarea
                         name="Note text"
                         className="themedTextArea"
-                        style={{ color: "var(--inverseColor)", background: 'var(--secondaryColor)', borderRadius: '1rem' }}
+                        style={{
+                            color: "var(--inverseColor)",
+                            background: "var(--secondaryColor)",
+                            borderRadius: "1rem",
+                        }}
                         value={text}
                         placeholder="Enter text"
                         onChange={(e) => setText(e.target.value)}
@@ -382,7 +396,7 @@ function NoteWindowOpenTagsButton({ withText, setTagsOpened }) {
             <img
                 className="themedImg"
                 src="./icons/editPencil.svg"
-                style={{ width: '1rem', height: '1rem' }}
+                style={{ width: "1rem", height: "1rem" }}
             />
         </div>
     );

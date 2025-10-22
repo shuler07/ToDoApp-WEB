@@ -1,8 +1,7 @@
+export const DEBUG = false;
+
 export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
-
-export const ROOT_PATHNAME = "/ToDoApp-WEB/";
-export const SETTINGS_PATHNAME = ROOT_PATHNAME + "settings";
 
 export const API_ROUTES = {
     authenticate: "http://localhost:8000/auth/validation/access_token",
@@ -10,7 +9,8 @@ export const API_ROUTES = {
     register: "http://localhost:8000/auth/register",
     login: "http://localhost:8000/auth/login",
     update_username: "http://localhost:8000/auth/user/username",
-    get_username: "http://localhost:8000/auth/username",
+    update_email: "http://localhost:8000/auth/user/email",
+    update_password: 'http://localhost:8000/auth/user/password',
     signout: "http://localhost:8000/auth/signout",
     create_note: "http://localhost:8000/notes",
     get_notes: "http://localhost:8000/notes",
@@ -29,6 +29,11 @@ export const INDICATOR_ICON_PATH_BY_STATUS = {
     completed: "./icons/check.svg",
     trash: "./icons/trashEmpty.svg",
 };
+
+export const APP_ALERT_COLORS = {
+    red: "#cc3333",
+    green: '#02a83b'
+}
 
 const _colors_by_tags = window.localStorage.getItem("colors_by_tags");
 export const colors_by_tags = _colors_by_tags
@@ -51,39 +56,49 @@ export function UpdateColorsByTags(_colors_by_tags) {
     );
 }
 
-const _config = window.localStorage.getItem("config");
-export const config = _config
-    ? JSON.parse(_config)
-    : {
-          theme: "light",
-      };
-if (!_config) window.localStorage.setItem("config", JSON.stringify(config));
+const _theme = window.localStorage.getItem("theme");
+export let theme = _theme
+    ? _theme
+    : 'light'
+if (!_theme) window.localStorage.setItem("theme", 'light');
 
-export function UpdateConfig(_config) {
-    Object.assign(config, _config);
-    window.localStorage.setItem("config", JSON.stringify(config));
-}
-
-const getUsername = async () => {
-    const response = await fetch(API_ROUTES.get_username, {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await response.json();
-    console.log("Getting username:", data);
-
-    if (data.success) {
-        window.localStorage.setItem("username", data.username);
-        return data.username;
-    } else {
-        window.localStorage.setItem("username", "Username");
-        return "Username";
-    }
+export const updateTheme = (newTheme) => {
+    theme = newTheme;
+    window.localStorage.setItem('theme', newTheme);
 };
 
-const _username = window.localStorage.getItem("username");
-export let username = _username ? _username : getUsername();
+export function applyTheme() {
+    const htmlElement = document.documentElement;
+    htmlElement.classList.remove("lightTheme", "darkTheme");
 
-export const updateUsername = (_username) => (username = _username);
+    switch (theme) {
+        case "light":
+            htmlElement.classList.add("lightTheme");
+            break;
+        case "dark":
+            htmlElement.classList.add("darkTheme");
+            break;
+    }
+}
+
+
+
+const _username = window.localStorage.getItem("username");
+export let username = _username ? _username : 'notfound';
+if (!_username) window.localStorage.setItem('username', 'notfound');
+
+export const updateUsername = (newUsername) => {
+    username = newUsername;
+    window.localStorage.setItem('username', newUsername);
+};
+
+
+
+const _email = window.localStorage.getItem('email');
+export let email = _email ? _email : 'notfound';
+if (!_email) window.localStorage.setItem('email', 'notfound');
+
+export const updateEmail = (newEmail) => {
+    email = newEmail;
+    window.localStorage.setItem('email', newEmail);
+};

@@ -31,16 +31,13 @@ function NoteElement({ setNoteOpened, openedNoteData, note }) {
     return (
         <div className="noteElement" onClick={handleClickNote}>
             <div className={`noteElementIndicator ${note.status}`}>
-                <img src={INDICATOR_ICON_PATH_BY_STATUS[note.status]} />
+                <img
+                    src={INDICATOR_ICON_PATH_BY_STATUS[note.status]}
+                    style={{ width: "1.5rem", height: '1.5rem' }}
+                />
             </div>
-            <h1
-                className="themedText bold"
-            >
-                {note.title}
-            </h1>
-            <p className="themedText">
-                {note.text}
-            </p>
+            <h1 className="themedText bold">{note.title}</h1>
+            <p className="themedText">{note.text}</p>
         </div>
     );
 }

@@ -12,31 +12,24 @@
 }
 
 #backButtonContainer {
-    padding: .5rem 2rem;
+    padding: .5rem 1rem;
     height: 2rem;
     display: flex;
     align-items: center;
     gap: .5rem;
     border-radius: 1.5rem;
     cursor: pointer;
-    transition: all .4s ease;
+    transition: all .5s ease;
 }
 #backButtonContainer:hover {
     background: color-mix(in srgb, var(--containerHighColor) 20%, transparent);
 }
 
 #backButtonContainer > img {
-    transition: all .4s ease;
+    transition: all .5s ease;
 }
 #backButtonContainer:hover > img {
-    translate: -4px 0;
-}
-
-#backButtonContainer h3 {
-    transition: all .4s ease;
-}
-#backButtonContainer:hover h3 {
-    font-size: 1.6em;
+    translate: -2px 0;
 }
 
 #settingsMain {
@@ -88,7 +81,7 @@
 
 #settingsWindow {
     padding: 2rem;
-    width: 30%;
+    width: 40%;
     height: max(20%, fit-content);
     border-radius: 2rem;
     position: relative;
@@ -102,9 +95,11 @@
 }
 @keyframes settingsWindowAppear {
     0% {
+        opacity: 0;
         scale: .9;
     }
     100% {
+        opacity: 1;
         scale: 1;
     }
 }

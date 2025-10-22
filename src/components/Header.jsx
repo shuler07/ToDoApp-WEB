@@ -1,15 +1,10 @@
 import "./Header.css";
 
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { MainContext } from "../pages/MainPage";
 
-import { useNavigate } from "react-router-dom";
-
-export default function Header({
-    searchNotes,
-    searchText,
-    setSearchText
-}) {
+export default function Header({ searchNotes, searchText, setSearchText }) {
     const { isLoggedIn, setSidebarOpened } = useContext(MainContext);
 
     return (
@@ -21,7 +16,7 @@ export default function Header({
                     searchText={searchText}
                     setSearchText={setSearchText}
                 />
-                <HeaderAccount isLoggedIn={isLoggedIn} />
+                <HeaderSettings isLoggedIn={isLoggedIn} />
             </div>
         </div>
     );
@@ -34,7 +29,7 @@ function HeaderSidebarButton({ setSidebarOpened }) {
             className="clickable"
             onClick={() => setSidebarOpened((prev) => !prev)}
         ></div>
-    )
+    );
 }
 
 function HeaderSearch({ searchNotes, searchText, setSearchText }) {
@@ -54,22 +49,15 @@ function HeaderSearch({ searchNotes, searchText, setSearchText }) {
     );
 }
 
-function HeaderAccount({ isLoggedIn }) {
+function HeaderSettings() {
     const navigate = useNavigate();
 
-    function HeaderAccountAvatar() {
-        return <div id="headerAccountAvatar"></div>;
-    }
-
-    if (isLoggedIn) return <HeaderAccountAvatar />;
-    else
-        return (
-            <div
-                className="themedButton base primary clickable"
-                style={{ margin: ".5rem", flexShrink: 0 }}
-                onClick={() => navigate("/sign_in")}
-            >
-                <p>Sign in</p>
-            </div>
-        );
+    return (
+        <div id="headerSettings" className='clickableWithBg' onClick={() => navigate("/settings")}>
+            <img
+                className="themedImg"
+                src="./icons/settings.svg"
+            />
+        </div>
+    );
 }

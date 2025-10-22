@@ -10,7 +10,7 @@
     width: 20rem;
     background: var(--containerColor);
     border-radius: 2rem;
-    box-shadow: 0px 0px 50px var(--containerColor);
+    box-shadow: 0px 0px 20px var(--containerColor);
     position: relative;
     display: flex;
     flex-direction: column;

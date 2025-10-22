@@ -1,13 +1,14 @@
 import "./NotesMain.css";
 
 import { memo, useContext, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MainContext } from "../pages/MainPage";
 
 import NotesContainer from "./NotesContainer";
 import CreateNoteButton from "./CreateNoteButton";
 import NoteWindow from "./NoteWindow";
 
-import { API_ROUTES, colors_by_tags } from "../data";
+import { API_ROUTES, colors_by_tags, DEBUG } from "../data";
 
 export default function NotesMain() {
     const {
@@ -24,6 +25,8 @@ export default function NotesMain() {
         if (isLoggedIn) GetNotes();
     }, [isLoggedIn]);
 
+    const navigate = useNavigate();
+
     const GetNotes = async () => {
         try {
             const response = await fetch(API_ROUTES.get_notes, {
@@ -33,7 +36,7 @@ export default function NotesMain() {
             });
 
             const data = await response.json();
-            console.log("Getting notes:", data);
+            if (DEBUG) console.log("Getting notes:", data);
 
             if (!Array.isArray(data)) return;
             else {
@@ -96,7 +99,7 @@ export default function NotesMain() {
 
     return (
         <div id="notesMainWindow">
-            {isLoggedIn && (
+            {isLoggedIn ? (
                 <>
                     <div
                         autoFocus="true"
@@ -117,6 +120,29 @@ export default function NotesMain() {
                         />
                     </div>
                 </>
+            ) : (
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1rem",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <h2 className="themedText bold">
+                        Sign in to start creating notes
+                    </h2>
+                    <div
+                        className="themedButton base primary clickable"
+                        style={{ margin: ".5rem", flexShrink: 0 }}
+                        onClick={() => navigate("/sign_in")}
+                    >
+                        <p>Sign in</p>
+                    </div>
+                </div>
             )}
             {isLoggedIn && <MemoizedCreateNoteButton />}
             {noteOpened && (

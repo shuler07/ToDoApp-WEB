@@ -151,10 +151,21 @@ h6 {font-size: 0.8em;}
 }
 .clickable:hover:not(.active):not(:disabled) {scale: 0.95;}
 
-.closeButton {
-  margin: .25rem;
+.clickableWithBg {
+  padding: .5rem;
   width: 1.5rem;
   height: 1.5rem;
+  background: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all .5s ease;
+}
+.clickableWithBg > img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.clickableWithBg:hover {
+  background: color-mix(in srgb, var(--containerHighColor) 20%, transparent);
 }
 
 .transparentInput {

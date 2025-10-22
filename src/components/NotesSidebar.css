@@ -8,7 +8,8 @@
     min-height: calc(100dvh - 8rem);
     max-height: calc(100dvh - 2rem);
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
     background: var(--primaryColor);
     border-top-right-radius: 1rem;
 }
@@ -44,35 +45,6 @@
     translate: 4px 0;
 }
 
-#settingsSection {
-    padding: .5rem 1rem;
-    width: calc(100% - 2rem);
-    display: flex;
-    gap: .5rem;
-    align-items: center;
-    background: none;
-    border-radius: 2rem;
-    cursor: pointer;
-    transition: all 0.4s ease;
-}
-#settingsSection:hover {
-    background: color-mix(in srgb, var(--containerHighColor) 20%, transparent);
-}
-
-#settingsSection > img {
-    transition: all 0.5s ease;
-}
-#settingsSection:hover > img {
-    rotate: 45deg;
-}
-
-#settingsSection h5 {
-    transition: all 0.4s ease;
-}
-#settingsSection:hover h5 {
-    translate: 4px 0;
-}
-
 
 
 @media (max-width: 600px) {
@@ -80,6 +52,7 @@
         position: fixed;
         height: 100dvh;
         z-index: 1;
+        box-shadow: 4px 0px 20px color-mix(in srgb, var(--primaryColor), transparent 50%);
         animation: animNotesSidebarAppear 0.25s ease forwards;
     }
     @keyframes animNotesSidebarAppear {

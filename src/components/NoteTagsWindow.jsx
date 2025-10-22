@@ -9,7 +9,9 @@ export default function NoteTagsWindow({
 }) {
     const GetTags = () => {
         return tags.map((value, index) => {
-            const color = tagsColors[value] ? tagsColors[value] : tagsColors['colornotfound'];
+            const color = tagsColors[value]
+                ? tagsColors[value]
+                : tagsColors["colornotfound"];
             if (value != "All")
                 return (
                     <TagEditElement
@@ -38,11 +40,13 @@ export default function NoteTagsWindow({
                 }}
             >
                 <h4 className="themedText bold">Tags</h4>
-                <img
-                    className="themedImg closeButton clickable"
-                    onClick={handleClickClose}
-                    src="./icons/close.svg"
-                />
+                <div className="clickableWithBg">
+                    <img
+                        className="themedImg clickable"
+                        onClick={handleClickClose}
+                        src="./icons/close.svg"
+                    />
+                </div>
             </div>
             <div id="noteTagsContainer">
                 {GetTags()}

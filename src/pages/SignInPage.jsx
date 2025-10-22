@@ -1,21 +1,20 @@
 import "./SignInPage.css";
 
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import InputLabel from "../components/InputLabel";
-import { API_ROUTES, ROOT_PATHNAME } from "../data";
+import { API_ROUTES, DEBUG } from "../data";
 
-export default function SignInPage() {
+export default function SignInPage({ setIsLoggedIn, appAlertCall }) {
     const [isRegister, setIsRegister] = useState(true);
-    const [alertMessage, setAlertMessage] = useState("");
-    const alertColor = alertMessage.startsWith("Verification")
-        ? "#22ff22"
-        : "#ff2222";
 
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const usernameRef = useRef();
+
+    const navigate = useNavigate();
 
     const handleClickRegister = async () => {
         const _email = emailRef.current.value;
@@ -25,19 +24,26 @@ export default function SignInPage() {
 
         if (
             _email == "" ||
-            _password == "" ||
+            _password.length < 8 ||
             _password != _confirmPassword ||
             _username.length < 4
         ) {
-            if (_email == "") setAlertMessage("Email field is empty");
-            else if (_password == "")
-                setAlertMessage("Password field is empty");
+            if (_email == "")
+                appAlertCall.current("Email field is empty", "red");
+            else if (_password.length < 8)
+                appAlertCall.current(
+                    "Password must be 8 characters at least",
+                    "red"
+                );
             else if (_password != _confirmPassword)
-                setAlertMessage("Passwords doesn't match");
+                appAlertCall.current("Passwords doesn't match", "red");
             else if (_username.length < 4)
-                setAlertMessage("Username must be 4 characters at least");
+                appAlertCall.current(
+                    "Username must be 4 characters at least",
+                    "red"
+                );
             return;
-        } else setAlertMessage("");
+        }
 
         try {
             const response = await fetch(API_ROUTES.register, {
@@ -52,14 +58,23 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Registering user:", data);
+            if (DEBUG) console.log("Registering user:", data);
 
             if (data.isRegistered)
-                setAlertMessage("Verification was sent to your email");
+                appAlertCall.current(
+                    "Verification was sent to your email",
+                    "green"
+                );
             else if (data.error == "exists")
-                setAlertMessage("User with such email already exists");
+                appAlertCall.current(
+                    "User with such email already exists",
+                    "red"
+                );
             else if (data.error == "unknown")
-                setAlertMessage("Something went wrong. Try again later");
+                appAlertCall.current(
+                    "Something went wrong. Try again later",
+                    "red"
+                );
         } catch (error) {
             console.error("Error:", error);
         }
@@ -70,11 +85,12 @@ export default function SignInPage() {
         const _password = passwordRef.current.value;
 
         if (_email == "" || _password == "") {
-            if (_email == "") setAlertMessage("Email field is empty");
+            if (_email == "")
+                appAlertCall.current("Email field is empty", "red");
             else if (_password == "")
-                setAlertMessage("Password field is empty");
+                appAlertCall.current("Password field is empty", "red");
             return;
-        } else setAlertMessage("");
+        }
 
         try {
             const response = await fetch(API_ROUTES.login, {
@@ -85,12 +101,13 @@ export default function SignInPage() {
             });
 
             const data = await response.json();
-            console.log("Logining user:", data);
+            if (DEBUG) console.log("Logining user:", data);
 
             if (data.isLoggedIn) {
                 window.localStorage.setItem("username", data.username);
-                window.location.pathname = ROOT_PATHNAME;
-            } else setAlertMessage("Invalid email or password");
+                setIsLoggedIn(true);
+                navigate("/");
+            } else appAlertCall.current("Invalid email or password", "red");
         } catch (error) {
             console.error("Error:", error);
         }
@@ -107,10 +124,7 @@ export default function SignInPage() {
                 id="signinContainer"
                 style={{ height: isRegister ? "34rem" : "24rem" }}
             >
-                <div
-                    id="buttonBackToMain"
-                    onClick={() => (window.location.pathname = ROOT_PATHNAME)}
-                >
+                <div id="buttonBackToMain" onClick={() => navigate("/")}>
                     <img
                         className="themedImg"
                         src="./icons/backArrowLeft.svg"
@@ -163,16 +177,6 @@ export default function SignInPage() {
                         ref={usernameRef}
                     />
                 )}
-                {alertMessage != "" && (
-                    <div id="alertMessage">
-                        <h5
-                            className="themedText bold"
-                            style={{ color: alertColor }}
-                        >
-                            {alertMessage}
-                        </h5>
-                    </div>
-                )}
                 <div
                     id="authButton"
                     className="themedButton base primary clickable"
@@ -188,7 +192,6 @@ export default function SignInPage() {
                     id="switchAuthButton"
                     onClick={() => {
                         setIsRegister((prev) => !prev);
-                        setErrorMessage("");
                     }}
                 >
                     <h6 className="themedText bold">

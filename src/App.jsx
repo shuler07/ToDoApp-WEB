@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import PageBackground from "./components/PageBackground";
+import AppAlert from "./components/AppAlert";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 import SettingsPage from "./pages/SettingsPage";
 
-import { API_ROUTES } from "./data";
+import { API_ROUTES, updateUsername, updateEmail, DEBUG } from "./data";
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
         authenticateUser();
     }, []);
+
+    const appAlertCallRef = useRef();
 
     async function authenticateUser() {
         try {
@@ -23,10 +26,13 @@ export default function App() {
             });
 
             const data = await response.json();
-            console.log("Checking access token:", data);
+            if (DEBUG) console.log("Checking access token:", data);
 
-            if (data.isLoggedIn) setIsLoggedIn(data.isLoggedIn);
-            else if (!Object.hasOwn(data, "error")) refreshUser();
+            if (data.isLoggedIn) {
+                updateUsername(data.username);
+                updateEmail(data.email);
+                setIsLoggedIn(data.isLoggedIn);
+            } else if (!Object.hasOwn(data, "error")) refreshUser();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -41,9 +47,13 @@ export default function App() {
             });
 
             const data = await response.json();
-            console.log("Checking refresh token:", data);
+            if (DEBUG) console.log("Checking refresh token:", data);
 
-            if (data.isLoggedIn) setIsLoggedIn(true);
+            if (data.isLoggedIn) {
+                updateUsername(data.username);
+                updateEmail(data.email);
+                setIsLoggedIn(true);
+            }
         } catch (error) {
             console.error("Error:", error);
         }
@@ -52,15 +62,25 @@ export default function App() {
     return (
         <BrowserRouter basename="/ToDoApp-WEB/">
             <PageBackground />
+            <AppAlert appAlertCallRef={appAlertCallRef} />
             <Routes>
                 <Route index element={<MainPage isLoggedIn={isLoggedIn} />} />
-                <Route path="/sign_in" element={<SignInPage />} />
+                <Route
+                    path="/sign_in"
+                    element={
+                        <SignInPage
+                            setIsLoggedIn={setIsLoggedIn}
+                            appAlertCall={appAlertCallRef}
+                        />
+                    }
+                />
                 <Route
                     path="/settings"
                     element={
                         <SettingsPage
                             isLoggedIn={isLoggedIn}
                             setIsLoggedIn={setIsLoggedIn}
+                            appAlertCall={appAlertCallRef}
                         />
                     }
                 />

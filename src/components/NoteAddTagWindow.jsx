@@ -100,11 +100,13 @@ export default function NoteAddTagWindow({
                 }}
             >
                 <h4 className="themedText bold">Name</h4>
-                <img
-                    className="themedImg closeButton clickable"
-                    onClick={() => setAddTagOpened(false)}
-                    src="./icons/close.svg"
-                />
+                <div className="clickableWithBg">
+                    <img
+                        className="themedImg clickable"
+                        onClick={() => setAddTagOpened(false)}
+                        src="./icons/close.svg"
+                    />
+                </div>
             </div>
             <div id="addTagContainer">
                 <input
