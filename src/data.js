@@ -4,18 +4,18 @@ export const WIDTH_WHEN_SIDEBAR_HIDES = 600;
 export const MAX_TAG_LENGTH = 12;
 
 export const API_ROUTES = {
-    authenticate: "http://localhost:8000/auth/validation/access_token",
-    refresh: "http://localhost:8000/auth/validation/refresh_token",
-    register: "http://localhost:8000/auth/register",
-    login: "http://localhost:8000/auth/login",
-    update_username: "http://localhost:8000/auth/user/username",
-    update_email: "http://localhost:8000/auth/user/email",
-    update_password: 'http://localhost:8000/auth/user/password',
-    signout: "http://localhost:8000/auth/signout",
-    create_note: "http://localhost:8000/notes",
-    get_notes: "http://localhost:8000/notes",
-    update_note: "http://localhost:8000/notes",
-    delete_note: "http://localhost:8000/notes",
+    authenticate: "/api/auth/validation/access_token",
+    refresh: "/api/auth/validation/refresh_token",
+    register: "/api/auth/register",
+    login: "/api/auth/login",
+    update_username: "/api/auth/user/username",
+    update_email: "/api/auth/user/email",
+    update_password: '/api/auth/user/password',
+    signout: "/api/auth/signout",
+    create_note: "/api/notes",
+    get_notes: "/api/notes",
+    update_note: "/api/notes",
+    delete_note: "/api/notes",
 };
 
 export const SECTION_NAME_BY_KEY = {

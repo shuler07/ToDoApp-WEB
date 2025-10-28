@@ -60,7 +60,7 @@ export default function App() {
     }
 
     return (
-        <BrowserRouter basename="/ToDoApp-WEB/">
+        <BrowserRouter>
             <PageBackground />
             <AppAlert appAlertCallRef={appAlertCallRef} />
             <Routes>
